@@ -46,13 +46,17 @@ public class MoviesServerlet extends HttpServlet {
              ResultSet resultSet = statement.executeQuery("SELECT * from movies natural join ratings order by rating limit 20")) {
 
             while (resultSet.next()) {
-                String starID = resultSet.getString("id");
-                String starName = resultSet.getString("name");
-                String birthYear = resultSet.getString("birthyear");
+                String title = resultSet.getString("id");
+                String year = resultSet.getString("name");
+                String director = resultSet.getString("birthyear");
+                String stars = resultSet.getString("birthyear");
+                String rating = resultSet.getString("birthyear");
                 htmlOutput.println("<tr>");
-                htmlOutput.println("<td>" + starID + "</td>");
-                htmlOutput.println("<td>" + starName + "</td>");
-                htmlOutput.println("<td>" + birthYear + "</td>");
+                htmlOutput.println("<td>" + title + "</td>");
+                htmlOutput.println("<td>" + year + "</td>");
+                htmlOutput.println("<td>" + director + "</td>");
+                htmlOutput.println("<td>" + stars + "</td>");
+                htmlOutput.println("<td>" + rating + "</td>");
                 htmlOutput.println("</tr>");
             }
 
