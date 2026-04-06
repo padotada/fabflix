@@ -30,6 +30,7 @@ public class MoviesServerlet extends HttpServlet {
         htmlOutput.println("<tr>");
         htmlOutput.println("<td>title</td>");
         htmlOutput.println("<td>year</td>");
+        htmlOutput.println("<td>genres</td>");
         htmlOutput.println("<td>director</td>");
         htmlOutput.println("<td>stars</td>");
         htmlOutput.println("<td>rating</td>");
@@ -49,12 +50,14 @@ public class MoviesServerlet extends HttpServlet {
                 String title = resultSet.getString("id");
                 String year = resultSet.getString("name");
                 String director = resultSet.getString("birthyear");
+                String genres = resultSet.getString("birthyear");
                 String stars = resultSet.getString("birthyear");
                 String rating = resultSet.getString("birthyear");
                 htmlOutput.println("<tr>");
                 htmlOutput.println("<td>" + title + "</td>");
                 htmlOutput.println("<td>" + year + "</td>");
                 htmlOutput.println("<td>" + director + "</td>");
+                htmlOutput.println("<td>" + genres + "</td>");
                 htmlOutput.println("<td>" + stars + "</td>");
                 htmlOutput.println("<td>" + rating + "</td>");
                 htmlOutput.println("</tr>");
