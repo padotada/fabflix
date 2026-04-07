@@ -30,10 +30,10 @@ public class SingleMovieServlet extends HttpServlet {
         htmlOutput.println("<tr>");
         htmlOutput.println("<td>title</td>");
         htmlOutput.println("<td>year</td>");
-        htmlOutput.println("<td>genres</td>");
+//        htmlOutput.println("<td>genres</td>");
         htmlOutput.println("<td>director</td>");
-        htmlOutput.println("<td>stars</td>");
-        htmlOutput.println("<td>rating</td>");
+//        htmlOutput.println("<td>stars</td>");
+//        htmlOutput.println("<td>rating</td>");
         htmlOutput.println("</tr>");
 
         try {
@@ -44,27 +44,28 @@ public class SingleMovieServlet extends HttpServlet {
 
         try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * from movies natural join ratings order by rating limit 20")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * from movies limit 20")) {
 
             while (resultSet.next()) {
                 String title = resultSet.getString("title");
                 String year = resultSet.getString("year");
                 String director = resultSet.getString("director");
-                String genres = resultSet.getString("name");
-                String stars = resultSet.getString("birthyear");
-                String rating = resultSet.getString("birthyear");
+//                String genres = resultSet.getString("name");
+//                String stars = resultSet.getString("birthyear");
+//                String rating = resultSet.getString("birthyear");
                 htmlOutput.println("<tr>");
                 htmlOutput.println("<td>" + title + "</td>");
                 htmlOutput.println("<td>" + year + "</td>");
                 htmlOutput.println("<td>" + director + "</td>");
-                htmlOutput.println("<td>" + genres + "</td>");
-                htmlOutput.println("<td>" + stars + "</td>");
-                htmlOutput.println("<td>" + rating + "</td>");
+//                htmlOutput.println("<td>" + genres + "</td>");
+//                htmlOutput.println("<td>" + stars + "</td>");
+//                htmlOutput.println("<td>" + rating + "</td>");
                 htmlOutput.println("</tr>");
             }
 
             htmlOutput.println("</table>");
-            htmlOutput.println("<a href=\"http://localhost:8080/movielist\">Back to Movies</a>");
+            htmlOutput.println("<p>This is a single movie page</p>");
+            htmlOutput.println("<a href=\"/cs122b_spring_cruisers_war/movielist\">Back to Movies</a>");
             htmlOutput.println("</body>");
         } catch (Exception e) {
             /*
