@@ -62,7 +62,7 @@ public class MoviesServlet extends HttpServlet {
             PreparedStatement movieStatement = connection.prepareStatement(movieQuery);
             PreparedStatement genreStatement = connection.prepareStatement(genreQuery);
             PreparedStatement starStatement = connection.prepareStatement(starQuery);
-            ResultSet resultSet = movieStatement.executeQuery();) {
+            ResultSet resultSet = movieStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 String movieId = resultSet.getString("id");
@@ -71,7 +71,7 @@ public class MoviesServlet extends HttpServlet {
                 String director = resultSet.getString("director");
                 String rating = resultSet.getString("rating");
                 htmlOutput.println("<tr>");
-                htmlOutput.println("<td>" + movieId + "</td>");
+                htmlOutput.println("<td><a href=\"/cs122b_spring_cruisers_war/single_movie?movie=" + movieId + "\">" + movieId + "</a></td>");
                 htmlOutput.println("<td>" + title + "</td>");
                 htmlOutput.println("<td>" + year + "</td>");
                 htmlOutput.println("<td>" + director + "</td>");
