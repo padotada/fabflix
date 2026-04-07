@@ -10,12 +10,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 @WebServlet("/movielist")
-public class MoviesServerlet extends HttpServlet {
+public class MoviesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Change this to your own mysql username and password
         String loginUser = "mytestuser";
         String loginPasswd = "My6$Password";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedbexample"; // is this right
+        String loginUrl = "jdbc:mysql://localhost:3306/moviedb"; // is this right
 
         // Set response mime type
         response.setContentType("text/html");
@@ -44,20 +44,29 @@ public class MoviesServerlet extends HttpServlet {
 
         try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * from movies natural join ratings order by rating limit 20")) {
+             ResultSet resultSet = statement.executeQuery(
+                     "WITH top_movies AS (SELECT movie_id, rating FROM ratings ORDER BY rating DESC LIMIT 20)" +
+                             "SELECT m.id, m.title, m.year, m.director, tm.rating, " +
+                             "g.name AS genre_name, s.id AS star_id, s.name AS star_name FROM top_movies tm " +
+                             "JOIN movies m ON m.id = tm.movie_id " +
+                             "LEFT JOIN genres_in_movies gim ON m.id=gim.movie_id " +
+                             "LEFT JOIN genres g ON gim.genre_id = g.id " +
+                             "LEFT JOIN stars_in_movies sim ON m.id = sim.movie_id " +
+                             "LEFT JOIN stars s ON sim.star_id = s.id " +
+                             "ORDER BY tm.rating DESC;")) {
 
             while (resultSet.next()) {
-                String title = resultSet.getString("id");
-                String year = resultSet.getString("name");
-                String director = resultSet.getString("birthyear");
-                String genres = resultSet.getString("birthyear");
-                String stars = resultSet.getString("birthyear");
-                String rating = resultSet.getString("birthyear");
+                String title = resultSet.getString("title");
+                String year = resultSet.getString("year");
+                String director = resultSet.getString("director");
+                String genres = resultSet.getString("genre_name");
+                String stars = resultSet.getString("star_name");
+                String rating = resultSet.getString("rating");
                 htmlOutput.println("<tr>");
                 htmlOutput.println("<td>" + title + "</td>");
                 htmlOutput.println("<td>" + year + "</td>");
-                htmlOutput.println("<td>" + director + "</td>");
                 htmlOutput.println("<td>" + genres + "</td>");
+                htmlOutput.println("<td>" + director + "</td>");
                 htmlOutput.println("<td>" + stars + "</td>");
                 htmlOutput.println("<td>" + rating + "</td>");
                 htmlOutput.println("</tr>");
