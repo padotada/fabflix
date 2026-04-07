@@ -64,6 +64,7 @@ public class SingleStarServlet extends HttpServlet {
             }
 
             htmlOutput.println("</table>");
+            htmlOutput.println("<a href=\"/cs122b_project1_star_example_war/movielist\">Back to Movies</a>");
             htmlOutput.println("</body>");
         } catch (Exception e) {
             /*
@@ -81,6 +82,7 @@ public class SingleStarServlet extends HttpServlet {
             htmlOutput.println("<p>");
             htmlOutput.println("Exception in doGet: " + e.getMessage());
             htmlOutput.println("</p>");
+            htmlOutput.println("<a href=\"/cs122b_project1_star_example_war/movielist\">Back to Movies</a>");
             htmlOutput.print("</body>");
         }
         htmlOutput.println("</html>");
