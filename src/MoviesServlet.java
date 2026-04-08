@@ -18,22 +18,26 @@ public class MoviesServlet extends HttpServlet {
         response.setContentType("text/html");
 
         // String queries
-        String movieQuery = "SELECT m.id, m.title, m.year, m.director, r.rating " +
-                "FROM movies m " +
-                "JOIN ratings r ON m.id = r.movie_id ORDER BY r.rating DESC LIMIT 20";
-        String genreQuery = "SELECT g.name " +
-                        "FROM genres_in_movies gim " +
-                        "JOIN genres g ON gim.genre_id = g.id " +
-                        "WHERE gim.movie_id = ? " +
-                        "ORDER BY g.name " +
-                        "LIMIT 3";
-
-        String starQuery = "SELECT s.id, s.name " +
-                        "FROM stars_in_movies sim " +
-                        "JOIN stars s ON sim.star_id = s.id " +
-                        "WHERE sim.movie_id = ? " +
-                        "ORDER BY s.name " +
-                        "LIMIT 3";
+        String movieQuery = """
+                SELECT m.id, m.title, m.year, m.director, r.rating FROM movies m
+                JOIN ratings r ON m.id = r.movie_id ORDER BY r.rating DESC LIMIT 20
+                """;
+        String genreQuery = """
+                SELECT g.name
+                FROM genres_in_movies gim
+                JOIN genres g ON gim.genre_id = g.id
+                WHERE gim.movie_id = ?
+                ORDER BY g.name
+                LIMIT 3
+                """;
+        String starQuery = """
+                SELECT s.id, s.name
+                FROM stars_in_movies sim
+                JOIN stars s ON sim.star_id = s.id
+                WHERE sim.movie_id = ?
+                ORDER BY s.name
+                LIMIT 3
+                """;
 
         // Get the PrintWriter for writing response
         PrintWriter htmlOutput = response.getWriter();
@@ -71,7 +75,8 @@ public class MoviesServlet extends HttpServlet {
                 String director = resultSet.getString("director");
                 String rating = resultSet.getString("rating");
                 htmlOutput.println("<tr>");
-                htmlOutput.println("<td><a href=\"/cs122b_spring_cruisers_war/single_movie?movie=" + movieId + "\">" + movieId + "</a></td>");
+                htmlOutput.println("<td><a href=\"/cs122b_spring_cruisers_war/single_movie?movie=" +
+                        movieId + "\">" + movieId + "</a></td>");
                 htmlOutput.println("<td>" + title + "</td>");
                 htmlOutput.println("<td>" + year + "</td>");
                 htmlOutput.println("<td>" + director + "</td>");
@@ -88,6 +93,7 @@ public class MoviesServlet extends HttpServlet {
                         htmlOutput.println("N/A");
                     }
                 }
+
                 htmlOutput.println("</td>");
                 htmlOutput.println("<td>");
                 starStatement.setString(1, movieId);
