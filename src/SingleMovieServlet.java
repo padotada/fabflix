@@ -127,7 +127,7 @@ public class SingleMovieServlet extends HttpServlet {
                         htmlOutput.println("N/A");
                     }
                 }
-                htmlOutput.println(starsList.toString());
+                htmlOutput.println(starsList);
                 htmlOutput.println("</td>");
 
                 htmlOutput.println("<td>" + rating + "</td>");
