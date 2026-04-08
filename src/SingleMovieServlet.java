@@ -113,9 +113,14 @@ public class SingleMovieServlet extends HttpServlet {
                 try (ResultSet starResultSet = starStatement.executeQuery()) {
                     boolean first = true;
                     while (starResultSet.next()) {
+                        String starId = starResultSet.getString("id");
                         String starName = starResultSet.getString("name");
                         if(!first) starsList.append(", ");
-                        starsList.append(starName);
+                        starsList.append("<a href='single_star?starId=")
+                                .append(starId)
+                                .append("'>")
+                                .append(starName)
+                                .append("</a>");
                         first = false;
                     }
                     if (starsList.isEmpty()) {

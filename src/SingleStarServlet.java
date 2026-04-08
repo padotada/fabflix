@@ -91,7 +91,7 @@ public class SingleStarServlet extends HttpServlet {
                         if(!first){
                             movieList.append(", ");
                         }
-                        movieList.append("<a href='single_movie?id=")
+                        movieList.append("<a href='single_movie?movie=")
                                 .append(movieId)
                                 .append("'>")
                                 .append(movieTitle)
