@@ -108,18 +108,21 @@ public class SingleMovieServlet extends HttpServlet {
                 }
                 htmlOutput.println("</td>");
 
+                StringBuilder starsList = new StringBuilder();
                 htmlOutput.println("<td>");
                 try (ResultSet starResultSet = starStatement.executeQuery()) {
-                    boolean hasStar = false;
+                    boolean first = true;
                     while (starResultSet.next()) {
-                        hasStar = true;
                         String starName = starResultSet.getString("name");
-                        htmlOutput.println(starName);
+                        if(!first) starsList.append(", ");
+                        starsList.append(starName);
+                        first = false;
                     }
-                    if (!hasStar) {
+                    if (starsList.isEmpty()) {
                         htmlOutput.println("N/A");
                     }
                 }
+                htmlOutput.println(starsList.toString());
                 htmlOutput.println("</td>");
 
                 htmlOutput.println("<td>" + rating + "</td>");

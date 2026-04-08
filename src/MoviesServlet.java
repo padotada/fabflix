@@ -65,9 +65,8 @@ public class MoviesServlet extends HttpServlet {
         try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
             PreparedStatement movieStatement = connection.prepareStatement(movieQuery);
             PreparedStatement genreStatement = connection.prepareStatement(genreQuery);
-            PreparedStatement starStatement = connection.prepareStatement(starQuery);
-            ResultSet resultSet = movieStatement.executeQuery()) {
-
+            PreparedStatement starStatement = connection.prepareStatement(starQuery)) {
+            ResultSet resultSet = movieStatement.executeQuery();
             while (resultSet.next()) {
                 String movieId = resultSet.getString("id");
                 String title = resultSet.getString("title");
@@ -80,6 +79,7 @@ public class MoviesServlet extends HttpServlet {
                 htmlOutput.println("<td>" + title + "</td>");
                 htmlOutput.println("<td>" + year + "</td>");
                 htmlOutput.println("<td>" + director + "</td>");
+
                 htmlOutput.println("<td>");
                 genreStatement.setString(1, movieId);
                 try (ResultSet genreResultSet = genreStatement.executeQuery()) {
@@ -95,19 +95,29 @@ public class MoviesServlet extends HttpServlet {
                 }
 
                 htmlOutput.println("</td>");
-                htmlOutput.println("<td>");
+
+                // Added commas to stars
+                StringBuilder starsList = new StringBuilder();
                 starStatement.setString(1, movieId);
+                htmlOutput.println("<td>");
                 try (ResultSet starResultSet = starStatement.executeQuery()) {
-                    boolean hasStar = false;
+                    boolean first = true;
                     while (starResultSet.next()) {
-                        hasStar = true;
+                        String starId = starResultSet.getString("id");
                         String starName = starResultSet.getString("name");
-                        htmlOutput.println(starName);
+                        if(!first) starsList.append(", ");
+                        starsList.append("<a href='single_star?starId=")
+                                .append(starId)
+                                .append("'>")
+                                .append(starName)
+                                .append("</a>");
+                        first = false;
                     }
-                    if (!hasStar) {
+                    if (starsList.isEmpty()) {
                         htmlOutput.println("N/A");
                     }
                 }
+                htmlOutput.println(starsList.toString());
                 htmlOutput.println("</td>");
                 htmlOutput.println("<td>" + rating + "</td>");
                 htmlOutput.println("</tr>");
@@ -115,6 +125,7 @@ public class MoviesServlet extends HttpServlet {
 
             htmlOutput.println("</table>");
             htmlOutput.println("</body>");
+            resultSet.close();
         } catch (Exception e) {
             /*
              * After you deploy the WAR file through tomcat manager webpage,
