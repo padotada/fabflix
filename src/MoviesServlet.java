@@ -1,19 +1,35 @@
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.*;
 
 @WebServlet("/movielist")
 public class MoviesServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Change this to your own mysql username and password
-        String loginUser = "mytestuser";
-        String loginPasswd = "My6$Password";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb"; // is this right
+    // Create a dataSource which registered in web.
+    private DataSource dataSource;
 
+    public void init(ServletConfig config) {
+        try {
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Set response mime type
         response.setContentType("text/html");
 
@@ -62,7 +78,7 @@ public class MoviesServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+        try (Connection connection = dataSource.getConnection();
             PreparedStatement movieStatement = connection.prepareStatement(movieQuery);
             PreparedStatement genreStatement = connection.prepareStatement(genreQuery);
             PreparedStatement starStatement = connection.prepareStatement(starQuery)) {
@@ -117,7 +133,7 @@ public class MoviesServlet extends HttpServlet {
                         htmlOutput.println("N/A");
                     }
                 }
-                htmlOutput.println(starsList.toString());
+                htmlOutput.println(starsList);
                 htmlOutput.println("</td>");
                 htmlOutput.println("<td>" + rating + "</td>");
                 htmlOutput.println("</tr>");
