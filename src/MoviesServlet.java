@@ -12,10 +12,11 @@ public class MoviesServlet extends HttpServlet {
         // Change this to your own mysql username and password
         String loginUser = "mytestuser";
         String loginPasswd = "My6$Password";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb"; // is this right
+        String loginUrl = "jdbc:mysql://localhost:3306/moviedb?useUnicode=true&characterEncoding=UTF-8";
 
         // Set response mime type
-        response.setContentType("text/html");
+        response.setContentType("text/html; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
         // String queries
         String movieQuery = """
@@ -105,6 +106,7 @@ public class MoviesServlet extends HttpServlet {
                     while (starResultSet.next()) {
                         String starId = starResultSet.getString("id");
                         String starName = starResultSet.getString("name");
+                        System.out.println(starName);
                         if(!first) starsList.append(", ");
                         starsList.append("<a href='single_star?starId=")
                                 .append(starId)
