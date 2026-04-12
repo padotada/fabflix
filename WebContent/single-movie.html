@@ -14,26 +14,31 @@
 </head>
 <body>
 
-<h1>Movie</h1>
+<div class="container mt-4">
+    <h1>Movie</h1>
 
-<h3 id="movie_info"></h3>
-<table id=movie_table class="table table-striped">
-    <!-- Create a table header -->
-    <thead>
-    <tr>
-        <!-- Titles of each column-->
-        <th>Title</th>
-        <th>Year</th>
-        <th>Director</th>
-        <th>Genres</th>
-        <th>Stars</th>
-        <th>Rating</th>
-    </tr>
-    </thead>
-    <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
-    <tbody id=movie_table_body></tbody>
-</table>
+    <h3 id="movie_info"></h3>
+    <table id=movie_table class="table table-striped">
+        <!-- Create a table header -->
+        <thead>
+        <tr>
+            <!-- Titles of each column-->
+            <th>Title</th>
+            <th>Year</th>
+            <th>Director</th>
+            <th>Genres</th>
+            <th>Stars</th>
+            <th>Rating</th>
+        </tr>
+        </thead>
+        <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
+        <tbody id=movie_table_body></tbody>
+    </table>
 
+    <a href="/cs122b_spring_cruisers_war/movie-list.html" class="btn btn-outline-primary mb-3">
+        ← Back to Movies
+    </a>
+</div>
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
