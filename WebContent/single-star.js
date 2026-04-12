@@ -19,35 +19,27 @@ function getParameterByName(target){
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
-function handleSingleMovieResult(resultData) {
-    console.log("handleSingleMovieResult: populating movie info from resultData");
-    let movie = resultData[0];
-    if (!movie) return;
+function handleSingleStarResult(resultData) {
+    console.log("handleSingleStarResult: populating star info from resultData");
+    let star = resultData[0];
+    if (!star) return;
 
-    let genreHTML = (movie.genres && movie.genres.length) ? movie.genres.join(", ") : "N/A";
-    let starsHTML = (movie.stars && movie.stars.length)
-        ? movie.stars.map(star => `<a href="single-star.html?id=${star.star_id}">${star.star_name}</a>`).join(", ")
+    let movieHTML = (star.movies && star.movies.length) ? star.movies.map(movie => `<a href="single-movie.html?id=${movie.movie_id}">${movie.movie_title}</a>`).join(", ")
         : "N/A";
 
-    let movieInfoElement = jQuery("#movie_info");
-    movieInfoElement.empty().append(`
-        <p>${movie.movie_title}</p>
-        <p>Year: ${movie.movie_year}</p>
-        <p>Director: ${movie.movie_director}</p>
-        <p>Genres: ${genreHTML}</p>
-        <p>Stars: ${starsHTML}</p>
-        <p>Rating: ${movie.movie_rating ?? "N/A"}</p>           
+    let starInfoElement = jQuery("#star_info");
+    starInfoElement.empty().append(`
+        <p>${star.star_name}</p>
+        <p>Year of Birth: ${star.birth_year}</p>
+        <p>Movies: ${movieHTML}</p>       
     `);
 
-    let movieTableBodyElement = jQuery("#movie_table_body");
-    movieTableBodyElement.empty().append(`
+    let starTableBodyElement = jQuery("#star_table_body");
+    starTableBodyElement.empty().append(`
         <tr>
-            <td>${movie.movie_title}</td>
-            <td>${movie.movie_year}</td>
-            <td>${movie.movie_director}</td>
-            <td>${genreHTML}</td>
-            <td>${starsHTML}</td>
-            <td>${movie.movie_rating ?? "N/A"}</td>
+            <td>${star.star_name}</td>
+            <td>${star.birth_year}</td>
+            <td>${movieHTML}</td>
         </tr>
     `);
 }
@@ -58,11 +50,11 @@ function handleSingleMovieResult(resultData) {
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
-let movieId = getParameterByName('id');
+let starId = getParameterByName('id');
 // Makes the HTTP GET request and registers on success callback function handleStarResult
 jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
-    url: `single_movie?id=${movieId}`,
-    success: (resultData) => handleSingleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    url: `single_star?id=${starId}`,
+    success: (resultData) => handleSingleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });

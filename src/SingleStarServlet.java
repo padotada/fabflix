@@ -31,9 +31,11 @@ public class SingleStarServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Set response mime type
-        response.setContentType("text/html");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-        String webQuery = request.getParameter("starId");
+        String webQuery = request.getParameter("id");
+
         String starQuery = """
                 SELECT s.id, s.name, s.birth_year
                 FROM stars s
@@ -50,33 +52,12 @@ public class SingleStarServlet extends HttpServlet {
 
         // Get the PrintWriter for writing response
         PrintWriter htmlOutput = response.getWriter();
-        htmlOutput.println("<html>");
-        htmlOutput.println("<head><title>Fabflix</title></head>");
-        htmlOutput.println("<body>");
-        htmlOutput.println("<h1>Movie Star</h1>");
 
-        if (webQuery == null) {
-            htmlOutput.println("<p>");
-            htmlOutput.println("No star specified");
-            htmlOutput.println("</p>");
-            htmlOutput.println("<a href=\"/cs122b_spring_cruisers_war/movielist\">Back to Movies</a>");
-            htmlOutput.print("</body>");
-            htmlOutput.close();
-            return;
-        }
-
-        htmlOutput.println("<table border>");
-        htmlOutput.println("<tr>");
-        htmlOutput.println("<td>name</td>");
-        htmlOutput.println("<td>year of birth</td>");
-        htmlOutput.println("<td>movies</td>");
-        htmlOutput.println("</tr>");
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
 
         try (Connection connection = dataSource.getConnection();
             PreparedStatement starStatement = connection.prepareStatement(starQuery);
@@ -86,43 +67,37 @@ public class SingleStarServlet extends HttpServlet {
 
             ResultSet resultSet = starStatement.executeQuery();
 
+            JsonArray jsonArray = new JsonArray();
+
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 String birth_year = resultSet.getString("birth_year");
                 if(birth_year == null) birth_year = "N/A";
 
-                htmlOutput.println("<tr>");
-                htmlOutput.println("<td>"+name+"</td>");
-                htmlOutput.println("<td>"+birth_year+"</td>");
-                htmlOutput.println("<td>");
-                StringBuilder movieList = new StringBuilder();
+                JsonObject starObject = new JsonObject();
+                starObject.addProperty("star_name", name);
+                starObject.addProperty("birth_year", birth_year);
+
                 starMoviesStatement.setString(1, webQuery);
+                JsonArray movieList = new JsonArray();
                 try(ResultSet movieResultSet = starMoviesStatement.executeQuery()){
-                    boolean first = true;
                     while(movieResultSet.next()){
+                        JsonObject movieObject = new JsonObject();
                         String movieId = movieResultSet.getString("id");
                         String movieTitle = movieResultSet.getString("title");
-                        if(!first){
-                            movieList.append(", ");
-                        }
-                        movieList.append("<a href='single_movie?movie=")
-                                .append(movieId)
-                                .append("'>")
-                                .append(movieTitle)
-                                .append("</a>");
-                        first = false;
+                        movieObject.addProperty("movie_id", movieId);
+                        movieObject.addProperty("movie_title", movieTitle);
+                        movieList.add(movieObject);
                     }
-                    if(movieList.isEmpty()) htmlOutput.println("N/A");
                 }
-                htmlOutput.println(movieList);
-                htmlOutput.println("</td>");
-                htmlOutput.println("</tr>");
+                starObject.add("movies", movieList);
+                jsonArray.add(starObject);
             }
+            request.getServletContext().log("getting " + jsonArray.size() + " results");
+            htmlOutput.write(jsonArray.toString());
+            response.setStatus(200);
+            resultSet.close();
 
-            htmlOutput.println("</table>");
-            htmlOutput.println("<p>This is a single star page</p>");
-            htmlOutput.println("<a href=\"/cs122b_spring_cruisers_war/movielist\">Back to Movies</a>");
-            htmlOutput.println("</body>");
         } catch (Exception e) {
             /*
              * After you deploy the WAR file through tomcat manager webpage,
@@ -134,15 +109,11 @@ public class SingleStarServlet extends HttpServlet {
              * This can help you debug your program after deploying it on AWS.
              */
             request.getServletContext().log("Error: ", e);
-
-            htmlOutput.println("<body>");
-            htmlOutput.println("<p>");
-            htmlOutput.println("Exception in doGet: " + e.getMessage());
-            htmlOutput.println("</p>");
-            htmlOutput.println("<a href=\"/cs122b_spring_cruisers_war/movielist\">Back to Movies</a>");
-            htmlOutput.print("</body>");
+            response.setStatus(500);
+            JsonObject error = new JsonObject();
+            error.addProperty("errorMessage", e.getMessage());
+            htmlOutput.write(error.toString());
         }
-        htmlOutput.println("</html>");
         htmlOutput.close();
     }
 }
