@@ -1,41 +1,32 @@
 /**
- * This example is following frontend and backend separation.
- *
- * Before this .js is loaded, the html skeleton is created.
- *
- * This .js performs two steps:
- *      1. Use jQuery to talk to backend API to get the json data.
- *      2. Populate the data to correct html elements.
- */
-
-
-/**
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
-function handleStarResult(resultData) {
-    console.log("handleMovieResult: populating star table from resultData");
+function handleMovieResult(resultData) {
+    console.log("handleMovieResult: populating movie table from resultData");
 
-    // Populate the star table
-    // Find the empty table body by id "star_table_body"
     let movieTableBodyElement = jQuery("#movie_table_body");
 
-    // Iterate through resultData, no more than 10 entries
-    for (let i = 0; i < Math.min(10, resultData.length); i++) {
+    for (let i = 0; i <resultData.length; i++) {
+        let movie = resultData[i];
+        let genreHTML = "N/A";
+        if(movie.genres && movie.genres.length > 0){
+            genreHTML = movie.genres.join(", ");
+        }
 
-        // Concatenate the html tags with resultData jsonObject
-        let rowHTML = "";
-        rowHTML += "<tr>";
-        rowHTML +=
-            "<th>" +
-            // Add a link to single-star.html with id passed with GET url parameter
-            '<a href="single-star.html?id=' + resultData[i]['star_id'] + '">'
-            + resultData[i]["star_name"] +     // display star_name for the link text
-            '</a>' +
-            "</th>";
-        rowHTML += "<th>" + resultData[i]["star_dob"] + "</th>";
-        rowHTML += "</tr>";
-
+        let starsHTML = "N/A";
+        if(movie.stars && movie.stars.length > 0){
+            starsHTML = movie.stars.map(star => `<a href="single-star.html?id=${star.star_id}">${star.star_name}</a>`)
+                .join(", ");
+        }
+        let rowHTML = `<tr>
+                <td><a href="single-movie.html?id=${movie.movie_id}">${movie.movie_title}</a></td>
+                <td>${movie.movie_year}</td>
+                <td>${movie.movie_director}</td>
+                <td>${genreHTML}</td>
+                <td>${starsHTML}</td>
+                <td>${movie.movie_rating ?? "N/A"}</td>
+            </tr>`;
         // Append the row created to the table body, which will refresh the page
         movieTableBodyElement.append(rowHTML);
     }
@@ -50,6 +41,6 @@ function handleStarResult(resultData) {
 jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
-    url: "api/stars", // Setting request url, which is mapped by StarsServlet in Stars.java
-    success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    url: "movielist", // Setting request url, which is mapped by StarsServlet in Stars.java
+    success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });

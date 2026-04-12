@@ -31,7 +31,8 @@ public class MoviesServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Set response mime type
-        response.setContentType("text/html");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         // String queries
         String movieQuery = """
@@ -57,90 +58,79 @@ public class MoviesServlet extends HttpServlet {
 
         // Get the PrintWriter for writing response
         PrintWriter htmlOutput = response.getWriter();
-        htmlOutput.println("<html>");
-        htmlOutput.println("<head><title>Fabflix</title></head>");
-        htmlOutput.println("<body>");
-        htmlOutput.println("<h1>MovieDB Movies</h1>");
-        htmlOutput.println("<table border>");
-        htmlOutput.println("<tr>");
-        htmlOutput.println("<td>ID</td>");
-        htmlOutput.println("<td>title</td>");
-        htmlOutput.println("<td>year</td>");
-        htmlOutput.println("<td>director</td>");
-        htmlOutput.println("<td>genres</td>");
-        htmlOutput.println("<td>stars</td>");
-        htmlOutput.println("<td>rating</td>");
-        htmlOutput.println("</tr>");
+//        htmlOutput.println("<html>");
+//        htmlOutput.println("<head><title>Fabflix</title></head>");
+//        htmlOutput.println("<body>");
+//        htmlOutput.println("<h1>MovieDB Movies</h1>");
+//        htmlOutput.println("<table border>");
+//        htmlOutput.println("<tr>");
+//        htmlOutput.println("<td>ID</td>");
+//        htmlOutput.println("<td>title</td>");
+//        htmlOutput.println("<td>year</td>");
+//        htmlOutput.println("<td>director</td>");
+//        htmlOutput.println("<td>genres</td>");
+//        htmlOutput.println("<td>stars</td>");
+//        htmlOutput.println("<td>rating</td>");
+//        htmlOutput.println("</tr>");
 
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } // may not be needed
 
         try (Connection connection = dataSource.getConnection();
             PreparedStatement movieStatement = connection.prepareStatement(movieQuery);
             PreparedStatement genreStatement = connection.prepareStatement(genreQuery);
             PreparedStatement starStatement = connection.prepareStatement(starQuery)) {
             ResultSet resultSet = movieStatement.executeQuery();
+            JsonArray jsonArray = new JsonArray();
             while (resultSet.next()) {
                 String movieId = resultSet.getString("id");
                 String title = resultSet.getString("title");
                 String year = resultSet.getString("year");
                 String director = resultSet.getString("director");
                 String rating = resultSet.getString("rating");
-                htmlOutput.println("<tr>");
-                htmlOutput.println("<td><a href=\"/cs122b_spring_cruisers_war/single_movie?movie=" +
-                        movieId + "\">" + movieId + "</a></td>");
-                htmlOutput.println("<td>" + title + "</td>");
-                htmlOutput.println("<td>" + year + "</td>");
-                htmlOutput.println("<td>" + director + "</td>");
 
-                htmlOutput.println("<td>");
+                JsonObject movieObject = new JsonObject();
+                movieObject.addProperty("movie_id", movieId);
+                movieObject.addProperty("movie_title", title);
+                movieObject.addProperty("movie_year", year);
+                movieObject.addProperty("movie_director", director);
+                movieObject.addProperty("movie_rating", rating);
+
+                JsonArray genres = new JsonArray();
                 genreStatement.setString(1, movieId);
                 try (ResultSet genreResultSet = genreStatement.executeQuery()) {
-                    boolean hasGenre = false;
-                    while (genreResultSet.next()) {
-                        hasGenre = true;
+                    while(genreResultSet.next()){
                         String genreName = genreResultSet.getString("name");
-                        htmlOutput.println(genreName + "<br>");
-                    }
-                    if (!hasGenre) {
-                        htmlOutput.println("N/A");
+                        genres.add(genreName);
                     }
                 }
+                movieObject.add("genres", genres);
 
-                htmlOutput.println("</td>");
-
-                // Added commas to stars
-                StringBuilder starsList = new StringBuilder();
+                JsonArray starsList = new JsonArray();
                 starStatement.setString(1, movieId);
-                htmlOutput.println("<td>");
                 try (ResultSet starResultSet = starStatement.executeQuery()) {
-                    boolean first = true;
                     while (starResultSet.next()) {
+                        JsonObject starObj = new JsonObject();
                         String starId = starResultSet.getString("id");
                         String starName = starResultSet.getString("name");
-                        if(!first) starsList.append(", ");
-                        starsList.append("<a href='single_star?starId=")
-                                .append(starId)
-                                .append("'>")
-                                .append(starName)
-                                .append("</a>");
-                        first = false;
-                    }
-                    if (starsList.isEmpty()) {
-                        htmlOutput.println("N/A");
+                        starObj.addProperty("star_id", starId);
+                        starObj.addProperty("star_name", starName);
+                        starsList.add(starObj);
                     }
                 }
-                htmlOutput.println(starsList);
-                htmlOutput.println("</td>");
-                htmlOutput.println("<td>" + rating + "</td>");
-                htmlOutput.println("</tr>");
+                movieObject.add("stars", starsList);
+                jsonArray.add(movieObject);
+//                htmlOutput.println(starsList);
             }
 
-            htmlOutput.println("</table>");
-            htmlOutput.println("</body>");
+//            htmlOutput.println("</table>");
+//            htmlOutput.println("</body>");
+            request.getServletContext().log("getting " + jsonArray.size() + " results");
+            htmlOutput.write(jsonArray.toString());
+            response.setStatus(200);
             resultSet.close();
         } catch (Exception e) {
             /*
@@ -153,14 +143,19 @@ public class MoviesServlet extends HttpServlet {
              * This can help you debug your program after deploying it on AWS.
              */
             request.getServletContext().log("Error: ", e);
-
-            htmlOutput.println("<body>");
-            htmlOutput.println("<p>");
-            htmlOutput.println("Exception in doGet: " + e.getMessage());
-            htmlOutput.println("</p>");
-            htmlOutput.print("</body>");
+            response.setStatus(500);
+//            htmlOutput.println("<body>");
+//            htmlOutput.println("<p>");
+//            htmlOutput.println("Exception in doGet: " + e.getMessage());
+//            htmlOutput.println("</p>");
+//            htmlOutput.print("</body>");
+            // error is stored in json object
+            JsonObject error = new JsonObject();
+            error.addProperty("errorMessage", e.getMessage());
+            htmlOutput.write(error.toString());
+        }finally {
+//        htmlOutput.println("</html>");
+            htmlOutput.close();
         }
-        htmlOutput.println("</html>");
-        htmlOutput.close();
     }
 }
