@@ -30,8 +30,19 @@ public class SingleMovieServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String query = request.getParameter("id");
+        String movieId = request.getParameter("id");
 
+        // Get the PrintWriter for writing response
+        PrintWriter htmlOutput = response.getWriter();
+
+        if (movieId == null || movieId.trim().isEmpty()) {
+            response.setStatus(500);
+            JsonObject error = new JsonObject();
+            error.addProperty("errorMessage", "Missing required parameter: id");
+            htmlOutput.write(error.toString());
+            htmlOutput.close();
+            return;
+        }
         // Set response mime type
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -56,8 +67,7 @@ public class SingleMovieServlet extends HttpServlet {
                 ORDER BY s.name
                 """;
 
-        // Get the PrintWriter for writing response
-        PrintWriter htmlOutput = response.getWriter();
+
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -70,9 +80,9 @@ public class SingleMovieServlet extends HttpServlet {
              PreparedStatement genreStatement = connection.prepareStatement(genreQuery);
              PreparedStatement starStatement = connection.prepareStatement(starQuery)) {
             JsonArray jsonArray = new JsonArray();
-            movieStatement.setString(1, query);
-            genreStatement.setString(1, query);
-            starStatement.setString(1, query);
+            movieStatement.setString(1, movieId);
+            genreStatement.setString(1, movieId);
+            starStatement.setString(1, movieId);
 
             ResultSet resultSet = movieStatement.executeQuery();
 
