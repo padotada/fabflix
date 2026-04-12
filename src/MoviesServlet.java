@@ -58,20 +58,6 @@ public class MoviesServlet extends HttpServlet {
 
         // Get the PrintWriter for writing response
         PrintWriter htmlOutput = response.getWriter();
-//        htmlOutput.println("<html>");
-//        htmlOutput.println("<head><title>Fabflix</title></head>");
-//        htmlOutput.println("<body>");
-//        htmlOutput.println("<h1>MovieDB Movies</h1>");
-//        htmlOutput.println("<table border>");
-//        htmlOutput.println("<tr>");
-//        htmlOutput.println("<td>ID</td>");
-//        htmlOutput.println("<td>title</td>");
-//        htmlOutput.println("<td>year</td>");
-//        htmlOutput.println("<td>director</td>");
-//        htmlOutput.println("<td>genres</td>");
-//        htmlOutput.println("<td>stars</td>");
-//        htmlOutput.println("<td>rating</td>");
-//        htmlOutput.println("</tr>");
 
 //        try {
 //            Class.forName("com.mysql.cj.jdbc.Driver");
@@ -123,11 +109,7 @@ public class MoviesServlet extends HttpServlet {
                 }
                 movieObject.add("stars", starsList);
                 jsonArray.add(movieObject);
-//                htmlOutput.println(starsList);
             }
-
-//            htmlOutput.println("</table>");
-//            htmlOutput.println("</body>");
             request.getServletContext().log("getting " + jsonArray.size() + " results");
             htmlOutput.write(jsonArray.toString());
             response.setStatus(200);
@@ -144,17 +126,11 @@ public class MoviesServlet extends HttpServlet {
              */
             request.getServletContext().log("Error: ", e);
             response.setStatus(500);
-//            htmlOutput.println("<body>");
-//            htmlOutput.println("<p>");
-//            htmlOutput.println("Exception in doGet: " + e.getMessage());
-//            htmlOutput.println("</p>");
-//            htmlOutput.print("</body>");
             // error is stored in json object
             JsonObject error = new JsonObject();
             error.addProperty("errorMessage", e.getMessage());
             htmlOutput.write(error.toString());
         }finally {
-//        htmlOutput.println("</html>");
             htmlOutput.close();
         }
     }

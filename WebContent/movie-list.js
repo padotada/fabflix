@@ -5,7 +5,7 @@
 function handleMovieResult(resultData) {
     console.log("handleMovieResult: populating movie table from resultData");
 
-    let movieTableBodyElement = jQuery("#movie_table_body");
+    let movieTableBodyElement = jQuery("#movies_table_body");
 
     for (let i = 0; i <resultData.length; i++) {
         let movie = resultData[i];
