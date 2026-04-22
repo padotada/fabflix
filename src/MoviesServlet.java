@@ -1,3 +1,4 @@
+import Classes.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -39,6 +40,14 @@ public class MoviesServlet extends HttpServlet {
         String year = request.getParameter("year");
         String director = request.getParameter("director");
         String star = request.getParameter("star");
+
+        User user = (User) request.getSession().getAttribute("user");
+        user.setTitle(title);
+        user.setYear(Integer.parseInt(year));
+        user.setDirector(director);
+        user.setStar(star);
+
+
         // String queries
 //        String movieQuery = """
 //                SELECT m.id, m.title, m.year, m.director, r.rating FROM movies m

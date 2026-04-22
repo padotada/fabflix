@@ -22,7 +22,7 @@ function getParameterByName(target){
 function handleSingleMovieResult(resultData) {
     console.log("handleSingleMovieResult: populating movie info from resultData");
     let movie = resultData[0];
-    if (!movie) return;
+    if (!movie) return resultData[1];
 
     let genreHTML = (movie.genres && movie.genres.length) ? movie.genres.join(", ") : "N/A";
     let starsHTML = (movie.stars && movie.stars.length)
@@ -50,6 +50,8 @@ function handleSingleMovieResult(resultData) {
             <td>${movie.movie_rating ?? "N/A"}</td>
         </tr>
     `);
+
+    return resultData[1];
 }
 
 // For now keeping both the table format and plain text format
@@ -58,11 +60,14 @@ function handleSingleMovieResult(resultData) {
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
+let user = null;
+
 let movieId = getParameterByName('id');
 // Makes the HTTP GET request and registers on success callback function handleStarResult
 jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
     url: `single_movie?id=${movieId}`,
-    success: (resultData) => handleSingleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    success: (resultData) => user = handleSingleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
+

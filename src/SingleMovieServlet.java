@@ -1,3 +1,4 @@
+import Classes.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -66,8 +67,6 @@ public class SingleMovieServlet extends HttpServlet {
                 WHERE sim.movie_id = ?
                 ORDER BY s.name
                 """;
-
-
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -143,6 +142,15 @@ public class SingleMovieServlet extends HttpServlet {
             error.addProperty("errorMessage", e.getMessage());
             jsonOutput.write(error.toString());
         }
+
+        JsonObject userQuery = new JsonObject();
+        User user = (User) request.getSession().getAttribute("user");
+        userQuery.addProperty("title", user.getTitle());
+        userQuery.addProperty("year", user.getYear());
+        userQuery.addProperty("director", user.getDirector());
+        userQuery.addProperty("star", user.getStar());
+
+        jsonOutput.write(userQuery.toString());
         jsonOutput.close();
     }
 }
