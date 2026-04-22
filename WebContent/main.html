@@ -13,15 +13,16 @@
     <title>FabFlix</title>
 </head>
 <body>
-  <form action="#" method="get">
-    <p>Search By </p>
-    <input type="search" name="title" id="title" placeholder="Title">
-    <input type="number" min="1880" max="2099" name="year" id="year" placeholder="Year">
-    <input type="search" name="director" id="director" placeholder="Director">
-    <input type="search" name="star" id="star" placeholder="Star">
+  <h2>Search Movies</h2>
+  <form id="search_form" action="#" method="GET">
+    <input type="text" name="title" id="title" placeholder="Title">
+    <input type="number" name="year" id="year" placeholder="Year">
+    <input type="text" name="director" id="director" placeholder="Director">
+    <input type="text" name="star" id="star" placeholder="Star">
     <button type="submit">Search</button>
   </form>
 
-  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

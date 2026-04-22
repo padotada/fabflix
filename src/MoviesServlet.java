@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.*;
+import java.util.ArrayList;
 
 @WebServlet("/movielist")
 public class MoviesServlet extends HttpServlet {
@@ -34,11 +35,20 @@ public class MoviesServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        String title = request.getParameter("title");
+        String year = request.getParameter("year");
+        String director = request.getParameter("director");
+        String star = request.getParameter("star");
         // String queries
-        String movieQuery = """
-                SELECT m.id, m.title, m.year, m.director, r.rating FROM movies m
-                JOIN ratings r ON m.id = r.movie_id ORDER BY r.rating DESC LIMIT 20
-                """;
+//        String movieQuery = """
+//                SELECT m.id, m.title, m.year, m.director, r.rating FROM movies m
+//                JOIN ratings r ON m.id = r.movie_id ORDER BY r.rating DESC LIMIT 20
+//                """;
+        StringBuilder movieQuery = new StringBuilder("""
+            SELECT DISTINCT m.id, m.title, m.year, m.director, r.rating FROM movies m 
+            JOIN ratings r on m.id = r.movie_id
+        """);
+
         String genreQuery = """
                 SELECT g.name
                 FROM genres_in_movies gim
@@ -56,33 +66,73 @@ public class MoviesServlet extends HttpServlet {
                 LIMIT 3
                 """;
 
+        ArrayList<String> conditions = new ArrayList<>();
+        ArrayList<String> params = new ArrayList<>();
+
+        if (star != null && !star.trim().isEmpty()){
+            movieQuery.append(" JOIN stars_in_movies sim ON m.id = sim.movie_id ");
+            movieQuery.append(" JOIN stars s ON sim.star_id = s.id ");
+        }
+        if (title != null && !title.trim().isEmpty()){
+            conditions.add("m.title LIKE ?");
+            params.add("%" + title + "%");
+        }
+
+        if (year != null && !year.trim().isEmpty()) {
+            conditions.add("m.year = ?");
+            params.add(year);
+        }
+
+        if (director != null && !director.trim().isEmpty()) {
+            conditions.add("m.director LIKE ?");
+            params.add("%" + director + "%");
+        }
+
+        if (star != null && !star.trim().isEmpty()) {
+            conditions.add("s.name LIKE ?");
+            params.add("%" + star + "%");
+        }
+
+        if (!conditions.isEmpty()) {
+            movieQuery.append(" WHERE ");
+            movieQuery.append(String.join(" AND ", conditions));
+        }
+
+        movieQuery.append(" ORDER BY r.rating DESC, m.title ASC LIMIT 20");
+
         // Get the PrintWriter for writing response
         PrintWriter jsonOutput = response.getWriter();
 
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } // may not be needed
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         try (Connection connection = dataSource.getConnection();
-            PreparedStatement movieStatement = connection.prepareStatement(movieQuery);
+//            System.out.println(movieQuery.toString());
+            PreparedStatement movieStatement = connection.prepareStatement(movieQuery.toString());
             PreparedStatement genreStatement = connection.prepareStatement(genreQuery);
             PreparedStatement starStatement = connection.prepareStatement(starQuery)) {
+            request.getServletContext().log("movieQuery = " + movieQuery.toString());
+            request.getServletContext().log("params = " + params.toString());
+            for(int i = 0; i < params.size(); ++i){
+                movieStatement.setString(i + 1, params.get(i));
+            }
             ResultSet resultSet = movieStatement.executeQuery();
             JsonArray jsonArray = new JsonArray();
             while (resultSet.next()) {
                 String movieId = resultSet.getString("id");
-                String title = resultSet.getString("title");
-                String year = resultSet.getString("year");
-                String director = resultSet.getString("director");
+                String movieTitle = resultSet.getString("title");
+                String movieYear = resultSet.getString("year");
+                String movieDirector = resultSet.getString("director");
                 String rating = resultSet.getString("rating");
 
                 JsonObject movieObject = new JsonObject();
                 movieObject.addProperty("movie_id", movieId);
-                movieObject.addProperty("movie_title", title);
-                movieObject.addProperty("movie_year", year);
-                movieObject.addProperty("movie_director", director);
+                movieObject.addProperty("movie_title", movieTitle);
+                movieObject.addProperty("movie_year", movieYear);
+                movieObject.addProperty("movie_director", movieDirector);
                 movieObject.addProperty("movie_rating", rating);
 
                 JsonArray genres = new JsonArray();

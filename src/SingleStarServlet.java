@@ -53,11 +53,11 @@ public class SingleStarServlet extends HttpServlet {
         // Get the PrintWriter for writing response
         PrintWriter jsonOutput = response.getWriter();
 
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         try (Connection connection = dataSource.getConnection();
             PreparedStatement starStatement = connection.prepareStatement(starQuery);

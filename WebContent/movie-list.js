@@ -2,6 +2,7 @@
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
+console.log("movie-list.js loaded");
 function handleMovieResult(resultData) {
     console.log("handleMovieResult: populating movie table from resultData");
 
@@ -36,11 +37,23 @@ function handleMovieResult(resultData) {
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
+const urlParams = new URLSearchParams(window.location.search);
+
+console.log("title =", urlParams.get("title"));
+console.log("year =", urlParams.get("year"));
+console.log("director =", urlParams.get("director"));
+console.log("star =", urlParams.get("star"));
 
 // Makes the HTTP GET request and registers on success callback function handleStarResult
 jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
     url: "movielist", // Setting request url, which is mapped by StarsServlet in Stars.java
+    data: {
+        title: urlParams.get("title"),
+        year: urlParams.get("year"),
+        director: urlParams.get("director"),
+        star: urlParams.get("star")
+    },
     success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
