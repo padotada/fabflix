@@ -57,7 +57,7 @@ public class MoviesServlet extends HttpServlet {
                 """;
 
         // Get the PrintWriter for writing response
-        PrintWriter htmlOutput = response.getWriter();
+        PrintWriter jsonOutput = response.getWriter();
 
 //        try {
 //            Class.forName("com.mysql.cj.jdbc.Driver");
@@ -111,7 +111,7 @@ public class MoviesServlet extends HttpServlet {
                 jsonArray.add(movieObject);
             }
             request.getServletContext().log("getting " + jsonArray.size() + " results");
-            htmlOutput.write(jsonArray.toString());
+            jsonOutput.write(jsonArray.toString());
             response.setStatus(200);
             resultSet.close();
         } catch (Exception e) {
@@ -129,9 +129,9 @@ public class MoviesServlet extends HttpServlet {
             // error is stored in json object
             JsonObject error = new JsonObject();
             error.addProperty("errorMessage", e.getMessage());
-            htmlOutput.write(error.toString());
+            jsonOutput.write(error.toString());
         }finally {
-            htmlOutput.close();
+            jsonOutput.close();
         }
     }
 }

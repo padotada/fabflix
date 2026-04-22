@@ -51,7 +51,7 @@ public class SingleStarServlet extends HttpServlet {
                 """;
 
         // Get the PrintWriter for writing response
-        PrintWriter htmlOutput = response.getWriter();
+        PrintWriter jsonOutput = response.getWriter();
 
 //        try {
 //            Class.forName("com.mysql.jdbc.Driver");
@@ -94,7 +94,7 @@ public class SingleStarServlet extends HttpServlet {
                 jsonArray.add(starObject);
             }
             request.getServletContext().log("getting " + jsonArray.size() + " results");
-            htmlOutput.write(jsonArray.toString());
+            jsonOutput.write(jsonArray.toString());
             response.setStatus(200);
             resultSet.close();
 
@@ -112,8 +112,8 @@ public class SingleStarServlet extends HttpServlet {
             response.setStatus(500);
             JsonObject error = new JsonObject();
             error.addProperty("errorMessage", e.getMessage());
-            htmlOutput.write(error.toString());
+            jsonOutput.write(error.toString());
         }
-        htmlOutput.close();
+        jsonOutput.close();
     }
 }

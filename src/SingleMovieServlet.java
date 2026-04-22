@@ -33,14 +33,14 @@ public class SingleMovieServlet extends HttpServlet {
         String movieId = request.getParameter("id");
 
         // Get the PrintWriter for writing response
-        PrintWriter htmlOutput = response.getWriter();
+        PrintWriter jsonOutput = response.getWriter();
 
         if (movieId == null || movieId.trim().isEmpty()) {
             response.setStatus(500);
             JsonObject error = new JsonObject();
             error.addProperty("errorMessage", "Missing required parameter: id");
-            htmlOutput.write(error.toString());
-            htmlOutput.close();
+            jsonOutput.write(error.toString());
+            jsonOutput.close();
             return;
         }
         // Set response mime type
@@ -123,7 +123,7 @@ public class SingleMovieServlet extends HttpServlet {
             }
 
             request.getServletContext().log("getting " + jsonArray.size() + " results");
-            htmlOutput.write(jsonArray.toString());
+            jsonOutput.write(jsonArray.toString());
             response.setStatus(200);
             resultSet.close();
 
@@ -141,8 +141,8 @@ public class SingleMovieServlet extends HttpServlet {
             response.setStatus(500);
             JsonObject error = new JsonObject();
             error.addProperty("errorMessage", e.getMessage());
-            htmlOutput.write(error.toString());
+            jsonOutput.write(error.toString());
         }
-        htmlOutput.close();
+        jsonOutput.close();
     }
 }
