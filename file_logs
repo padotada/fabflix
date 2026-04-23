@@ -4,112 +4,45 @@ Using CATALINA_TMPDIR: "C:\Program Files\Apache Software Foundation\Tomcat 10.1\
 Using JRE_HOME:        "C:\Program Files\Java\jdk-21"
 Using CLASSPATH:       "C:\Program Files\Apache Software Foundation\Tomcat 10.1\bin\bootstrap.jar;C:\Program Files\Apache Software Foundation\Tomcat 10.1\bin\tomcat-juli.jar"
 Using CATALINA_OPTS:   ""
-10-Apr-2026 12:03:12.986 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.53
-10-Apr-2026 12:03:12.988 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Mar 18 2026 13:50:42 UTC
-10-Apr-2026 12:03:12.988 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.53.0
-10-Apr-2026 12:03:12.988 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 11
-10-Apr-2026 12:03:12.989 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
-10-Apr-2026 12:03:12.989 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
-10-Apr-2026 12:03:12.989 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-21
-10-Apr-2026 12:03:12.989 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           21+35-LTS-2513
-10-Apr-2026 12:03:12.989 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
-10-Apr-2026 12:03:12.989 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001
-10-Apr-2026 12:03:12.990 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Program Files\Apache Software Foundation\Tomcat 10.1
-10-Apr-2026 12:03:12.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001\conf\logging.properties
-10-Apr-2026 12:03:12.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
-10-Apr-2026 12:03:12.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote=
-10-Apr-2026 12:03:12.993 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.port=1099
-10-Apr-2026 12:03:12.993 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.ssl=false
-10-Apr-2026 12:03:12.993 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.password.file=C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001\jmxremote.password
-10-Apr-2026 12:03:12.993 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.access.file=C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001\jmxremote.access
-10-Apr-2026 12:03:12.993 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.rmi.server.hostname=127.0.0.1
-10-Apr-2026 12:03:12.993 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
-10-Apr-2026 12:03:12.994 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
-10-Apr-2026 12:03:12.994 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.io.useCanonCaches=false
-10-Apr-2026 12:03:12.994 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
-10-Apr-2026 12:03:12.994 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
-10-Apr-2026 12:03:12.994 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
-10-Apr-2026 12:03:12.995 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
-10-Apr-2026 12:03:12.995 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
-10-Apr-2026 12:03:12.995 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
-10-Apr-2026 12:03:12.996 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001
-10-Apr-2026 12:03:12.996 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Program Files\Apache Software Foundation\Tomcat 10.1
-10-Apr-2026 12:03:12.996 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Program Files\Apache Software Foundation\Tomcat 10.1\temp
-10-Apr-2026 12:03:13.011 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [C:\Program Files\Java\jdk-21\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Python3.12\Scripts\;C:\Python3.12\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\sqlite;C:\Users\roypa\AppData\Local\nvm;C:\nvm4w\nodejs;C:\Program Files\Netbird;C:\Program Files\Go\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\roypa\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\roypa\AppData\Local\Programs\Python\Python313\;C:\Users\roypa\AppData\Local\Microsoft\WindowsApps;C:\Users\roypa\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Java\jdk-21\bin;C:\Users\roypa\.dotnet\tools;C:\Users\roypa\AppData\Local\GitHubDesktop\bin;C:\Users\roypa\AppData\Roaming\npm;C:\Users\roypa\AppData\Local\nvm;C:\nvm4w\nodejs;C:\Users\roypa\go\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\Program Files\JetBrains\IntelliJ IDEA 2026.1\bin;.]
-10-Apr-2026 12:03:13.310 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
-10-Apr-2026 12:03:13.348 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [704] milliseconds
-10-Apr-2026 12:03:13.432 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
-10-Apr-2026 12:03:13.432 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.53]
-10-Apr-2026 12:03:13.455 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
-10-Apr-2026 12:03:13.567 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [217] milliseconds
+23-Apr-2026 16:37:39.990 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.53
+23-Apr-2026 16:37:39.993 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Mar 18 2026 13:50:42 UTC
+23-Apr-2026 16:37:39.993 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.53.0
+23-Apr-2026 16:37:39.994 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 11
+23-Apr-2026 16:37:39.994 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+23-Apr-2026 16:37:39.995 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+23-Apr-2026 16:37:39.995 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-21
+23-Apr-2026 16:37:39.995 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           21+35-LTS-2513
+23-Apr-2026 16:37:39.995 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+23-Apr-2026 16:37:39.996 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001
+23-Apr-2026 16:37:39.996 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Program Files\Apache Software Foundation\Tomcat 10.1
+23-Apr-2026 16:37:40.002 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001\conf\logging.properties
+23-Apr-2026 16:37:40.003 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+23-Apr-2026 16:37:40.004 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote=
+23-Apr-2026 16:37:40.005 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.port=1099
+23-Apr-2026 16:37:40.006 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.ssl=false
+23-Apr-2026 16:37:40.007 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.password.file=C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001\jmxremote.password
+23-Apr-2026 16:37:40.007 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.access.file=C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001\jmxremote.access
+23-Apr-2026 16:37:40.008 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.rmi.server.hostname=127.0.0.1
+23-Apr-2026 16:37:40.009 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+23-Apr-2026 16:37:40.009 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+23-Apr-2026 16:37:40.009 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.io.useCanonCaches=false
+23-Apr-2026 16:37:40.010 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+23-Apr-2026 16:37:40.010 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+23-Apr-2026 16:37:40.010 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+23-Apr-2026 16:37:40.010 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+23-Apr-2026 16:37:40.010 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+23-Apr-2026 16:37:40.010 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+23-Apr-2026 16:37:40.011 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001
+23-Apr-2026 16:37:40.011 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Program Files\Apache Software Foundation\Tomcat 10.1
+23-Apr-2026 16:37:40.011 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Program Files\Apache Software Foundation\Tomcat 10.1\temp
+23-Apr-2026 16:37:40.033 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [C:\Program Files\Java\jdk-21\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Python3.12\Scripts\;C:\Python3.12\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\sqlite;C:\Users\roypa\AppData\Local\nvm;C:\nvm4w\nodejs;C:\Program Files\Netbird;C:\Program Files\Go\bin;C:\Program Files\apache-maven-3.9.15\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\roypa\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\roypa\AppData\Local\Programs\Python\Python313\;C:\Users\roypa\AppData\Local\Microsoft\WindowsApps;C:\Users\roypa\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Java\jdk-21\bin;C:\Users\roypa\.dotnet\tools;C:\Users\roypa\AppData\Local\GitHubDesktop\bin;C:\Users\roypa\AppData\Roaming\npm;C:\Users\roypa\AppData\Local\nvm;C:\nvm4w\nodejs;C:\Users\roypa\go\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\Program Files\JetBrains\IntelliJ IDEA 2026.1\bin;.]
+23-Apr-2026 16:37:40.347 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+23-Apr-2026 16:37:40.372 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [661] milliseconds
+23-Apr-2026 16:37:40.442 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+23-Apr-2026 16:37:40.443 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.53]
+23-Apr-2026 16:37:40.456 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+23-Apr-2026 16:37:40.511 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [138] milliseconds
 Connected to server
-10-Apr-2026 12:03:16.629 INFO [RMI TCP Connection(2)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-10-Apr-2026 12:03:23.488 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps\manager]
-10-Apr-2026 12:03:23.672 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps\manager] has finished in [183] ms
-Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-10-Apr-2026 12:08:42.796 WARNING [RMI TCP Connection(6)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [cs122b_spring_cruisers_war] registered the JDBC driver [com.mysql.cj.jdbc.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
-10-Apr-2026 12:08:42.797 WARNING [RMI TCP Connection(6)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [cs122b_spring_cruisers_war] appears to have started a thread named [mysql-cj-abandoned-connection-cleanup] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
- java.base/jdk.internal.misc.Unsafe.park(Native Method)
- java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
- java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1847)
- java.base/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:71)
- java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:143)
- java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:218)
- com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:91)
- java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
- java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
- java.base/java.lang.Thread.run(Thread.java:1583)
-10-Apr-2026 12:08:43.300 INFO [mysql-cj-abandoned-connection-cleanup] org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
-	java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
-		at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1396)
-		at org.apache.catalina.loader.WebappClassLoaderBase.getResource(WebappClassLoaderBase.java:984)
-		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.checkThreadContextClassLoader(AbandonedConnectionCleanupThread.java:123)
-		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:90)
-		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
-		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
-		at java.base/java.lang.Thread.run(Thread.java:1583)
-10-Apr-2026 12:08:43.567 INFO [RMI TCP Connection(6)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-10-Apr-2026 12:09:57.106 WARNING [RMI TCP Connection(9)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [cs122b_spring_cruisers_war] registered the JDBC driver [com.mysql.cj.jdbc.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
-10-Apr-2026 12:09:57.107 WARNING [RMI TCP Connection(9)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [cs122b_spring_cruisers_war] appears to have started a thread named [mysql-cj-abandoned-connection-cleanup] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
- java.base/jdk.internal.misc.Unsafe.park(Native Method)
- java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
- java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1847)
- java.base/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:71)
- java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:143)
- java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:218)
- com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:91)
- java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
- java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
- java.base/java.lang.Thread.run(Thread.java:1583)
-10-Apr-2026 12:09:57.450 INFO [mysql-cj-abandoned-connection-cleanup] org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
-	java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
-		at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1396)
-		at org.apache.catalina.loader.WebappClassLoaderBase.getResource(WebappClassLoaderBase.java:984)
-		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.checkThreadContextClassLoader(AbandonedConnectionCleanupThread.java:123)
-		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:90)
-		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
-		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
-		at java.base/java.lang.Thread.run(Thread.java:1583)
-10-Apr-2026 12:09:57.451 INFO [mysql-cj-abandoned-connection-cleanup] org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
-	java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
-		at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1396)
-		at org.apache.catalina.loader.WebappClassLoaderBase.getResource(WebappClassLoaderBase.java:984)
-		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.checkThreadContextClassLoader(AbandonedConnectionCleanupThread.java:123)
-		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:90)
-		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
-		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
-		at java.base/java.lang.Thread.run(Thread.java:1583)
-10-Apr-2026 12:09:57.763 INFO [RMI TCP Connection(9)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-Using CATALINA_BASE:   "C:\Users\roypa\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\7cb8d239-705d-4fb8-92d1-a1fb7e58c001"
-Using CATALINA_HOME:   "C:\Program Files\Apache Software Foundation\Tomcat 10.1"
-Using CATALINA_TMPDIR: "C:\Program Files\Apache Software Foundation\Tomcat 10.1\temp"
-Using JRE_HOME:        "C:\Program Files\Java\jdk-21"
-Using CLASSPATH:       "C:\Program Files\Apache Software Foundation\Tomcat 10.1\bin\bootstrap.jar;C:\Program Files\Apache Software Foundation\Tomcat 10.1\bin\tomcat-juli.jar"
-Using CATALINA_OPTS:   ""
-10-Apr-2026 14:58:50.651 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
-10-Apr-2026 14:58:50.652 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
-10-Apr-2026 14:58:50.661 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
-10-Apr-2026 14:58:50.673 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
-10-Apr-2026 14:58:50.692 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
-Disconnected from server
+23-Apr-2026 16:37:41.310 INFO [RMI TCP Connection(2)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+23-Apr-2026 16:37:50.506 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps\manager]
+23-Apr-2026 16:37:50.703 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps\manager] has finished in [196] ms

@@ -35,8 +35,8 @@ public class MoviesServlet extends HttpServlet {
         // Set response mime type
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-        boolean isSearch = request.getParameter("search").equals("true");
+        String searchParam = request.getParameter("search");
+        boolean isSearch = searchParam != null && searchParam.equals("true");
         User user = (User) request.getSession().getAttribute("user");
 
         // if browsing, search ones will be null, and vice versa
