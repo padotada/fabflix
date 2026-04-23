@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
@@ -45,10 +44,14 @@ public class LoginServlet extends HttpServlet {
                 """;
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement movieStatement = connection.prepareStatement(customerQuery)) {
-            movieStatement.setString(1, username);
-            movieStatement.setString(2, password);
-            ResultSet resultSet = movieStatement.executeQuery();
+             PreparedStatement loginStatement = connection.prepareStatement(customerQuery);
+             PreparedStatement usernameStatement = connection.prepareStatement(usernameQuery)) {
+            loginStatement.setString(1, username);
+            loginStatement.setString(2, password);
+
+            usernameStatement.setString(1, username);
+
+            ResultSet resultSet = loginStatement.executeQuery();
 
             JsonObject responseJsonObject = new JsonObject();
             // Login success:
@@ -65,12 +68,17 @@ public class LoginServlet extends HttpServlet {
 
                 // !! these error messages aren't updated with new functionality
 
-                if (!username.equals("anteater")) {
-                    responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
-                } else {
+                ResultSet usernameCheck = usernameStatement.executeQuery();
+                if (usernameCheck.isBeforeFirst()) { // username exists in db
                     responseJsonObject.addProperty("message", "incorrect password");
                 }
+                else {
+                    responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
+                }
+                usernameCheck.close();
             }
+            resultSet.close();
+
             response.getWriter().write(responseJsonObject.toString());
         }
         catch (Exception e)
