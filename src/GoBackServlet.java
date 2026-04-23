@@ -33,6 +33,7 @@ public class GoBackServlet extends HttpServlet {
                 User user = (User) request.getSession().getAttribute("user");
                 if (user == null) {
                         JsonArray jsonArray = new JsonArray();
+                        userQuery.addProperty("search", true);
                         userQuery.addProperty("title", "A");
                         userQuery.addProperty("year", "");
                         userQuery.addProperty("director", "");
@@ -43,10 +44,19 @@ public class GoBackServlet extends HttpServlet {
                         return;
                 }
 
-                userQuery.addProperty("title", user.getTitle());
-                userQuery.addProperty("year", user.getYear());
-                userQuery.addProperty("director", user.getDirector());
-                userQuery.addProperty("star", user.getStar());
+                userQuery.addProperty("search", user.isSearch_mode());
+                if(user.isSearch_mode())
+                {
+                        userQuery.addProperty("title", user.getTitle());
+                        userQuery.addProperty("year", user.getYear());
+                        userQuery.addProperty("director", user.getDirector());
+                        userQuery.addProperty("star", user.getStar());
+                }
+                else {
+                        userQuery.addProperty("first", user.getFirst());
+                        userQuery.addProperty("genre", user.getGenre());
+                }
+
 
                 JsonArray jsonArray = new JsonArray();
                 jsonArray.add(userQuery);

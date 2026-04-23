@@ -6,12 +6,12 @@ public class User {
 
     private boolean search_mode = true; // if true use stored search, if false use stored browse
 
-    private String title = "";
+    private String title = "A";
     private String year = "";
     private String director = "";
     private String star = "";
 
-    private char first = 'a';
+    private String first = "a";
     private String genre = "";
 
     public User(String username) {
@@ -26,7 +26,7 @@ public class User {
 
     public boolean isSearch_mode() {return search_mode;}
 
-    public char getFirst() {return first;}
+    public String getFirst() {return first;}
     public String getGenre() {return genre;}
 
     public void setTitle(String title) {this.title = title;}
@@ -36,6 +36,6 @@ public class User {
 
     public void setSearch_mode(boolean search_mode) {this.search_mode = search_mode;}
 
-    public void setFirst(char first) {this.first = first;}
+    public void setFirst(String first) {this.first = first;}
     public void setGenre(String genre) {this.genre = genre;}
 }

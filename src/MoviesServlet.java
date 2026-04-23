@@ -36,17 +36,35 @@ public class MoviesServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String title = request.getParameter("title");
-        String year = request.getParameter("year");
-        String director = request.getParameter("director");
-        String star = request.getParameter("star");
-
+        boolean isSearch = request.getParameter("search").equals("true");
         User user = (User) request.getSession().getAttribute("user");
+
+        // if browsing, search ones will be null, and vice versa
+        String title = null;
+        String year = null;
+        String director = null;
+        String star = null;
+
+        String first = null;
+        String genre = null;
+
+        if(isSearch) {
+            title = request.getParameter("title");
+            year = request.getParameter("year");
+            director = request.getParameter("director");
+            star = request.getParameter("star");
+        }
+        else{
+            first = request.getParameter("first");
+            genre = request.getParameter("genre");
+        }
+
         user.setTitle(title);
         user.setYear(year);
         user.setDirector(director);
         user.setStar(star);
-
+        user.setFirst(first);
+        user.setGenre(genre);
 
         // String queries
 //        String movieQuery = """
