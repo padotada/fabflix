@@ -22,7 +22,7 @@ function getParameterByName(target){
 function handleSingleMovieResult(resultData) {
     console.log("handleSingleMovieResult: populating movie info from resultData");
     let movie = resultData[0];
-    if (!movie) return resultData[1];
+    if (!movie) return;
 
     let genreHTML = (movie.genres && movie.genres.length) ? movie.genres.join(", ") : "N/A";
     let starsHTML = (movie.stars && movie.stars.length)
@@ -51,7 +51,20 @@ function handleSingleMovieResult(resultData) {
         </tr>
     `);
 
-    return resultData[1];
+    return;
+}
+
+function handleBackButton(resultData) {
+    let backBtn = $("#back_button");
+    const params = new URLSearchParams();
+    let user = resultData[0];
+
+    if (user.title !== "") params.append("title", user.title);
+    if (user.year !== "") params.append("year", user.year);
+    if (user.director !== "") params.append("director", user.director);
+    if (user.star !== "") params.append("star", user.star);
+
+    backBtn.prop("href", "movie-list.html?" + params.toString());
 }
 
 // For now keeping both the table format and plain text format
@@ -70,15 +83,11 @@ jQuery.ajax({
     success: (resultData) => handleSingleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
 
-let backBtn = $("#back_button");
-const params = new URLSearchParams();
+jQuery.ajax({
+    dataType: "json", // Setting return data type
+    method: "GET", // Setting request method
+    url: `return_movielist`,
+    success: (resultData) => handleBackButton(resultData)
+});
 
-let user = null;
 
-if (user.title !== "") params.append("title", user.title);
-if (user.year !== "") params.append("year", user.year);
-if (user.director !== "") params.append("director", user.director);
-if (user.star !== "") params.append("star", user.star);
-
-function onClick() { window.location.href = "movie-list.html?" + params.toString();}
-backBtn.addEventListener("click", onClick)

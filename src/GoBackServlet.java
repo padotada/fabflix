@@ -33,6 +33,10 @@ public class GoBackServlet extends HttpServlet {
                 User user = (User) request.getSession().getAttribute("user");
                 if (user == null) {
                         JsonArray jsonArray = new JsonArray();
+                        userQuery.addProperty("title", "A");
+                        userQuery.addProperty("year", "");
+                        userQuery.addProperty("director", "");
+                        userQuery.addProperty("star", "");
                         jsonArray.add(userQuery);
                         jsonOutput.println(jsonArray);
                         jsonOutput.close();

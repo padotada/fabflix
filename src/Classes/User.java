@@ -3,10 +3,10 @@ package Classes;
 public class User {
 
     private final String username;
-    private String title = null;
-    private String year = null;
-    private String director = null;
-    private String star = null;
+    private String title = "";
+    private String year = "";
+    private String director = "";
+    private String star = "";
 
     public User(String username) {
         this.username = username;

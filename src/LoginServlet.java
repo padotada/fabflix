@@ -39,6 +39,10 @@ public class LoginServlet extends HttpServlet {
                 SELECT * FROM customers
                 WHERE email = ? AND password = ?
                 """;
+        String usernameQuery = """
+                SELECT * FROM customers
+                WHERE email = ?
+                """;
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement movieStatement = connection.prepareStatement(customerQuery)) {

@@ -47,6 +47,19 @@ function handleSingleStarResult(resultData) {
 // For now keeping both the table format and plain text format
 // Can change later
 
+function handleBackButton(resultData) {
+    let backBtn = $("#back_button");
+    const params = new URLSearchParams();
+    let user = resultData[0];
+
+    if (user.title !== "") params.append("title", user.title);
+    if (user.year !== "") params.append("year", user.year);
+    if (user.director !== "") params.append("director", user.director);
+    if (user.star !== "") params.append("star", user.star);
+
+    backBtn.prop("href", "movie-list.html?" + params.toString());
+}
+
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
@@ -57,4 +70,11 @@ jQuery.ajax({
     method: "GET", // Setting request method
     url: `single_star?id=${starId}`,
     success: (resultData) => handleSingleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+});
+
+jQuery.ajax({
+    dataType: "json", // Setting return data type
+    method: "GET", // Setting request method
+    url: `return_movielist`,
+    success: (resultData) => handleBackButton(resultData)
 });
