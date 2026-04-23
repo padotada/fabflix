@@ -63,6 +63,7 @@ public class MoviesServlet extends HttpServlet {
         user.setYear(year);
         user.setDirector(director);
         user.setStar(star);
+
         user.setFirst(first);
         user.setGenre(genre);
 
@@ -100,6 +101,12 @@ public class MoviesServlet extends HttpServlet {
             movieQuery.append(" JOIN stars_in_movies sim ON m.id = sim.movie_id ");
             movieQuery.append(" JOIN stars s ON sim.star_id = s.id ");
         }
+        if (genre != null && !genre.trim().isEmpty()) {
+            movieQuery.append(" JOIN genres_in_movies gim ON m.id = gim.movie_id ");
+            movieQuery.append(" JOIN genres g ON g.id = gim.genre_id ");
+        }
+
+
         if (title != null && !title.trim().isEmpty()){
             conditions.add("m.title LIKE ?");
             params.add("%" + title + "%");
@@ -118,6 +125,16 @@ public class MoviesServlet extends HttpServlet {
         if (star != null && !star.trim().isEmpty()) {
             conditions.add("s.name LIKE ?");
             params.add("%" + star + "%");
+        }
+
+        if (first != null) {
+            conditions.add("m.title LIKE ?");
+            params.add(first + "%");
+        }
+
+        if (genre != null) {
+            conditions.add("g.genre = ?");
+            params.add(genre);
         }
 
         if (!conditions.isEmpty()) {
