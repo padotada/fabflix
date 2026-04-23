@@ -60,7 +60,6 @@ function handleSingleMovieResult(resultData) {
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
-let user = null;
 
 let movieId = getParameterByName('id');
 // Makes the HTTP GET request and registers on success callback function handleStarResult
@@ -68,6 +67,18 @@ jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
     url: `single_movie?id=${movieId}`,
-    success: (resultData) => user = handleSingleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    success: (resultData) => handleSingleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
 
+let backBtn = $("#back_button");
+const params = new URLSearchParams();
+
+let user = null;
+
+if (user.title !== "") params.append("title", user.title);
+if (user.year !== "") params.append("year", user.year);
+if (user.director !== "") params.append("director", user.director);
+if (user.star !== "") params.append("star", user.star);
+
+function onClick() { window.location.href = "movie-list.html?" + params.toString();}
+backBtn.addEventListener("click", onClick)

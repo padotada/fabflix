@@ -43,7 +43,7 @@ public class MoviesServlet extends HttpServlet {
 
         User user = (User) request.getSession().getAttribute("user");
         user.setTitle(title);
-        user.setYear(Integer.parseInt(year));
+        user.setYear(year);
         user.setDirector(director);
         user.setStar(star);
 
