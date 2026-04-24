@@ -21,3 +21,11 @@ function submitSearchForm(event){
     window.location.href = "movie-list.html?" + params.toString();
 }
 searchForm.submit(submitSearchForm);
+
+
+const select = $("#letters");
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+for (let i = 0; i < alphabet.length; i++) {
+    select.append($('<option>', {value: alphabet[i], text: alphabet[i]}));
+}

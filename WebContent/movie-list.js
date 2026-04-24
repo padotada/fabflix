@@ -57,3 +57,11 @@ jQuery.ajax({
     },
     success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
+
+
+const select = $("#letters");
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+for (let i = 0; i < alphabet.length; i++) {
+    select.append($('<option>', {value: alphabet[i], text: alphabet[i]}));
+}
