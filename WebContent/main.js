@@ -12,10 +12,11 @@ function submitSearchForm(event){
 
     const params = new URLSearchParams();
 
-    if (title !== "") params.append("title", title);
-    if (year !== "") params.append("year", year);
-    if (director !== "") params.append("director", director);
-    if (star !== "") params.append("star", star);
+    if (title !== "") {params.append("title", title);}
+    if (year !== "") {params.append("year", year);}
+    if (director !== "") {params.append("director", director);}
+    if (star !== "") {params.append("star", star);}
+    params.append("search", "true");
 
     window.location.href = "movie-list.html?" + params.toString();
 }
