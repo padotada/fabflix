@@ -45,3 +45,30 @@ jQuery.ajax({
     url: "genres", // Setting request url, which is mapped by StarsServlet in Stars.java
     success: (resultData) => addGenres(resultData)
 });
+
+
+let letter_form = $("#browse_letter");
+function submitLetterForm(event) {
+    event.preventDefault();
+
+    const letter = $("#letters").val();
+    const params = new URLSearchParams();
+    params.append("first", letter);
+    params.append("search", "false");
+
+    window.location.href = "movie-list.html?" + params.toString();
+}
+letter_form.submit(submitLetterForm);
+
+let genre_form = $("#browse_genre");
+function submitGenreForm(event) {
+    event.preventDefault();
+
+    const genre = $("#genres").val();
+    const params = new URLSearchParams();
+    params.append("genre", genre);
+    params.append("search", "false");
+
+    window.location.href = "movie-list.html?" + params.toString();
+}
+genre_form.submit(submitGenreForm);
