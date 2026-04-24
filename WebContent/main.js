@@ -29,3 +29,19 @@ const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 for (let i = 0; i < alphabet.length; i++) {
     select.append($('<option>', {value: alphabet[i], text: alphabet[i]}));
 }
+
+function addGenres(resultData)
+{
+    let genre_list = resultData[0].genres;
+    for (let i = 0; i < genre_list.length; i++) {
+        genreSelect.append($('<option>', {value: genre_list[i], text: genre_list[i]}));
+    }
+}
+
+const genreSelect = $("#genres");
+jQuery.ajax({
+    dataType: "json", // Setting return data type
+    method: "GET", // Setting request method
+    url: "genres", // Setting request url, which is mapped by StarsServlet in Stars.java
+    success: (resultData) => addGenres(resultData)
+});
