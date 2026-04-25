@@ -128,13 +128,13 @@ public class MoviesServlet extends HttpServlet {
             params.add("%" + star + "%");
         }
 
-        if (first != null) {
+        if (first != null && !first.trim().isEmpty()) {
             conditions.add("m.title LIKE ?");
             params.add(first + "%");
         }
 
-        if (genre != null) {
-            conditions.add("g.genre = ?");
+        if (genre != null && !genre.trim().isEmpty()) {
+            conditions.add("g.name = ?");
             params.add(genre);
         }
 
