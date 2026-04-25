@@ -50,10 +50,13 @@ jQuery.ajax({
     method: "GET", // Setting request method
     url: "movielist", // Setting request url, which is mapped by StarsServlet in Stars.java
     data: {
+        search: urlParams.get("search"),
         title: urlParams.get("title"),
         year: urlParams.get("year"),
         director: urlParams.get("director"),
-        star: urlParams.get("star")
+        star: urlParams.get("star"),
+        first: urlParams.get("first"),
+        genre: urlParams.get("genre")
     },
     success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
@@ -108,7 +111,7 @@ let letter_form = $("#browse_letter");
 function submitLetterForm(event) {
     event.preventDefault();
 
-    const letter = $("#letters").val();
+    const letter = select.val();
     const params = new URLSearchParams();
     params.append("first", letter);
     params.append("search", "false");

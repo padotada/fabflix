@@ -35,9 +35,9 @@ public class MoviesServlet extends HttpServlet {
         // Set response mime type
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
         String searchParam = request.getParameter("search");
         boolean isSearch = searchParam != null && searchParam.equals("true");
-        User user = (User) request.getSession().getAttribute("user");
 
         // if browsing, search ones will be null, and vice versa
         String title = null;
@@ -59,6 +59,7 @@ public class MoviesServlet extends HttpServlet {
             genre = request.getParameter("genre");
         }
 
+        User user = (User) request.getSession().getAttribute("user");
         user.setTitle(title);
         user.setYear(year);
         user.setDirector(director);

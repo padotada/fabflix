@@ -51,7 +51,7 @@ let letter_form = $("#browse_letter");
 function submitLetterForm(event) {
     event.preventDefault();
 
-    const letter = $("#letters").val();
+    const letter = select.val();
     const params = new URLSearchParams();
     params.append("first", letter);
     params.append("search", "false");
@@ -64,7 +64,7 @@ let genre_form = $("#browse_genre");
 function submitGenreForm(event) {
     event.preventDefault();
 
-    const genre = $("#genres").val();
+    const genre = genreSelect.val();
     const params = new URLSearchParams();
     params.append("genre", genre);
     params.append("search", "false");
