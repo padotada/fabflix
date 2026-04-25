@@ -1,8 +1,5 @@
 DROP DATABASE IF EXISTS moviedb;
 CREATE DATABASE IF NOT EXISTS moviedb;
-
-USE moviedb;
-
 CREATE TABLE movies (
     id varchar(10) PRIMARY KEY,
     title varchar(100) NOT NULL,
@@ -55,16 +52,16 @@ CREATE TABLE customers (
 
 CREATE TABLE sales (
     id integer AUTO_INCREMENT PRIMARY KEY,
-    customer_id integer NOT NULL,
-    movie_id varchar(10) NOT NULL,
-    sale_date date NOT NULL,
+    customer_id integer,
+    movie_id varchar(10),
+    sale_date date,
     FOREIGN KEY (customer_id) REFERENCES customers(id),
     FOREIGN KEY (movie_id) REFERENCES movies(id)
 );
 
 CREATE TABLE ratings (
-    movie_id varchar(10) NOT NULL,
-    rating float NOT NULL,
-    vote_count integer NOT NULL,
+    movie_id varchar(10),
+    rating float,
+    vote_count integer,
     FOREIGN KEY (movie_id) REFERENCES movies(id)
 );

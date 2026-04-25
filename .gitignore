@@ -158,5 +158,5 @@ buildNumber.properties
 # End of https://www.gitignore.io/api/java,maven,eclipse,java-web,intellij
 
 /build/
-./file_logs/
-./populate.bat/
+populate.bat
+sql_files/

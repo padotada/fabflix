@@ -1,9 +1,0 @@
-mysql -u root -p --database=moviedb < ./sql_files/movies.sql
-mysql -u root -p --database=moviedb < ./sql_files/starsv3.sql
-mysql -u root -p --database=moviedb < ./sql_files/genres.sql
-mysql -u root -p --database=moviedb < ./sql_files/credit_cards.sql
-mysql -u root -p --database=moviedb < ./sql_files/customers.sql
-mysql -u root -p --database=moviedb < ./sql_files/ratings.sql
-mysql -u root -p --database=moviedb < ./sql_files/stars_in_movies.sql
-mysql -u root -p --database=moviedb < ./sql_files/genres_in_movies.sql
-mysql -u root -p --database=moviedb < ./sql_files/sales.sql
