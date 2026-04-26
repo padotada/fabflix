@@ -14,11 +14,21 @@
 </head>
 <body>
 
+<div  class="d-flex justify-content-between align-items-center mb-3">
+    <a href="movie-list.html" id="back_button" class="btn btn-outline-secondary">
+        ← Back to Movies
+    </a>
+
+    <a href="cart.html" class="btn btn-primary">
+        Checkout
+    </a>
+</div>
+
 <div class="container mt-4">
     <h1>Movie Star</h1>
     
     <h3 id="star_info"></h3>
-    <table id=star_table class="table table-striped">
+    <table id="star_table" class="table table-striped">
         <!-- Create a table header -->
         <thead>
         <tr>
@@ -29,12 +39,8 @@
         </tr>
         </thead>
         <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
-        <tbody id=star_table_body></tbody>
+        <tbody id="star_table_body"></tbody>
     </table>
-
-    <a href="movie-list.html" id="back_button" class="btn btn-outline-primary mb-3">
-        ← Back to Movies
-    </a>
 </div>
 
 <!-- Load jQuery and Bootstrap JS -->

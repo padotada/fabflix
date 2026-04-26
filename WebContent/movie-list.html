@@ -13,7 +13,15 @@
     <title>Fabflix Movies</title>
 </head>
 <body>
+<div  class="d-flex justify-content-between align-items-center mb-3">
+    <a href="main.html" id="back_button" class="btn btn-outline-secondary">
+        ← Back to Main
+    </a>
 
+    <a href="cart.html" class="btn btn-primary">
+        Checkout
+    </a>
+</div>
 <h1>Movies</h1>
 
 <table id=movies_table class="table table-striped">
@@ -34,9 +42,7 @@
     <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
     <tbody id=movies_table_body></tbody>
 </table>
-<a href="cart.html" class="btn btn-primary mt-3">
-    Checkout
-</a>
+
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
