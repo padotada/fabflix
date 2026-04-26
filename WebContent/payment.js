@@ -39,6 +39,11 @@ function submitPaymentForm(event) {
     const creditCardId = jQuery("#credit_card_id").val().trim();
     const expiration = jQuery("#expiration").val();
 
+    console.log("firstName =", firstName);
+    console.log("lastName =", lastName);
+    console.log("creditCardId =", creditCardId);
+    console.log("expiration =", expiration);
+
     jQuery.ajax({
         dataType: "json",
         method: "POST",

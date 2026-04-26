@@ -32,11 +32,14 @@ public class PaymentServlet extends HttpServlet{
         response.setContentType("application/json");
         JsonObject responseJsonObject = new JsonObject();
 
-        String firstName = request.getParameter("first_name");
-        String lastName = request.getParameter("last_name");
-        String creditCardId = request.getParameter("credit_card_id");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String creditCardId = request.getParameter("creditCardId");
         String expiration = request.getParameter("expiration");
-
+        System.out.println("firstName = " + firstName);
+        System.out.println("lastName = " + lastName);
+        System.out.println("creditCardId = " + creditCardId);
+        System.out.println("expiration = " + expiration);
         HttpSession session = request.getSession();
 
         HashMap<String, CartItem> cart = (HashMap<String, CartItem>) session.getAttribute("cart");
@@ -121,15 +124,6 @@ public class PaymentServlet extends HttpServlet{
             String creditCardId,
             Connection connection
     ) throws Exception {
-        /*
-         * If your LoginServlet stores the user/customer in session, use that instead.
-         * For example, your project may store something like:
-         *
-         * session.setAttribute("user", customerId);
-         *
-         * If so, replace this method with session lookup.
-         */
-
         Object customerIdObject = session.getAttribute("customerId");
 
         if (customerIdObject instanceof Integer) {
@@ -140,11 +134,7 @@ public class PaymentServlet extends HttpServlet{
             return Integer.parseInt((String) customerIdObject);
         }
 
-        /*
-         * Fallback:
-         * Find the customer by credit_card_id.
-         * This works if credit_card_id uniquely identifies the logged-in customer.
-         */
+
         String query = """
             SELECT id
             FROM customers
