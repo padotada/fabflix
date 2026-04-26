@@ -1,0 +1,186 @@
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.*;
+import java.sql.*;
+
+@WebServlet(name = "PaymentServlet", urlPatterns = "/api/place-order")
+public class PaymentServlet extends HttpServlet{
+    private DataSource dataSource;
+
+    public void init(ServletConfig config){
+        try {
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        JsonObject responseJsonObject = new JsonObject();
+
+        String firstName = request.getParameter("first_name");
+        String lastName = request.getParameter("last_name");
+        String creditCardId = request.getParameter("credit_card_id");
+        String expiration = request.getParameter("expiration");
+
+        HttpSession session = request.getSession();
+
+        HashMap<String, CartItem> cart = (HashMap<String, CartItem>) session.getAttribute("cart");
+        if(cart == null || cart.isEmpty()){
+            responseJsonObject.addProperty("status", "fail");
+            responseJsonObject.addProperty("message", "Your cart is empty.");
+            response.getWriter().write(responseJsonObject.toString());
+            return;
+        }
+
+        try (Connection connection = dataSource.getConnection()) {
+            boolean validPayment = isValidPayment(
+                    connection,
+                    creditCardId,
+                    firstName,
+                    lastName,
+                    expiration
+            );
+
+            if (!validPayment) {
+                responseJsonObject.addProperty("status", "fail");
+                responseJsonObject.addProperty("message", "Invalid payment information.");
+                response.getWriter().write(responseJsonObject.toString());
+                return;
+            }
+            Integer customerId = getCustomerId(session, creditCardId, connection);
+
+            if (customerId == null) {
+                responseJsonObject.addProperty("status", "fail");
+                responseJsonObject.addProperty("message", "Could not identify customer.");
+                response.getWriter().write(responseJsonObject.toString());
+                return;
+            }
+
+            insertSales(connection, customerId, cart);
+
+            session.setAttribute("lastOrder", cart);
+            session.removeAttribute("cart");
+
+            responseJsonObject.addProperty("status", "success");
+            responseJsonObject.addProperty("message", "Order placed successfully.");
+            response.getWriter().write(responseJsonObject.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            responseJsonObject.addProperty("status", "fail");
+            responseJsonObject.addProperty("message", "Server error while placing order.");
+            response.getWriter().write(responseJsonObject.toString());
+        }
+    }
+    private boolean isValidPayment(
+            Connection connection,
+            String creditCardId,
+            String firstName,
+            String lastName,
+            String expiration
+    ) throws Exception {
+        String query = """
+            SELECT id
+            FROM credit_cards
+            WHERE id = ?
+              AND first_name = ?
+              AND last_name = ?
+              AND expiration = ?
+        """;
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, creditCardId);
+            statement.setString(2, firstName);
+            statement.setString(3, lastName);
+            statement.setString(4, expiration);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
+    }
+
+    private Integer getCustomerId(
+            HttpSession session,
+            String creditCardId,
+            Connection connection
+    ) throws Exception {
+        /*
+         * If your LoginServlet stores the user/customer in session, use that instead.
+         * For example, your project may store something like:
+         *
+         * session.setAttribute("user", customerId);
+         *
+         * If so, replace this method with session lookup.
+         */
+
+        Object customerIdObject = session.getAttribute("customerId");
+
+        if (customerIdObject instanceof Integer) {
+            return (Integer) customerIdObject;
+        }
+
+        if (customerIdObject instanceof String) {
+            return Integer.parseInt((String) customerIdObject);
+        }
+
+        /*
+         * Fallback:
+         * Find the customer by credit_card_id.
+         * This works if credit_card_id uniquely identifies the logged-in customer.
+         */
+        String query = """
+            SELECT id
+            FROM customers
+            WHERE credit_card_id = ?
+            LIMIT 1
+        """;
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, creditCardId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("id");
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private void insertSales(Connection connection, Integer customerId, HashMap<String, CartItem> cart) throws Exception {
+        String query = """
+            INSERT INTO sales (customer_id, movie_id, sale_date, quantity)
+            VALUES (?, ?, CURDATE(), ?)
+        """;
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            for (CartItem item : cart.values()) {
+                statement.setInt(1, customerId);
+                statement.setString(2, item.getMovieId());
+                statement.setInt(3, item.getQuantity());
+
+                statement.addBatch();
+            }
+
+            statement.executeBatch();
+        }
+    }
+}
