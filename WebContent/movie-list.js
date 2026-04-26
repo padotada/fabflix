@@ -20,6 +20,7 @@ function handleMovieResult(resultData) {
             starsHTML = movie.stars.map(star => `<a href="single-star.html?id=${star.star_id}">${star.star_name}</a>`)
                 .join(", ");
         }
+        let priceHTML = movie.movie_price != null ? "$" + Number(movie.movie_price).toFixed(2) : "N/A";
         let rowHTML = `<tr>
                 <td><a href="single-movie.html?id=${movie.movie_id}">${movie.movie_title}</a></td>
                 <td>${movie.movie_year}</td>
@@ -27,6 +28,12 @@ function handleMovieResult(resultData) {
                 <td>${genreHTML}</td>
                 <td>${starsHTML}</td>
                 <td>${movie.movie_rating ?? "N/A"}</td>
+                <td>${priceHTML}</td>
+                <td>
+                    <button class="add-to-cart-button" data-movie-id="${movie.movie_id}">
+                        Add to Cart
+                    </button>
+                </td>
             </tr>`;
         // Append the row created to the table body, which will refresh the page
         movieTableBodyElement.append(rowHTML);
@@ -132,3 +139,24 @@ function submitGenreForm(event) {
     window.location.href = "movie-list.html?" + params.toString();
 }
 genre_form.submit(submitGenreForm);
+
+function addToCart(movieId) {
+    jQuery.ajax({
+        method: "POST",
+        url: "api/cart",
+        data: {
+            action: "add",
+            movieId: movieId
+        },
+        success: function (resultData) {
+            console.log("Added to cart:", resultData);
+            alert("Movie added to cart!");
+        },
+        error: () => alert("Failed to add movie to cart.")
+
+    });
+}
+jQuery(document).on("click", ".add-to-cart-button", function () {
+    const movieId = jQuery(this).data("movie-id");
+    addToCart(movieId);
+});

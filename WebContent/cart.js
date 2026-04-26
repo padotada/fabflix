@@ -1,6 +1,5 @@
 function handleCartResult(data){
     let tableBody = jQuery("#cart_table_body");
-    tableBody.empty();
     if(data.cart.length === 0){
         tableBody.append(`
         <tr>
@@ -15,8 +14,8 @@ function handleCartResult(data){
         <tr>
             <td>${item.title}</td>
             <td>${item.quantity}</td>
-            <td>${item.price}</td>
-            <td>${item.subtotal}</td>
+            <td>${Number(item.price).toFixed(2)}</td>
+            <td>${Number(item.subtotal).toFixed(2)}</td>
             <td>
                 <button onclick="updateCart('increase', '${item.movieId}')">+</button>
                 <button onclick="updateCart('decrease', '${item.movieId}')">-</button>
@@ -26,7 +25,7 @@ function handleCartResult(data){
         `;
         tableBody.append(row);
     }
-    $("#cart_total").text("Total: $" + data.total);
+    $("#cart_total").text("Total: $" + Number(data.total).toFixed(2));
 }
 
 function loadCart(){
@@ -50,3 +49,5 @@ function updateCart(action, movieId){
         error: ()=>console.log("Failed to update cart")
     });
 }
+
+loadCart();
