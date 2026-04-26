@@ -15,17 +15,6 @@ import java.io.PrintWriter;
 
 @WebServlet("/return_movielist")
 public class GoBackServlet extends HttpServlet {
-        // Create a dataSource which registered in web.
-        private DataSource dataSource;
-
-        public void init(ServletConfig config) {
-                try {
-                        dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
-                } catch (NamingException e) {
-                        e.printStackTrace();
-                }
-        }
-
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
                 PrintWriter jsonOutput = response.getWriter();
 
@@ -44,8 +33,8 @@ public class GoBackServlet extends HttpServlet {
                         return;
                 }
 
-                userQuery.addProperty("search", user.isSearch_mode());
-                if(user.isSearch_mode())
+                userQuery.addProperty("search", user.isSearchMode());
+                if(user.isSearchMode())
                 {
                         userQuery.addProperty("title", user.getTitle());
                         userQuery.addProperty("year", user.getYear());
@@ -56,6 +45,13 @@ public class GoBackServlet extends HttpServlet {
                         userQuery.addProperty("first", user.getFirst());
                         userQuery.addProperty("genre", user.getGenre());
                 }
+
+                userQuery.addProperty("page", user.getPage());
+                userQuery.addProperty("records", user.getNumRecords());
+
+                userQuery.addProperty("title_first", user.getTitle());
+                userQuery.addProperty("title_sort", user.getTitleSort());
+                userQuery.addProperty("rating_sort", user.getRatingSort());
 
 
                 JsonArray jsonArray = new JsonArray();

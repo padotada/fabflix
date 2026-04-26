@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -68,7 +67,14 @@ public class MoviesServlet extends HttpServlet {
         user.setFirst(first);
         user.setGenre(genre);
 
-        user.setSearch_mode(isSearch);
+        user.setSearchMode(isSearch);
+
+
+        int page_number = 1;
+        if(request.getParameter("page") != null) {page_number = Integer.parseInt(request.getParameter("page"));}
+        int num_records = 10;
+        if(request.getParameter("records") != null) {num_records = Integer.parseInt(request.getParameter("records"));}
+
 
         // String queries
 //        String movieQuery = """
@@ -145,7 +151,13 @@ public class MoviesServlet extends HttpServlet {
             movieQuery.append(String.join(" AND ", conditions));
         }
 
-        movieQuery.append(" ORDER BY r.rating DESC, m.title ASC LIMIT 20");
+        movieQuery.append(" ORDER BY r.rating DESC, m.title ASC LIMIT ");
+
+
+        movieQuery.append(num_records).append(" OFFSET ").append(num_records * (page_number - 1));
+
+
+
 
         // Get the PrintWriter for writing response
         PrintWriter jsonOutput = response.getWriter();

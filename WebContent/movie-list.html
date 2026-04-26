@@ -14,48 +14,6 @@
 </head>
 <body>
 
-<div class="d-flex gap-3 justify-content-around align-items-stretch">
-    <div class="p-2">
-        <h2>Search Movies</h2>
-        <form id="search_form" action="#" method="GET">
-            <div class="d-flex p-2 gap-3 flex-column">
-            <label for="title"></label><input type="text" name="title" id="title" placeholder="Title">
-            <label for="year"></label><input type="number" name="year" id="year" placeholder="Year">
-            <label for="director"></label><input type="text" name="director" id="director" placeholder="Director">
-            <label for="star"></label><input type="text" name="star" id="star" placeholder="Star">
-            <button type="submit">Search</button>
-            </div>
-        </form>
-    </div>
-    <div class="p-2">
-        <h2>Browse Movies</h2>
-        <div class="d-flex gap-10">
-            <div>
-                By first letter:
-                <form id="browse_letter" action="#" method="GET">
-                    <select name="first_letter" id="letters">
-                    </select>
-
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-
-            <div>
-                By genre:
-                <form id="browse_genre" action="#" method="GET">
-                    <select name="genre" id="genres">
-
-                    </select>
-
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
 <h1>Movies</h1>
 
 <table id=movies_table class="table table-striped">
