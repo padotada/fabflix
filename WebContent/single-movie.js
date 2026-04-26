@@ -23,12 +23,14 @@ function handleSingleMovieResult(resultData) {
     console.log("handleSingleMovieResult: populating movie info from resultData");
     let movie = resultData[0];
     if (!movie) return;
+    console.log(movie);
+    console.log("movie id:", movie.movie_id);
 
     let genreHTML = (movie.genres && movie.genres.length) ? movie.genres.join(", ") : "N/A";
     let starsHTML = (movie.stars && movie.stars.length)
         ? movie.stars.map(star => `<a href="single-star.html?id=${star.star_id}">${star.star_name}</a>`).join(", ")
         : "N/A";
-
+    let priceHTML = movie.movie_price != null ? "$" + Number(movie.movie_price).toFixed(2) : "N/A";
     let movieInfoElement = jQuery("#movie_info");
     movieInfoElement.empty().append(`
         <p>${movie.movie_title}</p>
@@ -36,7 +38,8 @@ function handleSingleMovieResult(resultData) {
         <p>Director: ${movie.movie_director}</p>
         <p>Genres: ${genreHTML}</p>
         <p>Stars: ${starsHTML}</p>
-        <p>Rating: ${movie.movie_rating ?? "N/A"}</p>           
+        <p>Rating: ${movie.movie_rating ?? "N/A"}</p>      
+        <p>Price: ${priceHTML}</p>     
     `);
 
     let movieTableBodyElement = jQuery("#movie_table_body");
@@ -48,6 +51,12 @@ function handleSingleMovieResult(resultData) {
             <td>${genreHTML}</td>
             <td>${starsHTML}</td>
             <td>${movie.movie_rating ?? "N/A"}</td>
+            <td>${priceHTML}</td>
+            <td>
+                <button class="add-to-cart-button" data-movie-id="${movie.movie_id}">
+                Add to Cart
+                </button>
+            </td>
         </tr>
     `);
 
@@ -90,4 +99,24 @@ jQuery.ajax({
     success: (resultData) => handleBackButton(resultData)
 });
 
+function addToCart(movieId) {
+    jQuery.ajax({
+        method: "POST",
+        url: "api/cart",
+        data: {
+            action: "add",
+            movieId: movieId
+        },
+        success: function (resultData) {
+            console.log("Added to cart:", resultData);
+            alert("Movie added to cart!");
+        },
+        error: () => alert("Failed to add movie to cart.")
+
+    });
+}
+jQuery(document).on("click", ".add-to-cart-button", function () {
+    const movieId = jQuery(this).data("movie-id");
+    addToCart(movieId);
+});
 

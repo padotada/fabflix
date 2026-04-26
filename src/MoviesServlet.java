@@ -74,7 +74,7 @@ public class MoviesServlet extends HttpServlet {
 //                JOIN ratings r ON m.id = r.movie_id ORDER BY r.rating DESC LIMIT 20
 //                """;
         StringBuilder movieQuery = new StringBuilder("""
-            SELECT DISTINCT m.id, m.title, m.year, m.director, m.price, r.rating FROM movies m 
+            SELECT DISTINCT m.id, m.title, m.year, m.director, m.price, r.rating FROM movies m
             LEFT JOIN ratings r on m.id = r.movie_id
         """);
 
@@ -181,7 +181,7 @@ public class MoviesServlet extends HttpServlet {
                 movieObject.addProperty("movie_director", movieDirector);
                 movieObject.addProperty("movie_rating", rating);
                 movieObject.addProperty("movie_price", movie_price);
-                
+
                 JsonArray genres = new JsonArray();
                 genreStatement.setString(1, movieId);
                 try (ResultSet genreResultSet = genreStatement.executeQuery()) {

@@ -48,7 +48,7 @@ public class SingleMovieServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         String movieQuery = """
-                SELECT m.id, m.title, m.year, m.director, r.rating FROM movies m
+                SELECT m.id, m.title, m.year, m.director, m.price, r.rating FROM movies m
                 LEFT JOIN ratings r ON m.id = r.movie_id WHERE m.id = ?
                 """;
 
@@ -85,16 +85,20 @@ public class SingleMovieServlet extends HttpServlet {
             ResultSet resultSet = movieStatement.executeQuery();
 
             while (resultSet.next()) {
+                String movie_id = resultSet.getString("id");
                 String title = resultSet.getString("title");
                 String year = resultSet.getString("year");
                 String director = resultSet.getString("director");
                 String rating = resultSet.getString("rating");
+                String movie_price = resultSet.getString("price");
 
                 JsonObject singleMovieObject = new JsonObject();
+                singleMovieObject.addProperty("movie_id", movie_id);
                 singleMovieObject.addProperty("movie_title", title);
                 singleMovieObject.addProperty("movie_year", year);
                 singleMovieObject.addProperty("movie_director", director);
                 singleMovieObject.addProperty("movie_rating", rating != null ? rating : "N/A");
+                singleMovieObject.addProperty("movie_price", movie_price);
 
                 JsonArray genres = new JsonArray();
                 try (ResultSet genreResultSet = genreStatement.executeQuery()) {
