@@ -59,17 +59,14 @@ public class CartServlet extends HttpServlet {
         }
         return cart;
     }
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        HashMap<String, CartItem> cart = getCartFromSession(session);
 
+    private JsonObject buildCartJson(HashMap<String, CartItem> cart){
         JsonObject responseJsonObject = new JsonObject();
         JsonArray cartJsonArray = new JsonArray();
-
         double total = 0.0;
-        for (CartItem item : cart.values()) {
+        for(CartItem item : cart.values()){
+            if(item == null) continue;
             JsonObject itemJson = new JsonObject();
-
             double subtotal = item.getPrice() * item.getQuantity();
             total += subtotal;
 
@@ -84,10 +81,16 @@ public class CartServlet extends HttpServlet {
         responseJsonObject.add("cart", cartJsonArray);
         responseJsonObject.addProperty("total", total);
 
-        response.setContentType("application/json");
-        response.getWriter().write(responseJsonObject.toString());
+        return responseJsonObject;
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        HashMap<String, CartItem> cart = getCartFromSession(session);
+
+        response.setContentType("application/json");
+        response.getWriter().write(buildCartJson(cart).toString());
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String action = request.getParameter("action");
@@ -105,7 +108,6 @@ public class CartServlet extends HttpServlet {
                 if (item != null) {
                     cart.put(movieId, item);
                 }
-                cart.put(movieId, item);
             }
         }else if("increase".equals(action) && cart.containsKey(movieId)){
             cart.get(movieId).increaseQuantity();
@@ -118,10 +120,8 @@ public class CartServlet extends HttpServlet {
         }else if("delete".equals(action)){
             cart.remove(movieId);
         }
-        JsonObject responseJsonObject = new JsonObject();
-        responseJsonObject.addProperty("status", "success");
 
         response.setContentType("application/json");
-        response.getWriter().write(responseJsonObject.toString());
+        response.getWriter().write(buildCartJson(cart).toString());
     }
 }
