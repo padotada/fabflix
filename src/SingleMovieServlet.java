@@ -60,11 +60,11 @@ public class SingleMovieServlet extends HttpServlet {
                 ORDER BY g.name
                 """;
         String starQuery = """
-                SELECT s.id, s.name
-                FROM stars_in_movies sim
-                JOIN stars s ON sim.star_id = s.id
+                SELECT s.name, s.id, COUNT(movie_id) FROM stars s
+                JOIN stars_in_movies sim ON s.id = sim.star_id
                 WHERE sim.movie_id = ?
-                ORDER BY s.name
+                GROUP BY s.id, s.name
+                ORDER BY COUNT(movie_id) DESC, s.name;
                 """;
 
         try {

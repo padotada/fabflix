@@ -68,6 +68,8 @@ public class MoviesServlet extends HttpServlet {
         user.setFirst(first);
         user.setGenre(genre);
 
+        user.setSearch_mode(isSearch);
+
         // String queries
 //        String movieQuery = """
 //                SELECT m.id, m.title, m.year, m.director, r.rating FROM movies m

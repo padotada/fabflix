@@ -13,6 +13,8 @@ function handleMovieResult(resultData) {
         let genreHTML = "N/A";
         if(movie.genres && movie.genres.length > 0){
             genreHTML = movie.genres.join(", ");
+            genreHTML = movie.genres.map(genre => `<a href="movie-list.html?genre=${genre}&search=false">${genre}</a>`)
+                .join(", ");
         }
 
         let starsHTML = "N/A";
