@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Fabflix Movies</title>
+    <title>FabFlix Movies</title>
 </head>
 <body>
 <div  class="d-flex justify-content-between align-items-center mb-3">
@@ -23,6 +23,45 @@
     </a>
 </div>
 <h1>Movies</h1>
+
+<div class="d-flex gap-3 justify-content-between px-3">
+    <div>
+    <h4>Sort By: </h4>
+    <form id="search_filter" action="#" method="GET">
+        Title:
+        <select name="Title" id="title">
+            <option value="0">Increasing</option>
+            <option value="1">Decreasing</option>
+        </select>
+
+        Rating:
+        <select name="Rating" id="rating">
+            <option value="0">Increasing</option>
+            <option value="1">Decreasing</option>
+        </select>
+
+        Priority:
+        <select name="Priority" id="tiebreak">
+            <option value="true">Title</option>
+            <option value="false">Rating</option>
+        </select>
+
+        <button type="submit">Sort</button>
+    </form>
+    </div>
+
+    <div>
+        <form id="record_count" action="#" method="GET">
+        Movies per page:
+        <select name="Records" id="records">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        </form>
+    </div>
+</div>
 
 <table id=movies_table class="table table-striped">
     <!-- Create a table header -->

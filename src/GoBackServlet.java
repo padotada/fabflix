@@ -49,7 +49,7 @@ public class GoBackServlet extends HttpServlet {
                 userQuery.addProperty("page", user.getPage());
                 userQuery.addProperty("records", user.getNumRecords());
 
-                userQuery.addProperty("title_first", user.getTitle());
+                userQuery.addProperty("title_first", user.getTitleFirst());
                 userQuery.addProperty("title_sort", user.getTitleSort());
                 userQuery.addProperty("rating_sort", user.getRatingSort());
 

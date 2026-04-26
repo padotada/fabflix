@@ -18,8 +18,8 @@ public class User {
     private int records = 10;
 
     private String title_first = "false";
-    private int title_sort = 0; // 0 for nothing, 1 for decreasing, -1 for increasing
-    private int rating_sort = 1; // 0 for nothing, 1 for decreasing, -1 for increasing
+    private int title_sort = 1; // 0 for increasing, 1 for decreasing
+    private int rating_sort = 1; // 0 for increasing, 1 for decreasing
 
     public User(String username) {
         this.username = username;

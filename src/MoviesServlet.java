@@ -72,8 +72,38 @@ public class MoviesServlet extends HttpServlet {
 
         int page_number = 1;
         if(request.getParameter("page") != null) {page_number = Integer.parseInt(request.getParameter("page"));}
+        user.setPage(page_number);
         int num_records = 10;
         if(request.getParameter("records") != null) {num_records = Integer.parseInt(request.getParameter("records"));}
+        user.setNumRecords(num_records);
+
+        String title_first = request.getParameter("title_first");
+        if(title_first == null || !(title_first.equals("false") || title_first.equals("true"))) {title_first = "false";}
+        user.setFirst(title_first);
+
+        int title_sort = 1;
+        if(request.getParameter("title_sort") != null) {title_sort = Integer.parseInt(request.getParameter("title_sort"));}
+        if(title_sort != 1 && title_sort != 0) {title_sort = 1;}
+        user.setTitleSort(title_sort);
+
+        int rating_sort = 1;
+        if(request.getParameter("rating_sort") != null) {rating_sort = Integer.parseInt(request.getParameter("rating_sort"));}
+        if(rating_sort != 1 && rating_sort != 0) {rating_sort = 1;}
+        user.setRatingSort(rating_sort);
+
+        String order = " ORDER BY ";
+        if(title_first.equals("true")) {
+            order += "title ";
+            if(title_sort == 1) {order += "DESC ";}
+            order += "rating ";
+            if(rating_sort == 1) {order += "DESC ";}
+        }
+        else {
+            order += "rating ";
+            if(rating_sort == 1) {order += "DESC ";}
+            order += "title ";
+            if(title_sort == 1) {order += "DESC ";}
+        }
 
 
         // String queries
@@ -151,9 +181,7 @@ public class MoviesServlet extends HttpServlet {
             movieQuery.append(String.join(" AND ", conditions));
         }
 
-        movieQuery.append(" ORDER BY r.rating DESC, m.title ASC LIMIT ");
-
-
+        movieQuery.append(order);
         movieQuery.append(num_records).append(" OFFSET ").append(num_records * (page_number - 1));
 
 
