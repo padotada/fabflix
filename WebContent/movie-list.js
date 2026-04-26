@@ -7,7 +7,7 @@ function handleMovieResult(resultData) {
     console.log("handleMovieResult: populating movie table from resultData");
 
     let movieTableBodyElement = jQuery("#movies_table_body");
-
+    movieTableBodyElement.empty();
     for (let i = 0; i <resultData.length; i++) {
         let movie = resultData[i];
         let genreHTML = "N/A";

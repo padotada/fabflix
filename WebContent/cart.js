@@ -1,11 +1,12 @@
 function handleCartResult(data){
     let tableBody = jQuery("#cart_table_body");
+    tableBody.empty();
     if(data.cart.length === 0){
         tableBody.append(`
         <tr>
             <td colspan="5">Your cart is empty.</td>
         </tr>`);
-        jQuery.text("Total: $0.00");
+        jQuery("#cart_total").text("Total: $0.00");
         return;
     }
     for(let i = 0; i < data.cart.length; i++){
