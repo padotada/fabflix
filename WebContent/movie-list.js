@@ -65,7 +65,11 @@ jQuery.ajax({
         director: urlParams.get("director"),
         star: urlParams.get("star"),
         first: urlParams.get("first"),
-        genre: urlParams.get("genre")
+        genre: urlParams.get("genre"),
+        page: urlParams.get("page"),
+        title_first: urlParams.get("title_first"),
+        title_sort: urlParams.get("title_sort"),
+        ranking_sort: urlParams.get("ranking_sort"),
     },
     success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
@@ -75,7 +79,6 @@ function submitSortForm(event) {
     event.preventDefault();
 
     const params = new URLSearchParams(window.location.search);
-    console.log(params.toString());
     params.set('title_first', $("#tiebreak").val());
     params.set('title_sort', $("#title").val());
     params.set('rating_sort', $("#rating").val());
@@ -84,10 +87,29 @@ function submitSortForm(event) {
 }
 sortForm.submit(submitSortForm);
 
+const back_button = jQuery("#prev_page");
+
 let pageCount = urlParams.get("page");
-console.log("page hiding check");
 console.log(pageCount);
 if(!pageCount || pageCount === "1") {
-    console.log("page hidden");
-    jQuery("#prev_container").css('visibility','hidden');
+    back_button.css('visibility','hidden');
 }
+
+
+back_button.on("click", function() {
+    const params = new URLSearchParams(window.location.search);
+    let page_number = 1;
+    if(params.get("page") != null){page_number = parseInt(params.get("page"));}
+    if(page_number === 1){return;}
+    params.set("page", (page_number-1).toString());
+    window.location.href = "movie-list.html?" + params.toString();
+});
+
+const next_button = jQuery("#next_page");
+next_button.on("click", function() {
+    const params = new URLSearchParams(window.location.search);
+    let page_number = 1;
+    if(params.get("page") != null){page_number = parseInt(params.get("page"));}
+    params.set("page", (page_number+1).toString());
+    window.location.href = "movie-list.html?" + params.toString();
+});
