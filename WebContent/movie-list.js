@@ -109,3 +109,16 @@ next_button.on("click", function() {
     params.set("page", (page_number+1).toString());
     window.location.href = "movie-list.html?" + params.toString();
 });
+
+const recordForm = jQuery("#record_count");
+function submitRecordForm(event) {
+    event.preventDefault();
+
+    let records = $("#records").val();
+
+    const params = new URLSearchParams(window.location.search);
+    params.set('records', records);
+    console.log(params.toString());
+    window.location.href = "movie-list.html?" + params.toString();
+}
+recordForm.submit(submitRecordForm);
