@@ -48,11 +48,6 @@ function handleMovieResult(resultData) {
  */
 const urlParams = new URLSearchParams(window.location.search);
 
-console.log("title =", urlParams.get("title"));
-console.log("year =", urlParams.get("year"));
-console.log("director =", urlParams.get("director"));
-console.log("star =", urlParams.get("star"));
-
 // Makes the HTTP GET request and registers on success callback function handleStarResult
 jQuery.ajax({
     dataType: "json", // Setting return data type
@@ -67,9 +62,10 @@ jQuery.ajax({
         first: urlParams.get("first"),
         genre: urlParams.get("genre"),
         page: urlParams.get("page"),
+        records: urlParams.get("records"),
         title_first: urlParams.get("title_first"),
         title_sort: urlParams.get("title_sort"),
-        ranking_sort: urlParams.get("ranking_sort"),
+        rating_sort: urlParams.get("rating_sort"),
     },
     success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });

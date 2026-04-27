@@ -75,13 +75,13 @@ public class MoviesServlet extends HttpServlet {
         user.setPage(page_number);
 
         int num_records = 10;
-        if(request.getParameter("records") != null) {num_records = Integer.parseInt(request.getParameter("records"));}
+        if(request.getParameter("records") != null && !request.getParameter("records").isEmpty()) {num_records = Integer.parseInt(request.getParameter("records"));}
         user.setNumRecords(num_records);
 
 
         String title_first = request.getParameter("title_first");
         if(title_first == null || !(title_first.equals("false") || title_first.equals("true"))) {title_first = "false";}
-        user.setFirst(title_first);
+        user.setTitleFirst(title_first);
 
         int title_sort = 1;
         if(request.getParameter("title_sort") != null && !request.getParameter("title_sort").isEmpty()) {title_sort = Integer.parseInt(request.getParameter("title_sort"));}

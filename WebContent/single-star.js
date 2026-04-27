@@ -52,10 +52,30 @@ function handleBackButton(resultData) {
     const params = new URLSearchParams();
     let user = resultData[0];
 
-    if (user.title !== "") params.append("title", user.title);
-    if (user.year !== "") params.append("year", user.year);
-    if (user.director !== "") params.append("director", user.director);
-    if (user.star !== "") params.append("star", user.star);
+    let searchMode = user.search;
+    console.log(user);
+    if(searchMode === true)
+    {
+        params.append("search", "true")
+        if (user.title !== "") params.append("title", user.title);
+        if (user.year !== "") params.append("year", user.year);
+        if (user.director !== "") params.append("director", user.director);
+        if (user.star !== "") params.append("star", user.star);
+    }
+    else
+    {
+        params.append("search", "false")
+        if (user.genre !== "") params.append("genre", user.genre);
+        if (user.first !== "") params.append("first", user.first);
+    }
+
+    params.append("page", user.page);
+    params.append("records", user.records);
+
+    params.append("title_first", user.title_first)
+    params.append("title_sort", user.title_sort);
+    params.append("rating_sort", user.rating_sort);
+
 
     backBtn.prop("href", "movie-list.html?" + params.toString());
 }

@@ -72,11 +72,12 @@ function handleBackButton(resultData) {
     let backBtn = $("#back_button");
     const params = new URLSearchParams();
     let user = resultData[0];
+    console.log(resultData)
 
-    if (user.title !== "") params.append("title", user.title);
-    if (user.year !== "") params.append("year", user.year);
-    if (user.director !== "") params.append("director", user.director);
-    if (user.star !== "") params.append("star", user.star);
+    if (user.title !== "undefined") params.append("title", user.title);
+    if (user.year !== "undefined") params.append("year", user.year);
+    if (user.director !== "undefined") params.append("director", user.director);
+    if (user.star !== "undefined") params.append("star", user.star);
 
     backBtn.prop("href", "movie-list.html?" + params.toString());
 }
