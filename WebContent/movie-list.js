@@ -69,3 +69,25 @@ jQuery.ajax({
     },
     success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
+
+let sortForm = $("#search_filter");
+function submitSortForm(event) {
+    event.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+    console.log(params.toString());
+    params.set('title_first', $("#tiebreak").val());
+    params.set('title_sort', $("#title").val());
+    params.set('rating_sort', $("#rating").val());
+    console.log(params.toString());
+    window.location.href = "movie-list.html?" + params.toString();
+}
+sortForm.submit(submitSortForm);
+
+let pageCount = urlParams.get("page");
+console.log("page hiding check");
+console.log(pageCount);
+if(!pageCount || pageCount === "1") {
+    console.log("page hidden");
+    jQuery("#prev_container").css('visibility','hidden');
+}

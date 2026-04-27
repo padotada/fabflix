@@ -93,16 +93,18 @@ public class MoviesServlet extends HttpServlet {
 
         String order = " ORDER BY ";
         if(title_first.equals("true")) {
-            order += "title ";
-            if(title_sort == 1) {order += "DESC ";}
-            order += "rating ";
-            if(rating_sort == 1) {order += "DESC ";}
+            order += "title";
+            if(title_sort == 1) {order += " DESC, ";}
+            else {order += ", ";}
+            order += "rating";
+            if(rating_sort == 1) {order += " DESC ";}
         }
         else {
-            order += "rating ";
-            if(rating_sort == 1) {order += "DESC ";}
-            order += "title ";
-            if(title_sort == 1) {order += "DESC ";}
+            order += "rating";
+            if(rating_sort == 1) {order += " DESC, ";}
+            else {order += ", ";}
+            order += "title";
+            if(title_sort == 1) {order += " DESC ";}
         }
 
 
@@ -182,7 +184,7 @@ public class MoviesServlet extends HttpServlet {
         }
 
         movieQuery.append(order);
-        movieQuery.append(num_records).append(" OFFSET ").append(num_records * (page_number - 1));
+        movieQuery.append(" LIMIT ").append(num_records).append(" OFFSET ").append(num_records * (page_number - 1));
 
 
 
