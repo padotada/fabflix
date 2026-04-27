@@ -5,10 +5,19 @@
 console.log("movie-list.js loaded");
 function handleMovieResult(resultData) {
     console.log("handleMovieResult: populating movie table from resultData");
+    const params = new URLSearchParams(window.location.search);
+
+    let numRecords = 10;
+    if(params.get("records") != null){numRecords = parseInt(params.get("records"));}
+
+    let loop_number = resultData.length;
+    if(loop_number <= numRecords) {$("#next_page").css('visibility','hidden');}
+    else{loop_number = numRecords;}
 
     let movieTableBodyElement = jQuery("#movies_table_body");
     movieTableBodyElement.empty();
-    for (let i = 0; i <resultData.length; i++) {
+
+    for (let i = 0; i < loop_number; i++) {
         let movie = resultData[i];
         let genreHTML = "N/A";
         if(movie.genres && movie.genres.length > 0){

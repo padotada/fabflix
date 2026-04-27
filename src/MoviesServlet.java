@@ -186,7 +186,7 @@ public class MoviesServlet extends HttpServlet {
         }
 
         movieQuery.append(order);
-        movieQuery.append(" LIMIT ").append(num_records).append(" OFFSET ").append(num_records * (page_number - 1));
+        movieQuery.append(" LIMIT ").append(num_records+1).append(" OFFSET ").append(num_records * (page_number - 1));
 
 
 
@@ -212,7 +212,10 @@ public class MoviesServlet extends HttpServlet {
             }
             ResultSet resultSet = movieStatement.executeQuery();
             JsonArray jsonArray = new JsonArray();
+            int count = 0;
+
             while (resultSet.next()) {
+                count += 1;
                 String movieId = resultSet.getString("id");
                 String movieTitle = resultSet.getString("title");
                 String movieYear = resultSet.getString("year");
@@ -251,6 +254,7 @@ public class MoviesServlet extends HttpServlet {
                     }
                 }
                 movieObject.add("stars", starsList);
+
                 jsonArray.add(movieObject);
             }
             request.getServletContext().log("getting " + jsonArray.size() + " results");
