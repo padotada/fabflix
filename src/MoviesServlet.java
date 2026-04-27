@@ -16,7 +16,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 @WebServlet("/movielist")
 public class MoviesServlet extends HttpServlet {
