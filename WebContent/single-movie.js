@@ -26,7 +26,12 @@ function handleSingleMovieResult(resultData) {
     console.log(movie);
     console.log("movie id:", movie.movie_id);
 
-    let genreHTML = (movie.genres && movie.genres.length) ? movie.genres.join(", ") : "N/A";
+    let genreHTML = "N/A";
+    if(movie.genres && movie.genres.length > 0){
+        genreHTML = movie.genres.join(", ");
+        genreHTML = movie.genres.map(genre => `<a href="movie-list.html?genre=${genre}&search=false">${genre}</a>`)
+            .join(", ");
+    }
     let starsHTML = (movie.stars && movie.stars.length)
         ? movie.stars.map(star => `<a href="single-star.html?id=${star.star_id}">${star.star_name}</a>`).join(", ")
         : "N/A";
