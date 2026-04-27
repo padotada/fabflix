@@ -122,3 +122,24 @@ function submitRecordForm(event) {
     window.location.href = "movie-list.html?" + params.toString();
 }
 recordForm.submit(submitRecordForm);
+
+function addToCart(movieId) {
+    jQuery.ajax({
+        method: "POST",
+        url: "api/cart",
+        data: {
+            action: "add",
+            movieId: movieId
+        },
+        success: function (resultData) {
+            console.log("Added to cart:", resultData);
+            alert("Movie added to cart!");
+        },
+        error: () => alert("Failed to add movie to cart.")
+
+    });
+}
+jQuery(document).on("click", ".add-to-cart-button", function () {
+    const movieId = jQuery(this).data("movie-id");
+    addToCart(movieId);
+});
