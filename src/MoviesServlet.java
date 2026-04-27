@@ -17,8 +17,6 @@ import java.sql.ResultSet;
 import java.sql.*;
 import java.util.ArrayList;
 
-// this is the project 2 freeze branch
-
 @WebServlet("/movielist")
 public class MoviesServlet extends HttpServlet {
     // Create a dataSource which registered in web.
