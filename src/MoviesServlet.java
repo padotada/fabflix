@@ -182,8 +182,7 @@ public class MoviesServlet extends HttpServlet {
         }
 
         movieQuery.append(order);
-        movieQuery.append(" LIMIT ").append(num_records)
-                .append(" OFFSET ").append(num_records * (page_number - 1));
+        movieQuery.append(" LIMIT ").append(num_records).append(" OFFSET ").append(num_records * (page_number - 1));
 
 
 
