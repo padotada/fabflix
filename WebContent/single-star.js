@@ -24,7 +24,7 @@ function handleSingleStarResult(resultData) {
     let star = resultData[0];
     if (!star) return;
 
-    let movieHTML = (star.movies && star.movies.length) ? star.movies.map(movie => `<a href="single-movie.html?id=${movie.movie_id}">${movie.movie_title}</a>`).join(", ")
+    let movieHTML = (star.movies && star.movies.length) ? star.movies.map(movie => `<a href="single-movie.html?id=${movie.movie_id}">${movie.movie_title}</a> (${movie.movie_year})`).join(", ")
         : "N/A";
 
     let starInfoElement = jQuery("#star_info");

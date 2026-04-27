@@ -43,11 +43,11 @@ public class SingleStarServlet extends HttpServlet {
                 """;
 
         String moviesQuery = """
-                SELECT m.id, m.title
+                SELECT m.id, m.title, m.year
                 FROM stars_in_movies sim
                 JOIN movies m ON sim.movie_id = m.id
                 WHERE sim.star_id = ?
-                ORDER BY m.title
+                ORDER BY m.year DESC, m.title ASC
                 """;
 
         // Get the PrintWriter for writing response
@@ -85,8 +85,11 @@ public class SingleStarServlet extends HttpServlet {
                         JsonObject movieObject = new JsonObject();
                         String movieId = movieResultSet.getString("id");
                         String movieTitle = movieResultSet.getString("title");
+                        String movieYear = movieResultSet.getString("year");
+
                         movieObject.addProperty("movie_id", movieId);
                         movieObject.addProperty("movie_title", movieTitle);
+                        movieObject.addProperty("movie_year", movieYear);
                         movieList.add(movieObject);
                     }
                 }
