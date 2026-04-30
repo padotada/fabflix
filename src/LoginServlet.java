@@ -10,6 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,6 +35,11 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+        boolean captcha_success = RecaptchaVerifyUtils.verify(gRecaptchaResponse);
+
+
         String customerQuery = """
                 SELECT * FROM customers
                 WHERE email = ? AND password = ?
@@ -50,12 +56,12 @@ public class LoginServlet extends HttpServlet {
             loginStatement.setString(2, password);
 
             usernameStatement.setString(1, username);
+            JsonObject responseJsonObject = new JsonObject();
 
             ResultSet resultSet = loginStatement.executeQuery();
 
-            JsonObject responseJsonObject = new JsonObject();
             // Login success:
-            if (resultSet.isBeforeFirst()) { // this checks if there are rows in the returned set aka match?
+            if (captcha_success && resultSet.isBeforeFirst()) { // this checks if there are rows in the returned set aka match?
                 // Add this user into the session
                 request.getSession().setAttribute("user", new User(username));
                 responseJsonObject.addProperty("status", "success");
@@ -64,12 +70,12 @@ public class LoginServlet extends HttpServlet {
                 responseJsonObject.addProperty("status", "fail");
                 // Log to localhost log
                 request.getServletContext().log("Login failed");
-                // sample error messages. in practice, it is not a good idea to tell user which one is incorrect/not exist.
-
-                // !! these error messages aren't updated with new functionality
 
                 ResultSet usernameCheck = usernameStatement.executeQuery();
-                if (usernameCheck.isBeforeFirst()) { // username exists in db
+                if(!captcha_success) {
+                    responseJsonObject.addProperty("message", "reCaptcha failed");
+                }
+                else if (usernameCheck.isBeforeFirst()) { // username exists in db
                     responseJsonObject.addProperty("message", "incorrect password");
                 }
                 else {
