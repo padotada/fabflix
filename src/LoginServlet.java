@@ -41,18 +41,13 @@ public class LoginServlet extends HttpServlet {
         System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
         boolean captcha_success = RecaptchaVerifyUtils.verify(gRecaptchaResponse);
 
-
-        String customerQuery = """
-                SELECT * FROM customers
-                WHERE email = ? AND password = ?
-                """;
         String usernameQuery = """
                 SELECT * FROM customers
                 WHERE email = ?
                 """;
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement loginStatement = connection.prepareStatement(customerQuery);
+             PreparedStatement loginStatement = connection.prepareStatement(usernameQuery);
              PreparedStatement usernameStatement = connection.prepareStatement(usernameQuery)) {
             loginStatement.setString(1, username);
             loginStatement.setString(2, password);
@@ -62,28 +57,37 @@ public class LoginServlet extends HttpServlet {
 
             ResultSet resultSet = loginStatement.executeQuery();
 
-            // Login success:
-            if (captcha_success && resultSet.isBeforeFirst()) { // this checks if there are rows in the returned set aka match?
-                // Add this user into the session
-                request.getSession().setAttribute("user", new User(username));
-                responseJsonObject.addProperty("status", "success");
-                responseJsonObject.addProperty("message", "success");
-            } else { // Login fail
+            if (!captcha_success && resultSet.isBeforeFirst()) { // this checks if username exists
                 responseJsonObject.addProperty("status", "fail");
                 // Log to localhost log
                 request.getServletContext().log("Login failed");
 
-                ResultSet usernameCheck = usernameStatement.executeQuery();
-                if(!captcha_success) {
-                    responseJsonObject.addProperty("message", "reCaptcha failed");
-                }
-                else if (usernameCheck.isBeforeFirst()) { // username exists in db
-                    responseJsonObject.addProperty("message", "incorrect password");
+                responseJsonObject.addProperty("message", "reCaptcha failed");
+            } else if (!resultSet.isBeforeFirst()) { // Username doesn't exist
+                responseJsonObject.addProperty("status", "fail");
+                // Log to localhost log
+                request.getServletContext().log("Login failed");
+
+                responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
+            }
+            else {
+                resultSet.next();
+                String encryptedPassword = resultSet.getString("password");
+                if(new StrongPasswordEncryptor().checkPassword(password, encryptedPassword))
+                {
+                    responseJsonObject.addProperty("status", "success");
+                    // Add this user into the session
+                    request.getSession().setAttribute("user", new User(username));
+                    responseJsonObject.addProperty("status", "success");
+                    responseJsonObject.addProperty("message", "success");
                 }
                 else {
-                    responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
+                    responseJsonObject.addProperty("status", "fail");
+                    // Log to localhost log
+                    request.getServletContext().log("Login failed");
+                    responseJsonObject.addProperty("message", "incorrect password");
                 }
-                usernameCheck.close();
+
             }
             resultSet.close();
 
