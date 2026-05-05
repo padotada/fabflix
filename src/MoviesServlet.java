@@ -107,12 +107,6 @@ public class MoviesServlet extends HttpServlet {
             order += title_sort == 1 ? "DESC" : "ASC";
         }
 
-
-        // String queries
-//        String movieQuery = """
-//                SELECT m.id, m.title, m.year, m.director, r.rating FROM movies m
-//                JOIN ratings r ON m.id = r.movie_id ORDER BY r.rating DESC LIMIT 20
-//                """;
         StringBuilder movieQuery = new StringBuilder("""
             SELECT DISTINCT m.id, m.title, m.year, m.director, m.price, r.rating FROM movies m
             LEFT JOIN ratings r on m.id = r.movie_id
