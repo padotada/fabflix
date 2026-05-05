@@ -11,22 +11,51 @@
 <body>
 <div class="container mt-5">
     <div class="card">
-        <div class="card-body text-center">
-            <h1 class="card-title">Order Confirmed</h1>
+        <div class="card-body">
+            <h1 class="card-title text-center">Order Confirmed</h1>
 
-            <p class="card-text mt-3">
+            <p class="card-text mt-3 text-center">
                 Thank you! Your payment was successful and your order has been placed.
             </p>
 
-            <a href="main.html" class="btn btn-primary mt-3">
-                Continue Shopping
-            </a>
+            <h4 class="mt-4">Order Details</h4>
 
-            <a href="cart.html" class="btn btn-secondary mt-3">
-                View Cart
-            </a>
+            <p>
+                <strong>Sale ID(s):</strong>
+                <span id="sale_ids"></span>
+            </p>
+
+            <table class="table table-striped mt-3">
+                <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Quantity</th>
+                    <th>Price Each</th>
+                    <th>Subtotal</th>
+                </tr>
+                </thead>
+                <tbody id="confirmation_table_body">
+                </tbody>
+            </table>
+
+            <h4 class="text-right">
+                Total: $<span id="total_price">0.00</span>
+            </h4>
+
+            <div class="text-center mt-4">
+                <a href="main.html" class="btn btn-primary">
+                    Continue Shopping
+                </a>
+
+                <a href="cart.html" class="btn btn-secondary">
+                    View Cart
+                </a>
+            </div>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="confirmation.js"></script>
 </body>
 </html>

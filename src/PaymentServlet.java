@@ -74,9 +74,10 @@ public class PaymentServlet extends HttpServlet{
                 return;
             }
 
-            insertSales(connection, customerId, cart);
+            JsonObject confirmationData = insertSalesAndBuildConfirmation(connection, customerId, cart);
 
-            session.setAttribute("lastOrder", cart);
+            session.setAttribute("confirmationData", confirmationData);
+            session.setAttribute("lastOrder", confirmationData);
             session.removeAttribute("cart");
 
             responseJsonObject.addProperty("status", "success");
@@ -155,22 +156,53 @@ public class PaymentServlet extends HttpServlet{
         return null;
     }
 
-    private void insertSales(Connection connection, Integer customerId, HashMap<String, CartItem> cart) throws Exception {
+    private JsonObject insertSalesAndBuildConfirmation(
+            Connection connection, Integer customerId, HashMap<String, CartItem> cart)
+            throws Exception {
         String query = """
             INSERT INTO sales (customer_id, movie_id, sale_date, quantity)
             VALUES (?, ?, CURDATE(), ?)
         """;
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        JsonObject confirmationData = new JsonObject();
+        JsonArray saleIds = new JsonArray();
+        JsonArray items = new JsonArray();
+        double totalPrice = 0.0;
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             for (CartItem item : cart.values()) {
                 statement.setInt(1, customerId);
                 statement.setString(2, item.getMovieId());
                 statement.setInt(3, item.getQuantity());
+                statement.executeUpdate();
+                int saleId = -1;
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        saleId = generatedKeys.getInt(1);
+                        saleIds.add(saleId);
+                    }
+                }
 
-                statement.addBatch();
+                double price = item.getPrice();
+                int quantity = item.getQuantity();
+                double subtotal = price * quantity;
+
+                JsonObject itemObject = new JsonObject();
+                itemObject.addProperty("sale_id", saleId);
+                itemObject.addProperty("movie_id", item.getMovieId());
+                itemObject.addProperty("movie_title", item.getTitle());
+                itemObject.addProperty("quantity", quantity);
+                itemObject.addProperty("price", price);
+                itemObject.addProperty("subtotal", subtotal);
+
+                items.add(itemObject);
+
+                totalPrice += subtotal;
             }
-
-            statement.executeBatch();
         }
+
+        confirmationData.add("sale_ids", saleIds);
+        confirmationData.add("items", items);
+        confirmationData.addProperty("total_price", totalPrice);
+
+        return confirmationData;
     }
 }
