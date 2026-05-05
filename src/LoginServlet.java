@@ -50,7 +50,6 @@ public class LoginServlet extends HttpServlet {
              PreparedStatement loginStatement = connection.prepareStatement(usernameQuery);
              PreparedStatement usernameStatement = connection.prepareStatement(usernameQuery)) {
             loginStatement.setString(1, username);
-            loginStatement.setString(2, password);
 
             usernameStatement.setString(1, username);
             JsonObject responseJsonObject = new JsonObject();
