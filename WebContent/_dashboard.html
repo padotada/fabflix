@@ -2,9 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dashboard</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-<p>Am I at the dashboard page?</p>
+    <h2>Add Star</h2>
+    <form id="add-star-form">
+        <input id="star-name" required>
+        <input id="star-birth-year" type="number">
+        <button type="submit">Add Star</button>
+    </form>
+
+    <h2>Database Metadata</h2>
+    <button id="load-metadata">Load Metadata</button>
+    <div id="metadata-container"></div>
+
+    <h2>Add Movie</h2>
+    <form id="add-movie-form">
+        <input id="movie-title" required>
+        <input id="movie-year" type="number" required>
+        <input id="movie-director" required>
+        <input id="star-name-for-movie" required>
+        <input id="genre-name-for-movie" required>
+        <button type="submit">Add Movie</button>
+    </form>
 </body>
 </html>
