@@ -3,7 +3,6 @@ package Parsing;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,11 +16,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class MainsParser extends DefaultHandler {
 
-    List<Employee> employeeList;
+    List<Movie> movieList;
     // These variables keep track of the information we have collected from the parser as we encounter XML tags
     // and are used to create a new Employee object when we reach the </employee> tag.
     private String tempVal;
-    private Employee tempEmp;
+    private Movie tempMovie;
 
     public void runExample() throws ParserConfigurationException, IOException, SAXException {
         parseDocument();
@@ -34,18 +33,18 @@ public class MainsParser extends DefaultHandler {
         // Build a new parser from the factory
         SAXParser saxParser = saxParserFactory.newSAXParser();
         // Parses the file using the overridden methods below
-        saxParser.parse("employees.xml", this);
+        saxParser.parse("mains243.xml", this);
     }
 
     private void printData() {
-        System.out.println("No of Employees '" + employeeList.size() + "'.");
-        employeeList.forEach(System.out::println);
+        System.out.println("No of Movies '" + movieList.size() + "'.");
+        movieList.forEach(System.out::println);
     }
 
     // Called once at the beginning of parsing a new document
     @Override
     public void startDocument() {
-        employeeList = new ArrayList<>();
+        movieList = new ArrayList<>();
     }
 
     // Overrides the method that is called whenever the parser encounters the starting tag of an XML element
@@ -55,8 +54,8 @@ public class MainsParser extends DefaultHandler {
         tempVal = "";
         if (qName.equalsIgnoreCase("Employee")) {
             // We encountered a new Employee tag and create a new instance of employee
-            tempEmp = new Employee();
-            tempEmp.setType(attributes.getValue("type"));
+            tempMovie = new Movie();
+            // tempMovie.setType(attributes.getValue("type"));
         }
     }
 
@@ -71,13 +70,13 @@ public class MainsParser extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) {
         if (qName.equalsIgnoreCase("Employee")) {
-            employeeList.add(tempEmp);
+            movieList.add(tempMovie);
         } else if (qName.equalsIgnoreCase("Name")) {
-            tempEmp.setName(tempVal);
+            // tempMovie.setName(tempVal);
         } else if (qName.equalsIgnoreCase("Id")) {
-            tempEmp.setId(Integer.parseInt(tempVal));
+            //tempMovie.setId(Integer.parseInt(tempVal));
         } else if (qName.equalsIgnoreCase("Age")) {
-            tempEmp.setAge(Integer.parseInt(tempVal));
+            // tempMovie.setAge(Integer.parseInt(tempVal));
         }
     }
 
