@@ -15,4 +15,8 @@ public class ActorMoviePair {
 
     public void setActorName(String actorName) {this.actorName = actorName;}
     public void setMovieId(String movieId) {this.movieId = movieId;}
+
+    public String toString() {
+        return "ActorMoviePair [actorName=" + actorName + ", movieId=" + movieId + "]";
+    }
 }

@@ -67,7 +67,7 @@ class ActorsParser {
 
     private String getTextValue(Element element, String tagName) {
         NodeList nodeList = element.getElementsByTagName(tagName);
-        if (nodeList.getLength() > 0) {
+        if (nodeList.getLength() == 1) {
             // here we expect only one <Name> would present in the <Employee>
             return nodeList.item(0).getFirstChild().getNodeValue();
         }

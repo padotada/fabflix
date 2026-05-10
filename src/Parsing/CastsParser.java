@@ -19,9 +19,10 @@ class CastsParser {
         this.file_path = file_path;
     }
 
-    void runExample() throws IOException, ParserConfigurationException, SAXException {
+    public List<ActorMoviePair> runParser() throws IOException, ParserConfigurationException, SAXException {
         Document document = parseXmlFile();
-        List<ActorMoviePair> movieList = convertDocumentIntoMovies(document);
+        List<ActorMoviePair> pairList = convertDocumentIntoMovies(document);
+        return pairList;
     }
 
     private Document parseXmlFile() throws IOException, SAXException, ParserConfigurationException {
@@ -32,39 +33,50 @@ class CastsParser {
 
     private List<ActorMoviePair> convertDocumentIntoMovies(Document document) {
         Element rootDocumentElement = document.getDocumentElement();
-        List<ActorMoviePair> movieList = new ArrayList<>();
-        NodeList nodeList = rootDocumentElement.getElementsByTagName("directorfilms");
+        List<ActorMoviePair> pairList = new ArrayList<>();
+        NodeList nodeList = rootDocumentElement.getElementsByTagName("dirfilms");
         for (int i = 0; i < nodeList.getLength(); i++) {
-            Element element = (Element) nodeList.item(i);
-            movieList.addAll(convertDirectorFilmsIntoMovies(element));
+            Element dirFilms = (Element) nodeList.item(i);
+            pairList.addAll(convertDirfilmsIntoPairs(dirFilms));
+
         }
-        return movieList;
+        return pairList;
     }
 
 
-    private List<ActorMoviePair> convertDirectorFilmsIntoMovies(Element element)
+    private List<ActorMoviePair> convertDirfilmsIntoPairs(Element element)
     {
-        List<ActorMoviePair> movieList = new ArrayList<>();
-        NodeList nodeList = element.getElementsByTagName("film");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element film = (Element) nodeList.item(i);
-            movieList.add(convertDomElementToMovie(film));
+        List<ActorMoviePair> pairList = new ArrayList<>();
+        NodeList filmcList = element.getElementsByTagName("filmc");
+        for (int i = 0; i < filmcList.getLength(); i++) {
+            Element film = (Element) filmcList.item(i);
+            NodeList castList = film.getElementsByTagName("m");
+            for (int j = 0; j < castList.getLength(); j++) {
+                Element actor = (Element) castList.item(j);
+                ActorMoviePair pair = convertDomElementToPair(actor);
+                if(pair != null) {
+                    pairList.add(pair);
+                }
+                else {
+                    System.out.println("invalid pair detected");
+                }
+            }
         }
-        return movieList;
+        return pairList;
     }
 
-    private ActorMoviePair convertDomElementToMovie(Element element) {
-        String name = getTextValue(element, "Name");
-        int id = getIntValue(element, "Id");
-        int age = getIntValue(element, "Age");
-
-        return new ActorMoviePair();
+    private ActorMoviePair convertDomElementToPair(Element element) {
+        String actor = getTextValue(element, "a");
+        if(actor == null || actor.equals("sa")){return null;}
+        String movie_id = getTextValue(element, "f");
+        return new ActorMoviePair(actor, movie_id);
     }
 
     private String getTextValue(Element element, String tagName) {
         NodeList nodeList = element.getElementsByTagName(tagName);
-        if (nodeList.getLength() > 0) {
+        if (nodeList.getLength() == 1) {
             // here we expect only one <Name> would present in the <Employee>
+            if(nodeList.item(0).getFirstChild() == null) {return null;}
             return nodeList.item(0).getFirstChild().getNodeValue();
         }
         return null;
@@ -74,10 +86,10 @@ class CastsParser {
         return Integer.parseInt(getTextValue(ele, tagName));
     }
 
-    private void printEmployeeData(List<Movie> employeeList) {
-        System.out.println("Total parsed " + employeeList.size() + " employees");
-        for (Movie employee : employeeList) {
-            System.out.println("\t" + employee.toString());
+    public void printPairData(List<ActorMoviePair> pairList) {
+        System.out.println("Total parsed " + pairList.size() + " employees");
+        for (ActorMoviePair pair : pairList) {
+            System.out.println("\t" + pair.toString());
         }
     }
 }
