@@ -67,7 +67,11 @@ public class AddMovieServlet extends HttpServlet {
             statement.registerOutParameter(6, Types.VARCHAR);
             statement.execute();
             String message = statement.getString(6);
-            responseJson.addProperty("status", "success");
+            if(message != null &&  message.toLowerCase().contains("already exists")){
+                responseJson.addProperty("status", "fail");
+            }else{
+                responseJson.addProperty("status", "success");
+            }
             responseJson.addProperty("message", message);
         }catch(Exception e){
             request.getServletContext().log("AddMovieServlet error", e);

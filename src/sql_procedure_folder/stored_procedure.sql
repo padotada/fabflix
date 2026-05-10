@@ -24,10 +24,6 @@ BEGIN
 
     DECLARE selected_genre_id INT;
 
-    /*
-      Step 1: Check if movie already exists.
-      Movie is identified by title + year + director.
-    */
     SELECT COUNT(*)
     INTO existing_movie_count
     FROM movies
