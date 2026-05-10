@@ -50,5 +50,8 @@ public class ParseXML {
         List<ActorMoviePair> castList = castParser.runParser();
         endTime = System.nanoTime();
         System.out.println("Parsing casts took: " + (endTime - startTime)/ 1000000 + " ms");
+
+
+        System.out.println(movieList.size());
     }
 }

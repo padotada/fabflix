@@ -1,4 +1,22 @@
 -----Beginning parse of mains243.xml-----
+Invalid year for movie LB9
+Invalid year for movie WS45
+Invalid year for movie AS22
+Invalid year for movie AS32
+Invalid year for movie RHd2
+Invalid year for movie IAv12
+Invalid year for movie MS0
+Invalid year for movie MS36
+Invalid year for movie WiW30
+Invalid year for movie DLy25
+Invalid year for movie AEy13
+Invalid year for movie CsS15
+Invalid year for movie KDo1x
+Invalid year for movie TdC13
+Invalid year for movie Z9590
+Invalid year for movie AbK15
+Invalid year for movie MkJ11
+Invalid year for movie MJu15
 -----Beginning parse of actors63.xml-----
 -----Beginning parse of casts124.xml-----
 Cast with no actor name for movie ClC18

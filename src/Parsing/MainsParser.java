@@ -43,22 +43,41 @@ class MainsParser {
         return movieList;
     }
 
-
     private List<Movie> convertDirectorFilmsIntoMovies(Element element)
     {
+        String director = getTextValue(element, "dirname");
         List<Movie> movieList = new ArrayList<>();
         NodeList nodeList = element.getElementsByTagName("film");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element film = (Element) nodeList.item(i);
-            movieList.add(convertDomElementToMovie(film));
+            Movie movie = convertDomElementToMovie(film);
+            movie.setDirector(director);
+            movieList.add(movie);
         }
         return movieList;
     }
 
     private Movie convertDomElementToMovie(Element element) {
         String id = getTextValue(element, "fid");
+        String title = getTextValue(element, "t");
+        int year;
+        try {
+            year = getIntValue(element, "year");
+        }
+        catch(NumberFormatException e) {
+            System.err.println("Invalid year for movie " + id);
+            year = -1;
+        }
+        Movie movie = new Movie(id, title, year, null);
+        movie.setGenres(getGenresOfFilm(element));
 
-        return new Movie();
+        return movie;
+    }
+
+    private List<String> getGenresOfFilm(Element element) {
+        List<String> genres = new ArrayList<>();
+
+        return genres;
     }
 
     private String getTextValue(Element element, String tagName) {
@@ -76,6 +95,9 @@ class MainsParser {
     }
 
     private void printEmployeeData(List<Movie> movieList) {
-
+        System.out.println("Total parsed " + movieList.size() + " employees");
+        for (Movie movie : movieList) {
+            System.out.println("\t" + movie.toString());
+        }
     }
 }
