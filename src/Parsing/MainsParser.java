@@ -10,33 +10,36 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class MainsParser {
     private String file_path;
+
+    // use this to map abbreviated genres to existing ones
+    private Map<String, String> genre_inconsistences = new HashMap<String, String>();
 
     MainsParser(String file_path) {
         this.file_path = file_path;
     }
 
-    void runExample() throws IOException, ParserConfigurationException, SAXException {
+    public List<Movie> runParser() throws IOException, ParserConfigurationException, SAXException {
         Document document = parseXmlFile();
         List<Movie> movieList = convertDocumentIntoMovies(document);
-        printEmployeeData(movieList);
+        return movieList;
     }
 
     private Document parseXmlFile() throws IOException, SAXException, ParserConfigurationException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        // Create an object that can build a DOM from an XML file
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        // Parses the XML file and creates a DOM
         return documentBuilder.parse(file_path);
     }
 
     private List<Movie> convertDocumentIntoMovies(Document document) {
         Element rootDocumentElement = document.getDocumentElement();
         List<Movie> movieList = new ArrayList<>();
-        // get a nodelist of employee Elements, parse each into Employee object
+
         NodeList nodeList = rootDocumentElement.getElementsByTagName("directorfilms");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element element = (Element) nodeList.item(i);
@@ -45,30 +48,58 @@ class MainsParser {
         return movieList;
     }
 
-
     private List<Movie> convertDirectorFilmsIntoMovies(Element element)
     {
-
+        String director = getTextValue(element, "dirname");
         List<Movie> movieList = new ArrayList<>();
         NodeList nodeList = element.getElementsByTagName("film");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element film = (Element) nodeList.item(i);
+            Movie movie = convertDomElementToMovie(film);
+            movie.setDirector(director);
+            movieList.add(movie);
         }
         return movieList;
     }
 
     private Movie convertDomElementToMovie(Element element) {
-        String name = getTextValue(element, "Name");
-        String type = element.getAttribute("type");
-        int id = getIntValue(element, "Id");
-        int age = getIntValue(element, "Age");
-        return new Movie();
+        String id = getTextValue(element, "fid");
+        String title = getTextValue(element, "t");
+        int year;
+        try {
+            year = getIntValue(element, "year");
+        }
+        catch(NumberFormatException e) {
+            System.err.println("Invalid year for movie " + id);
+            year = -1;
+        }
+        Movie movie = new Movie(id, title, year, null);
+        movie.setGenres(getGenresOfFilm(element));
+
+        return movie;
+    }
+
+    private List<String> getGenresOfFilm(Element element) {
+        List<String> genres = new ArrayList<>();
+        NodeList nodeList = element.getElementsByTagName("cat");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if(nodeList.item(i).getFirstChild() == null) {continue;}
+            String genre = nodeList.item(i).getFirstChild().getNodeValue();
+            if(genre_inconsistences.containsKey(genre)) {
+                System.err.print("Genre " + genre);
+                genre = genre_inconsistences.get(genre);
+                System.err.println(" replaced with " + genre + " for consistency");
+            }
+            genres.add(genre);
+        }
+        return genres;
     }
 
     private String getTextValue(Element element, String tagName) {
         NodeList nodeList = element.getElementsByTagName(tagName);
-        if (nodeList.getLength() > 0) {
+        if (nodeList.getLength() == 1) {
             // here we expect only one <Name> would present in the <Employee>
+            if(nodeList.item(0).getFirstChild() == null) {return null;}
             return nodeList.item(0).getFirstChild().getNodeValue();
         }
         return null;
@@ -78,15 +109,10 @@ class MainsParser {
         return Integer.parseInt(getTextValue(ele, tagName));
     }
 
-    private void printEmployeeData(List<Movie> employeeList) {
-        System.out.println("Total parsed " + employeeList.size() + " employees");
-        for (Movie employee : employeeList) {
-            System.out.println("\t" + employee.toString());
+    private void printEmployeeData(List<Movie> movieList) {
+        System.out.println("Total parsed " + movieList.size() + " employees");
+        for (Movie movie : movieList) {
+            System.out.println("\t" + movie.toString());
         }
-    }
-
-    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-        MainsParser domParserExample = new MainsParser();
-        domParserExample.runExample();
     }
 }
