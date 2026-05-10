@@ -10,10 +10,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class MainsParser {
     private String file_path;
+
+    // use this to map abbreviated genres to existing ones
+    private Map<String, String> genre_inconsistences = new HashMap<String, String>();
 
     MainsParser(String file_path) {
         this.file_path = file_path;
@@ -76,7 +81,17 @@ class MainsParser {
 
     private List<String> getGenresOfFilm(Element element) {
         List<String> genres = new ArrayList<>();
-
+        NodeList nodeList = element.getElementsByTagName("cat");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if(nodeList.item(i).getFirstChild() == null) {continue;}
+            String genre = nodeList.item(i).getFirstChild().getNodeValue();
+            if(genre_inconsistences.containsKey(genre)) {
+                System.err.print("Genre " + genre);
+                genre = genre_inconsistences.get(genre);
+                System.err.println(" replaced with " + genre + " for consistency");
+            }
+            genres.add(genre);
+        }
         return genres;
     }
 
