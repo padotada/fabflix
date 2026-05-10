@@ -30,12 +30,16 @@ public class ParseXML {
         CastsParser castParser = new CastsParser(cast_path);
 
         File inconsistency_report = new File( "src/Parsing/inconsistency_report.txt");
-        PrintStream originalOut = System.out;
         PrintStream printStream = new PrintStream(new FileOutputStream(inconsistency_report, false));
+        System.setErr(printStream);
 
-        System.setOut(printStream);
+        System.err.println("-----Beginning parse of mains243.xml-----");
 
+
+        System.err.println("-----Beginning parse of actors63.xml-----");
+
+
+        System.err.println("-----Beginning parse of casts124.xml-----");
         List<ActorMoviePair> castList = castParser.runParser();
-        System.setOut(originalOut);
     }
 }

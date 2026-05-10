@@ -57,9 +57,6 @@ class CastsParser {
                 if(pair != null) {
                     pairList.add(pair);
                 }
-                else {
-                    System.out.println("invalid pair detected");
-                }
             }
         }
         return pairList;
@@ -67,8 +64,23 @@ class CastsParser {
 
     private ActorMoviePair convertDomElementToPair(Element element) {
         String actor = getTextValue(element, "a");
-        if(actor == null || actor.equals("sa")){return null;}
         String movie_id = getTextValue(element, "f");
+
+        if(actor == null && movie_id == null) {
+            System.err.println("Cast with no data on movie and actor");
+            return null;
+        }
+        else if(movie_id == null) {
+            System.err.println("Cast with no movie id for actor " + actor);
+            return null;
+        }
+        else if(actor == null) {
+            System.err.println("Cast with no actor name for movie " + movie_id);
+            return null;
+        }
+
+        if(actor.equals("sa")){return null;}
+
         return new ActorMoviePair(actor, movie_id);
     }
 
