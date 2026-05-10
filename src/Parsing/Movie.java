@@ -28,4 +28,6 @@ public class Movie {
     public void setYear(int year) {this.year = year;}
     public void setDirector(String director) {this.director = director;}
     public void setPrice(double price) {this.price = price;}
+
+
 }

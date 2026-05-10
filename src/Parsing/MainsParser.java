@@ -1,87 +1,92 @@
 package Parsing;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+class MainsParser {
+    private String file_path;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-
-import org.xml.sax.helpers.DefaultHandler;
-
-public class MainsParser extends DefaultHandler {
-
-    List<Movie> movieList;
-    // These variables keep track of the information we have collected from the parser as we encounter XML tags
-    // and are used to create a new Employee object when we reach the </employee> tag.
-    private String tempVal;
-    private Movie tempMovie;
-
-    public void runExample() throws ParserConfigurationException, IOException, SAXException {
-        parseDocument();
-        printData();
+    MainsParser(String file_path) {
+        this.file_path = file_path;
     }
 
-    private void parseDocument() throws ParserConfigurationException, SAXException, IOException {
-        // Create a factory that creates new SAX parers
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        // Build a new parser from the factory
-        SAXParser saxParser = saxParserFactory.newSAXParser();
-        // Parses the file using the overridden methods below
-        saxParser.parse("mains243.xml", this);
+    void runExample() throws IOException, ParserConfigurationException, SAXException {
+        Document document = parseXmlFile();
+        List<Movie> movieList = convertDocumentIntoMovies(document);
+        printEmployeeData(movieList);
     }
 
-    private void printData() {
-        System.out.println("No of Movies '" + movieList.size() + "'.");
-        movieList.forEach(System.out::println);
+    private Document parseXmlFile() throws IOException, SAXException, ParserConfigurationException {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        // Create an object that can build a DOM from an XML file
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        // Parses the XML file and creates a DOM
+        return documentBuilder.parse(file_path);
     }
 
-    // Called once at the beginning of parsing a new document
-    @Override
-    public void startDocument() {
-        movieList = new ArrayList<>();
+    private List<Movie> convertDocumentIntoMovies(Document document) {
+        Element rootDocumentElement = document.getDocumentElement();
+        List<Movie> movieList = new ArrayList<>();
+        // get a nodelist of employee Elements, parse each into Employee object
+        NodeList nodeList = rootDocumentElement.getElementsByTagName("directorfilms");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element element = (Element) nodeList.item(i);
+            movieList.addAll(convertDirectorFilmsIntoMovies(element));
+        }
+        return movieList;
     }
 
-    // Overrides the method that is called whenever the parser encounters the starting tag of an XML element
-    @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) {
-        // Reset the temporary value we are storing
-        tempVal = "";
-        if (qName.equalsIgnoreCase("Employee")) {
-            // We encountered a new Employee tag and create a new instance of employee
-            tempMovie = new Movie();
-            // tempMovie.setType(attributes.getValue("type"));
+
+    private List<Movie> convertDirectorFilmsIntoMovies(Element element)
+    {
+
+        List<Movie> movieList = new ArrayList<>();
+        NodeList nodeList = element.getElementsByTagName("film");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element film = (Element) nodeList.item(i);
+        }
+        return movieList;
+    }
+
+    private Movie convertDomElementToMovie(Element element) {
+        String name = getTextValue(element, "Name");
+        String type = element.getAttribute("type");
+        int id = getIntValue(element, "Id");
+        int age = getIntValue(element, "Age");
+        return new Movie();
+    }
+
+    private String getTextValue(Element element, String tagName) {
+        NodeList nodeList = element.getElementsByTagName(tagName);
+        if (nodeList.getLength() > 0) {
+            // here we expect only one <Name> would present in the <Employee>
+            return nodeList.item(0).getFirstChild().getNodeValue();
+        }
+        return null;
+    }
+
+    private int getIntValue(Element ele, String tagName) {
+        return Integer.parseInt(getTextValue(ele, tagName));
+    }
+
+    private void printEmployeeData(List<Movie> employeeList) {
+        System.out.println("Total parsed " + employeeList.size() + " employees");
+        for (Movie employee : employeeList) {
+            System.out.println("\t" + employee.toString());
         }
     }
 
-    // Overrides the method that is called whenever the parser encounters the characters in between XML start and
-    // end elements
-    @Override
-    public void characters(char[] ch, int start, int length) {
-        tempVal = new String(ch, start, length);
-    }
-
-    // Overrides the method that is called whenever the parser encounters the ending tag of an XML element
-    @Override
-    public void endElement(String uri, String localName, String qName) {
-        if (qName.equalsIgnoreCase("Employee")) {
-            movieList.add(tempMovie);
-        } else if (qName.equalsIgnoreCase("Name")) {
-            // tempMovie.setName(tempVal);
-        } else if (qName.equalsIgnoreCase("Id")) {
-            //tempMovie.setId(Integer.parseInt(tempVal));
-        } else if (qName.equalsIgnoreCase("Age")) {
-            // tempMovie.setAge(Integer.parseInt(tempVal));
-        }
-    }
-
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        MainsParser parser = new MainsParser();
-        parser.runExample();
+    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+        MainsParser domParserExample = new MainsParser();
+        domParserExample.runExample();
     }
 }
