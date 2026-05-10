@@ -22,7 +22,7 @@ public class AddStarServlet extends HttpServlet{
         }
     }
 
-    protected void doPost(HttpServletResponse response, HttpServletRequest request) throws IOException{
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         String name = request.getParameter("name");

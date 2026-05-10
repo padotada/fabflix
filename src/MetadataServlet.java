@@ -50,6 +50,8 @@ public class MetadataServlet extends HttpServlet {
                     tablesArray.add(tableJson);
                 }
             }
+            responseJson.addProperty("status", "success");
+            responseJson.add("tables", tablesArray);
         }catch(Exception e){
             request.getServletContext().log("MetadataServlet error", e);
             responseJson.addProperty("status", "fail");
