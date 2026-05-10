@@ -66,20 +66,31 @@ class CastsParser {
         String actor = getTextValue(element, "a");
         String movie_id = getTextValue(element, "f");
 
-        if(actor == null && movie_id == null) {
+        if (actor != null) {
+            actor = actor.trim();
+        }
+
+        if (movie_id != null) {
+            movie_id = movie_id.trim();
+        }
+
+        if((actor == null || actor.isEmpty()) && (movie_id == null || movie_id.isEmpty())) {
             System.err.println("Cast with no data on movie and actor");
             return null;
         }
-        else if(movie_id == null) {
+        else if(movie_id == null || movie_id.isEmpty()) {
             System.err.println("Cast with no movie id for actor " + actor);
             return null;
         }
-        else if(actor == null) {
+        else if(actor == null || actor.isEmpty()) {
             System.err.println("Cast with no actor name for movie " + movie_id);
             return null;
         }
 
-        if(actor.equals("sa")){return null;}
+        if(actor.equals("sa")){
+            System.err.println("Skipping unknown actor 'sa' for movie_id=" + movie_id);
+            return null;
+        }
 
         return new ActorMoviePair(actor, movie_id);
     }

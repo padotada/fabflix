@@ -39,23 +39,34 @@ class ActorsParser {
         NodeList nodeList = rootDocumentElement.getElementsByTagName("actor");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element element = (Element) nodeList.item(i);
-            actorList.add(convertDomElementToActor(element));
+            Actor actor = convertDomElementToActor(element);
+            if(actor != null) actorList.add(actor);
         }
         return actorList;
     }
-
+    private Integer getNullableIntValue(Element element, String tagName, String context){
+        String text = getTextValue(element, tagName);
+        if(text == null || text.trim().isEmpty()){
+            return null;
+        }
+        text = text.trim();
+        try{
+            return Integer.parseInt(text);
+        }catch(NumberFormatException e){
+            System.err.println("Invalid Integer for <" + tagName+">: value="+
+                    text+", context="+context);
+            return null;
+        }
+    }
     private Actor convertDomElementToActor(Element element) {
         String name = getTextValue(element, "stagename");
-        int dob;
-        try {
-            dob = getIntValue(element, "dob");
+        if(name == null || name.trim().isEmpty()){
+            System.err.println("Actor missing <stagename>");
+            return null;
         }
-        catch(NumberFormatException e) {
-            System.err.println("Invalid dob for actor " + name);
-            dob = -1;
-        }
+        Integer dob = getNullableIntValue(element, "dob", "actor=" + name);
 
-        return new Actor(name, dob);
+        return new Actor(name.trim(), dob);
     }
 
     private String getTextValue(Element element, String tagName) {
@@ -68,9 +79,9 @@ class ActorsParser {
         return null;
     }
 
-    private int getIntValue(Element ele, String tagName) {
-        return Integer.parseInt(getTextValue(ele, tagName));
-    }
+//    private int getIntValue(Element ele, String tagName) {
+//        return Integer.parseInt(getTextValue(ele, tagName));
+//    }
 
     private void printEmployeeData(List<Actor> employeeList) {
 

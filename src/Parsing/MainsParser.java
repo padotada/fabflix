@@ -57,23 +57,48 @@ class MainsParser {
             Element film = (Element) nodeList.item(i);
             Movie movie = convertDomElementToMovie(film);
             movie.setDirector(director);
+            if(movie.getDirector() == null || movie.getDirector().trim().isEmpty()){
+                System.err.println("Movie missing director: fid=" + movie.getId()
+                        + ", title=" + movie.getTitle());
+                continue;
+            }
             movieList.add(movie);
         }
         return movieList;
     }
 
+    private Integer getNullableIntValue(Element element, String tagName, String context) {
+        String text = getTextValue(element, tagName);
+
+        if (text == null || text.trim().isEmpty()) {
+            return null;
+        }
+
+        text = text.trim();
+
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid integer for <" + tagName + ">: value="
+                    + text + ", context=" + context);
+            return null;
+        }
+    }
+
     private Movie convertDomElementToMovie(Element element) {
         String id = getTextValue(element, "fid");
         String title = getTextValue(element, "t");
-        int year;
-        try {
-            year = getIntValue(element, "year");
+        if (id == null || id.trim().isEmpty()) {
+            System.err.println("Movie missing <fid>: title=" + title);
+            return null;
         }
-        catch(NumberFormatException e) {
-            System.err.println("Invalid year for movie " + id);
-            year = -1;
+
+        if (title == null || title.trim().isEmpty() || title.equals("NKT")) {
+            System.err.println("Movie missing/unknown <t>: fid=" + id + ", title=" + title);
+            return null;
         }
-        Movie movie = new Movie(id, title, year, null);
+        Integer year = getNullableIntValue(element, "year", "movie fid=" + id + ", title=" + title);
+        Movie movie = new Movie(id.trim(), title.trim(), year, null);
         movie.setGenres(getGenresOfFilm(element));
 
         return movie;
