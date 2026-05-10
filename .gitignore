@@ -162,3 +162,5 @@ populate.bat
 sql_files/
 
 WebContent/META-INF/context.xml
+
+stanford-movies/
