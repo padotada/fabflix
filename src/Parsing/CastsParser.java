@@ -21,7 +21,7 @@ class CastsParser {
 
     public List<ActorMoviePair> runParser() throws IOException, ParserConfigurationException, SAXException {
         Document document = parseXmlFile();
-        List<ActorMoviePair> pairList = convertDocumentIntoMovies(document);
+        List<ActorMoviePair> pairList = convertDocumentIntoPairs(document);
         return pairList;
     }
 
@@ -31,7 +31,7 @@ class CastsParser {
         return documentBuilder.parse(file_path);
     }
 
-    private List<ActorMoviePair> convertDocumentIntoMovies(Document document) {
+    private List<ActorMoviePair> convertDocumentIntoPairs(Document document) {
         Element rootDocumentElement = document.getDocumentElement();
         List<ActorMoviePair> pairList = new ArrayList<>();
         NodeList nodeList = rootDocumentElement.getElementsByTagName("dirfilms");

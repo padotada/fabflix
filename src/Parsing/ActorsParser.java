@@ -21,7 +21,7 @@ class ActorsParser {
 
     public List<Actor> runParser() throws IOException, ParserConfigurationException, SAXException {
         Document document = parseXmlFile();
-        List<Actor> actorList = convertDocumentIntoMovies(document);
+        List<Actor> actorList = convertDocumentIntoActors(document);
         return actorList;
     }
 
@@ -33,42 +33,36 @@ class ActorsParser {
         return documentBuilder.parse(file_path);
     }
 
-    private List<Actor> convertDocumentIntoMovies(Document document) {
+    private List<Actor> convertDocumentIntoActors(Document document) {
         Element rootDocumentElement = document.getDocumentElement();
-        List<Actor> movieList = new ArrayList<>();
-        // get a nodelist of employee Elements, parse each into Employee object
-        NodeList nodeList = rootDocumentElement.getElementsByTagName("directorfilms");
+        List<Actor> actorList = new ArrayList<>();
+        NodeList nodeList = rootDocumentElement.getElementsByTagName("actor");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element element = (Element) nodeList.item(i);
-            movieList.addAll(convertDirectorFilmsIntoMovies(element));
+            actorList.add(convertDomElementToActor(element));
         }
-        return movieList;
+        return actorList;
     }
 
-
-    private List<Actor> convertDirectorFilmsIntoMovies(Element element)
-    {
-        List<Actor> movieList = new ArrayList<>();
-        NodeList nodeList = element.getElementsByTagName("film");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element film = (Element) nodeList.item(i);
-            movieList.add(convertDomElementToMovie(film));
+    private Actor convertDomElementToActor(Element element) {
+        String name = getTextValue(element, "stagename");
+        int dob;
+        try {
+            dob = getIntValue(element, "dob");
         }
-        return movieList;
-    }
+        catch(NumberFormatException e) {
+            System.err.println("Invalid dob for actor " + name);
+            dob = -1;
+        }
 
-    private Actor convertDomElementToMovie(Element element) {
-        String name = getTextValue(element, "Name");
-        int id = getIntValue(element, "Id");
-        int age = getIntValue(element, "Age");
-
-        return new Actor();
+        return new Actor(name, dob);
     }
 
     private String getTextValue(Element element, String tagName) {
         NodeList nodeList = element.getElementsByTagName(tagName);
         if (nodeList.getLength() == 1) {
             // here we expect only one <Name> would present in the <Employee>
+            if(nodeList.item(0).getFirstChild() == null) {return null;}
             return nodeList.item(0).getFirstChild().getNodeValue();
         }
         return null;
