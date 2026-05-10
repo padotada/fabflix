@@ -20,7 +20,10 @@ public class ParseXML {
         System.out.println("Enter actors63 file path: ");
         String actor_path = input.nextLine();
 
-        MainsParser domParserExample = new MainsParser(main_path);
-        domParserExample.runExample();
+        MainsParser domParser = new MainsParser(main_path);
+        ActorsParser actorsParser = new ActorsParser(actor_path);
+        CastsParser castParser = new CastsParser(cast_path);
+
+
     }
 }
