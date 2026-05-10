@@ -94,10 +94,6 @@ class CastsParser {
         return null;
     }
 
-    private int getIntValue(Element ele, String tagName) {
-        return Integer.parseInt(getTextValue(ele, tagName));
-    }
-
     public void printPairData(List<ActorMoviePair> pairList) {
         System.out.println("Total parsed " + pairList.size() + " employees");
         for (ActorMoviePair pair : pairList) {

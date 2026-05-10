@@ -19,10 +19,10 @@ class ActorsParser {
         this.file_path = file_path;
     }
 
-    void runExample() throws IOException, ParserConfigurationException, SAXException {
+    public List<Actor> runParser() throws IOException, ParserConfigurationException, SAXException {
         Document document = parseXmlFile();
-        List<Actor> movieList = convertDocumentIntoMovies(document);
-        printEmployeeData(movieList);
+        List<Actor> actorList = convertDocumentIntoMovies(document);
+        return actorList;
     }
 
     private Document parseXmlFile() throws IOException, SAXException, ParserConfigurationException {

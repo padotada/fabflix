@@ -25,7 +25,7 @@ public class ParseXML {
         String cast_path = input.nextLine();
 
 
-        MainsParser domParser = new MainsParser(main_path);
+        MainsParser mainsParser = new MainsParser(main_path);
         ActorsParser actorsParser = new ActorsParser(actor_path);
         CastsParser castParser = new CastsParser(cast_path);
 
@@ -34,12 +34,21 @@ public class ParseXML {
         System.setErr(printStream);
 
         System.err.println("-----Beginning parse of mains243.xml-----");
-
+        long startTime = System.nanoTime();
+        List<Movie> movieList = mainsParser.runParser();
+        long endTime = System.nanoTime();
+        System.out.println("Parsing movies took: " + (endTime - startTime)/ 1000000 + " ms");
 
         System.err.println("-----Beginning parse of actors63.xml-----");
-
+        startTime = System.nanoTime();
+        List<Actor> actorList = actorsParser.runParser();
+        endTime = System.nanoTime();
+        System.out.println("Parsing actors took: " + (endTime - startTime)/ 1000000 + " ms");
 
         System.err.println("-----Beginning parse of casts124.xml-----");
+        startTime = System.nanoTime();
         List<ActorMoviePair> castList = castParser.runParser();
+        endTime = System.nanoTime();
+        System.out.println("Parsing casts took: " + (endTime - startTime)/ 1000000 + " ms");
     }
 }

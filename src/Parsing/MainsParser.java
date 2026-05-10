@@ -19,10 +19,10 @@ class MainsParser {
         this.file_path = file_path;
     }
 
-    void runExample() throws IOException, ParserConfigurationException, SAXException {
+    public List<Movie> runParser() throws IOException, ParserConfigurationException, SAXException {
         Document document = parseXmlFile();
         List<Movie> movieList = convertDocumentIntoMovies(document);
-        printEmployeeData(movieList);
+        return movieList;
     }
 
     private Document parseXmlFile() throws IOException, SAXException, ParserConfigurationException {
@@ -56,9 +56,7 @@ class MainsParser {
     }
 
     private Movie convertDomElementToMovie(Element element) {
-        String name = getTextValue(element, "Name");
-        int id = getIntValue(element, "Id");
-        int age = getIntValue(element, "Age");
+        String id = getTextValue(element, "fid");
 
         return new Movie();
     }
@@ -67,6 +65,7 @@ class MainsParser {
         NodeList nodeList = element.getElementsByTagName(tagName);
         if (nodeList.getLength() == 1) {
             // here we expect only one <Name> would present in the <Employee>
+            if(nodeList.item(0).getFirstChild() == null) {return null;}
             return nodeList.item(0).getFirstChild().getNodeValue();
         }
         return null;
