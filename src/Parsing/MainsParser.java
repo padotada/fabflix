@@ -21,6 +21,7 @@ import java.util.Map;
 
 class MainsParser {
     private String file_path;
+    private int genre_changes = 0;
 
     // use this to map abbreviated genres to existing ones
     private Map<String, String> genre_inconsistences = new HashMap<String, String>();
@@ -268,9 +269,8 @@ class MainsParser {
             }
             genre = genre.trim();
             if (genre_inconsistences.containsKey(genre)) {
-                System.err.print("Genre " + genre);
+                genre_changes += 1;
                 genre = genre_inconsistences.get(genre);
-                System.err.println(" replaced with " + genre + " for consistency");
             }
 
 
@@ -347,4 +347,6 @@ class MainsParser {
             System.out.println("\t" + movie.toString());
         }
     }
+
+    public int getGenre_changes(){return genre_changes;}
 }
