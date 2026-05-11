@@ -27,6 +27,78 @@ class MainsParser {
 
     MainsParser(String file_path) {
         this.file_path = file_path;
+        genre_inconsistences.put("Dram", "Drama");
+        genre_inconsistences.put("Susp", "Suspense");
+        genre_inconsistences.put("Romt", "Romance");
+        genre_inconsistences.put("Musc", "Musical");
+        genre_inconsistences.put("Myst", "Mystery");
+        genre_inconsistences.put("Comd", "Comedy");
+        genre_inconsistences.put("Docu", "Documentary");
+        genre_inconsistences.put("Advt", "Adventure");
+        genre_inconsistences.put("Actn", "Action");
+
+        genre_inconsistences.put("West", "Western");
+        genre_inconsistences.put("Fant", "Fantasy");
+        genre_inconsistences.put("ScFi", "Sci-Fi");
+        genre_inconsistences.put("Horr", "Horror");
+        genre_inconsistences.put("BioP", "Biopic");
+        genre_inconsistences.put("Hist", "History");
+        genre_inconsistences.put("Biop", "Biopic");
+        genre_inconsistences.put("DRam", "Drama");
+        genre_inconsistences.put("Surr", "Surreal");
+
+        genre_inconsistences.put("Crim", "Crime");
+        genre_inconsistences.put("Romt Comd", "Romantic Comedy");
+        genre_inconsistences.put("BioG", "Biography");
+        genre_inconsistences.put("West1", "Western");
+        genre_inconsistences.put("SciF", "Sci-Fi");
+        genre_inconsistences.put("stage musical", "Musical");
+        genre_inconsistences.put("Muusc", "Musical");
+        genre_inconsistences.put("CnRbb", "CnRb");
+        genre_inconsistences.put("Draam", "Drama");
+        genre_inconsistences.put("ram", "Drama");
+
+        genre_inconsistences.put("Dramn", "Drama");
+        genre_inconsistences.put("Comdx", "Comedy");
+        genre_inconsistences.put("comd", "Comedy");
+        genre_inconsistences.put("DRAM", "Drama");
+        genre_inconsistences.put("romt", "Romantic");
+        genre_inconsistences.put("Muscl", "Musical");
+        genre_inconsistences.put("dram", "Drama");
+        genre_inconsistences.put("S.F.", "Sci-Fi");
+        genre_inconsistences.put("actn", "Action");
+        genre_inconsistences.put("musc", "Musical");
+
+        genre_inconsistences.put("BiopP", "Biopic");
+        genre_inconsistences.put("DraM", "Drama");
+        genre_inconsistences.put("Bio", "Biography");
+        genre_inconsistences.put("AvGa", "Avant Garde");
+        genre_inconsistences.put("Comd West", "Comedy Western");
+        genre_inconsistences.put("Scfi", "Sci-Fi");
+        genre_inconsistences.put("Dramd", "Drama");
+        genre_inconsistences.put("fant", "Fantasy");
+        genre_inconsistences.put("Dram>", "Drama");
+        genre_inconsistences.put("porn", "Porn");
+
+        genre_inconsistences.put("Hor", "Horror");
+        genre_inconsistences.put("BioPx", "Biopic");
+        genre_inconsistences.put("Axtn", "Action");
+        genre_inconsistences.put("SxFi", "Sci-Fi");
+        genre_inconsistences.put("BioPP", "Biopic");
+        genre_inconsistences.put("Ducu", "Documentary");
+        genre_inconsistences.put("Sati", "Satire");
+        genre_inconsistences.put("Faml", "Family");
+        genre_inconsistences.put("Noir Comd Romt", "Noir Romantic Comedy");
+        genre_inconsistences.put("Romt Actn", "Romantic Action");
+
+        genre_inconsistences.put("Dram Docu", "Drama Documentary");
+        genre_inconsistences.put("Romt. Comd", "Romantic Comedy");
+        genre_inconsistences.put("Dram.Actn", "Drama Action");
+        genre_inconsistences.put("Noir Comd", "Noir Comedy");
+        genre_inconsistences.put("Romt Dram", "Romantic Drama");
+        genre_inconsistences.put("Docu Dram", "Drama Documentary");
+
+        genre_inconsistences.put("Porb", "Porn");
     }
 
     public List<Movie> runParser() throws IOException, ParserConfigurationException, SAXException {
@@ -129,8 +201,40 @@ class MainsParser {
                 System.err.print("Genre " + genre);
                 genre = genre_inconsistences.get(genre);
                 System.err.println(" replaced with " + genre + " for consistency");
+                switch (genre) {
+                    case "Romantic Comedy" -> genres.add("Comedy");
+                    case "Comedy Western" -> {
+                        genres.add("Western");
+                        genres.add("Comedy");
+                    }
+                    case "Noir Romantic Comedy" -> {
+                        genres.add("Noir");
+                        genres.add("Romance");
+                        genres.add("Comedy");
+                    }
+                    case "Romantic Action" -> {
+                        genres.add("Romance");
+                        genres.add("Action");
+                    }
+                    case "Drama Action" -> {
+                        genres.add("Drama");
+                        genres.add("Action");
+                    }
+                    case "Noir Comedy" -> {
+                        genres.add("Noir");
+                        genres.add("Comedy");
+                    }
+                    case "Romantic Drama" -> {
+                        genres.add("Romance");
+                        genres.add("Drama");
+                    }
+                    case "Drama Documentary" -> {
+                        genres.add("Drama");
+                        genres.add("Documentary");
+                    }
+                    default -> genres.add(genre);
+                }
             }
-            genres.add(genre);
         }
         return genres;
     }
