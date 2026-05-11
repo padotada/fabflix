@@ -185,7 +185,7 @@ public class XMLDataInserter {
                 String movieId = movie.getId();
 
                 if (movieId == null || movieId.trim().isEmpty()) {
-                    System.err.println("[Inconsistent Data] Skipping movie with missing id: title=" + movie.getTitle());
+                    System.err.println("Skipping movie with missing id: title=" + movie.getTitle());
                     continue;
                 }
 
@@ -197,12 +197,12 @@ public class XMLDataInserter {
                 }
 
                 if (movie.getTitle() == null || movie.getTitle().trim().isEmpty()) {
-                    System.err.println("[Inconsistent Data] Skipping movie with missing title: id=" + movieId);
+                    System.err.println("Skipping movie with missing title: id=" + movieId);
                     continue;
                 }
 
                 if (movie.getDirector() == null || movie.getDirector().trim().isEmpty()) {
-                    System.err.println("[Inconsistent Data] Skipping movie with missing director: id=" + movieId);
+                    System.err.println("Skipping movie with missing director: id=" + movieId);
                     continue;
                 }
 
@@ -210,10 +210,12 @@ public class XMLDataInserter {
                 statement.setString(2, movie.getTitle().trim());
 
                 if (movie.getYear() == null) {
-                    statement.setNull(3, Types.INTEGER);
-                } else {
-                    statement.setInt(3, movie.getYear());
+                    System.err.println("Skipping movie because year is null and movies.year is NOT NULL: id="
+                            + movieId + ", title=" + movie.getTitle());
+                    continue;
                 }
+
+                statement.setInt(3, movie.getYear());
 
                 statement.setString(4, movie.getDirector().trim());
 
@@ -249,7 +251,7 @@ public class XMLDataInserter {
                 String name = actor.getName();
 
                 if (name == null || name.trim().isEmpty()) {
-                    System.err.println("[Inconsistent Data] Skipping actor with missing stagename");
+                    System.err.println("Skipping actor with missing stagename");
                     continue;
                 }
 
@@ -308,13 +310,13 @@ public class XMLDataInserter {
                 String movieId = movie.getId().trim();
 
                 if (!existingMovieIds.contains(movieId)) {
-                    System.err.println("[Inconsistent Data] Cannot link genres. Movie does not exist: movie_id=" + movieId);
+                    System.err.println("Cannot link genres. Movie does not exist: movie_id=" + movieId);
                     continue;
                 }
 
                 for (String genre : movie.getGenres()) {
                     if (genre == null || genre.trim().isEmpty()) {
-                        System.err.println("[Inconsistent Data] Empty genre for movie_id=" + movieId);
+                        System.err.println("Empty genre for movie_id=" + movieId);
                         continue;
                     }
 
@@ -332,7 +334,7 @@ public class XMLDataInserter {
                                 genreNameToId.put(genre, genreId);
                                 insertedGenres++;
                             } else {
-                                System.err.println("[Inconsistent Data] Failed to get generated genre id for genre=" + genre);
+                                System.err.println("Failed to get generated genre id for genre=" + genre);
                                 continue;
                             }
                         }
@@ -382,12 +384,12 @@ public class XMLDataInserter {
                 String movieId = pair.getMovieId();
 
                 if (actorName == null || actorName.trim().isEmpty()) {
-                    System.err.println("[Inconsistent Data] Cast pair missing actor name: movie_id=" + movieId);
+                    System.err.println("Cast pair missing actor name: movie_id=" + movieId);
                     continue;
                 }
 
                 if (movieId == null || movieId.trim().isEmpty()) {
-                    System.err.println("[Inconsistent Data] Cast pair missing movie id: actor=" + actorName);
+                    System.err.println("Cast pair missing movie id: actor=" + actorName);
                     continue;
                 }
 
@@ -397,13 +399,13 @@ public class XMLDataInserter {
                 String starId = starNameToId.get(actorName);
 
                 if (starId == null) {
-                    System.err.println("[Inconsistent Data] Actor from casts.xml not found in stars table: actor=" + actorName
+                    System.err.println("Actor from casts.xml not found in stars table: actor=" + actorName
                             + ", movie_id=" + movieId);
                     continue;
                 }
 
                 if (!existingMovieIds.contains(movieId)) {
-                    System.err.println("[Inconsistent Data] Movie from casts.xml not found in movies table: movie_id=" + movieId
+                    System.err.println("Movie from casts.xml not found in movies table: movie_id=" + movieId
                             + ", actor=" + actorName);
                     continue;
                 }

@@ -78,15 +78,13 @@ class MainsParser {
         return movieList;
     }
 
-    private Integer parseYearOrNull(Element element, String tagName, String context) {
+    private Integer getNullableIntValue(Element element, String tagName, String context) {
         String text = getTextValue(element, tagName);
 
         if (text == null || text.trim().isEmpty()) {
             return null;
         }
-
         text = text.trim();
-
         try {
             return Integer.parseInt(text);
         } catch (NumberFormatException e) {
@@ -99,6 +97,7 @@ class MainsParser {
     private Movie convertDomElementToMovie(Element element) {
         String id = getTextValue(element, "fid");
         String title = getTextValue(element, "t");
+        String yearText = getTextValue(element, "year");
         if (id == null || id.trim().isEmpty()) {
             System.err.println("Movie missing <fid>: title=" + title);
             return null;
@@ -108,7 +107,12 @@ class MainsParser {
             System.err.println("Movie missing/unknown <t>: fid=" + id + ", title=" + title);
             return null;
         }
-        Integer year = parseYearOrNull(element, "year", "movie fid=" + id + ", title=" + title);
+        Integer year = getNullableIntValue(element, "year", "movie fid=" + id + ", title=" + title);
+        if (year == null) {
+            System.err.println("Skipping movie because year is missing/invalid: fid="
+                    + id + ", title=" + title + ", year=" + yearText);
+            return null;
+        }
         Movie movie = new Movie(id.trim(), title.trim(), year, null);
         movie.setGenres(getGenresOfFilm(element));
 
