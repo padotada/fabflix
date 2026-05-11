@@ -51,7 +51,24 @@ public class ParseXML {
         endTime = System.nanoTime();
         System.out.println("Parsing casts took: " + (endTime - startTime)/ 1000000 + " ms");
 
+        System.out.println("Parsed movies: " + movieList.size());
+        System.out.println("Parsed actors: " + actorList.size());
+        System.out.println("Parsed cast pairs: " + castList.size());
 
-        System.out.println(movieList.size());
+
+        System.err.println("-----Beginning database insertion-----");
+        startTime = System.nanoTime();
+
+        try {
+            XMLDataInserter inserter = new XMLDataInserter();
+            inserter.insertData(movieList, actorList, castList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        endTime = System.nanoTime();
+        System.out.println("Database insertion took: " + (endTime - startTime) / 1000000 + " ms");
     }
+
+
 }

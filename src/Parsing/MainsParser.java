@@ -64,18 +64,21 @@ class MainsParser {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element film = (Element) nodeList.item(i);
             Movie movie = convertDomElementToMovie(film);
-            movie.setDirector(director);
-            if(movie.getDirector() == null || movie.getDirector().trim().isEmpty()){
+            if (movie == null) {
+                continue;
+            }
+            if(director == null || director.trim().isEmpty()){
                 System.err.println("Movie missing director: fid=" + movie.getId()
                         + ", title=" + movie.getTitle());
                 continue;
             }
+            movie.setDirector(director);
             movieList.add(movie);
         }
         return movieList;
     }
 
-    private Integer getNullableIntValue(Element element, String tagName, String context) {
+    private Integer parseYearOrNull(Element element, String tagName, String context) {
         String text = getTextValue(element, tagName);
 
         if (text == null || text.trim().isEmpty()) {
@@ -105,7 +108,7 @@ class MainsParser {
             System.err.println("Movie missing/unknown <t>: fid=" + id + ", title=" + title);
             return null;
         }
-        Integer year = getNullableIntValue(element, "year", "movie fid=" + id + ", title=" + title);
+        Integer year = parseYearOrNull(element, "year", "movie fid=" + id + ", title=" + title);
         Movie movie = new Movie(id.trim(), title.trim(), year, null);
         movie.setGenres(getGenresOfFilm(element));
 
