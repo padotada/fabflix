@@ -217,26 +217,21 @@ class MainsParser {
         return movieList;
     }
 
-    private Integer getNullableIntValue(Element element, String tagName, String context) {
-        String text = getTextValue(element, tagName);
-
+    private Integer parseIntegerOrNull(String text) {
         if (text == null || text.trim().isEmpty()) {
             return null;
         }
-        text = text.trim();
         try {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.trim());
         } catch (NumberFormatException e) {
-            System.err.println("Invalid integer for <" + tagName + ">: value="
-                    + text + ", context=" + context);
             return null;
         }
     }
 
     private Movie convertDomElementToMovie(Element element) {
-        String id = getTextValue(element, "fid");
-        String title = getTextValue(element, "t");
-        String yearText = getTextValue(element, "year");
+        String id = getDirectTextValue(element, "fid");
+        String title = getDirectTextValue(element, "t");
+        String yearText = getDirectTextValue(element, "year");
         if (id == null || id.trim().isEmpty()) {
             System.err.println("Movie missing <fid>: title=" + title);
             return null;
@@ -246,7 +241,7 @@ class MainsParser {
             System.err.println("Movie missing/unknown <t>: fid=" + id + ", title=" + title);
             return null;
         }
-        Integer year = getNullableIntValue(element, "year", "movie fid=" + id + ", title=" + title);
+        Integer year = parseIntegerOrNull(yearText);
         if (year == null) {
             System.err.println("Skipping movie because year is missing/invalid: fid="
                     + id + ", title=" + title + ", year=" + yearText);
