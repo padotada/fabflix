@@ -6,6 +6,15 @@ import java.io.PrintStream;
 import java.util.*;
 
 public class InconsistencyReporter {
+    private static String report = """
+            ----------High level Decisions:----------
+            For genres, we made a hashmap of genre misspellings and abbreviations to make genres more organized and have less duplicates.
+            For actors, we focused on removing actors who lacked a name, and set birth year to null if it didn't exist.
+            For casting, we skipped unknown actors 'sa' according to the xml specification, and made sure both the actor and movie existed.
+            For movies, we checked for invalid years and missing ids, directors, and bad formatting.
+            As a whole, we also worked to filter out duplicate entries.
+            """;
+
     private static class ReportEntry {
         int count = 0;
         List<String> examples = new ArrayList<>();
@@ -22,6 +31,7 @@ public class InconsistencyReporter {
         try (PrintStream out = new PrintStream(new File(filePath))) {
             out.println("XML Inconsistency Report");
             out.println("========================");
+            out.println(report);
             out.println();
 
             if (reportMap.isEmpty()) {

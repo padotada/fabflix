@@ -1,5 +1,12 @@
 XML Inconsistency Report
 ========================
+----------High level Decisions:----------
+For genres, we made a hashmap of genre misspellings and abbreviations to make genres more organized and have less duplicates.
+For actors, we focused on removing actors who lacked a name, and set birth year to null if it didn't exist.
+For casting, we skipped unknown actors 'sa' according to the xml specification, and made sure both the actor and movie existed.
+For movies, we checked for invalid years and missing ids, directors, and bad formatting.
+As a whole, we also worked to filter out duplicate entries.
+
 
 1. Year is missing/invalid
 Count: 16
@@ -38,5 +45,5 @@ Count: 672
 Count: 257
 
 13. Genre names changed for consistency
-Count: 1
+Count: 9092
 
