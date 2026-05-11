@@ -14,15 +14,15 @@ public class ParseXML {
 
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter mains243 file path: ");
-        String main_path = input.nextLine();
+        // Scanner input = new Scanner(System.in);
+        // System.out.println("Enter mains243 file path: ");
+        String main_path = System.getenv("MAIN_PATH");
 
-        System.out.println("Enter actors63 file path: ");
-        String actor_path = input.nextLine();
+        // System.out.println("Enter actors63 file path: ");
+        String actor_path = System.getenv("ACTOR_PATH");
 
-        System.out.println("Enter casts124 file path: ");
-        String cast_path = input.nextLine();
+        // System.out.println("Enter casts124 file path: ");
+        String cast_path = System.getenv("CAST_PATH");
 
 
         MainsParser mainsParser = new MainsParser(main_path);
