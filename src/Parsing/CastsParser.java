@@ -19,9 +19,11 @@ import java.util.List;
 
 class CastsParser {
     private String file_path;
+    private InconsistencyReporter reporter;
 
-    CastsParser(String file_path) {
+    CastsParser(String file_path, InconsistencyReporter reporter) {
         this.file_path = file_path;
+        this.reporter = reporter;
     }
 
     private Element getDirectChild(Element parent, String tagName) {
@@ -127,17 +129,17 @@ class CastsParser {
             movieId = movieId.trim();
         }
         if ((actor == null || actor.isEmpty()) && (movieId == null || movieId.isEmpty())) {
-            System.err.println("Cast missing both <a> and <f>");
+            reporter.report("Cast missing both <a> and <f>");
             return null;
         } else if (movieId == null || movieId.isEmpty()) {
-            System.err.println("Cast missing <f> movie id for actor=" + actor);
+            reporter.report("Cast missing <f> movie id for actor");
             return null;
         } else if (actor == null || actor.isEmpty()) {
-            System.err.println("Cast missing <a> actor name for movie_id=" + movieId);
+            reporter.report("Cast missing <a> actor name for movie_id");
             return null;
         }
         if (actor.equals("sa")) {
-            System.err.println("Skipping unknown actor 'sa' for movie_id=" + movieId);
+            reporter.report("Skipping unknown actor 'sa' for movie_id");
             return null;
         }
         return new ActorMoviePair(actor, movieId);

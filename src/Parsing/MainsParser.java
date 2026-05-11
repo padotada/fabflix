@@ -22,12 +22,13 @@ import java.util.Map;
 class MainsParser {
     private String file_path;
     private int genre_changes = 0;
-
+    private InconsistencyReporter reporter;
     // use this to map abbreviated genres to existing ones
     private Map<String, String> genre_inconsistences = new HashMap<String, String>();
 
-    MainsParser(String file_path) {
+    MainsParser(String file_path, InconsistencyReporter reporter) {
         this.file_path = file_path;
+        this.reporter = reporter;
         genre_inconsistences.put("Dram", "Drama");
         genre_inconsistences.put("Susp", "Suspense");
         genre_inconsistences.put("susp", "Suspense");
@@ -197,7 +198,7 @@ class MainsParser {
         Element filmsElement = getDirectChild(element, "films");
         List<Movie> movieList = new ArrayList<>();
         if (filmsElement == null) {
-            System.err.println("<directorfilms> missing <films> for director=" + director);
+            reporter.report("<directorfilms> missing <films> for director");
             return movieList;
         }
         List<Element> filmElements = getDirectChildren(filmsElement, "film");
@@ -207,8 +208,7 @@ class MainsParser {
                 continue;
             }
             if (director == null || director.trim().isEmpty()) {
-                System.err.println("Movie missing director: fid="
-                        + movie.getId() + ", title=" + movie.getTitle());
+                reporter.report("Movie missing director");
                 continue;
             }
             movie.setDirector(director.trim());
@@ -234,18 +234,18 @@ class MainsParser {
         String title = getDirectTextValue(element, "t");
         String yearText = getDirectTextValue(element, "year");
         if (id == null || id.trim().isEmpty()) {
-            System.err.println("Movie missing <fid>: title=" + title);
+            reporter.report("Movie with missing <fid>>");
             return null;
         }
 
         if (title == null || title.trim().isEmpty() || title.equals("NKT")) {
-            System.err.println("Movie missing/unknown <t>: fid=" + id + ", title=" + title);
+            reporter.report("Movie missing/unknown <t>");
+
             return null;
         }
         Integer year = parseIntegerOrNull(yearText);
         if (year == null) {
-            System.err.println("Skipping movie because year is missing/invalid: fid="
-                    + id + ", title=" + title + ", year=" + yearText);
+            reporter.report("Year is missing/invalid");
             return null;
         }
         Movie movie = new Movie(id.trim(), title.trim(), year, null);

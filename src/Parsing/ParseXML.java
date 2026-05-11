@@ -28,10 +28,10 @@ public class ParseXML {
         // System.out.println("Enter casts124 file path: ");
         String cast_path = System.getenv("CAST_PATH");
 
-
-        MainsParser mainsParser = new MainsParser(main_path);
-        ActorsParser actorsParser = new ActorsParser(actor_path);
-        CastsParser castParser = new CastsParser(cast_path);
+        InconsistencyReporter reporter = new InconsistencyReporter();
+        MainsParser mainsParser = new MainsParser(main_path, reporter);
+        ActorsParser actorsParser = new ActorsParser(actor_path, reporter);
+        CastsParser castParser = new CastsParser(cast_path, reporter);
 
         System.err.println("-----Beginning parse of mains243.xml-----");
         long startTime = System.nanoTime();
@@ -60,7 +60,7 @@ public class ParseXML {
         startTime = System.nanoTime();
 
         try {
-            XMLDataInserter inserter = new XMLDataInserter();
+            XMLDataInserter inserter = new XMLDataInserter(reporter);
             inserter.insertData(movieList, actorList, castList);
         } catch (Exception e) {
             e.printStackTrace();

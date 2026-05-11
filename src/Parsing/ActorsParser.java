@@ -19,9 +19,11 @@ import java.util.List;
 
 class ActorsParser {
     private String file_path;
+    private InconsistencyReporter reporter;
 
-    ActorsParser(String file_path) {
+    ActorsParser(String file_path, InconsistencyReporter reporter) {
         this.file_path = file_path;
+        this.reporter = reporter;
     }
 
     public List<Actor> runParser() throws IOException, ParserConfigurationException, SAXException {
@@ -96,7 +98,7 @@ class ActorsParser {
     private Actor convertDomElementToActor(Element element) {
         String name = getTextValue(element, "stagename");
         if(name == null || name.trim().isEmpty()){
-            System.err.println("Actor missing <stagename>");
+            reporter.report("Actor missing stagename");
             return null;
         }
         String dobText = getDirectTextValue(element, "dob");
