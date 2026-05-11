@@ -29,6 +29,7 @@ class MainsParser {
         this.file_path = file_path;
         genre_inconsistences.put("Dram", "Drama");
         genre_inconsistences.put("Susp", "Suspense");
+        genre_inconsistences.put("susp", "Suspense");
         genre_inconsistences.put("Romt", "Romance");
         genre_inconsistences.put("Musc", "Musical");
         genre_inconsistences.put("Myst", "Mystery");
@@ -36,6 +37,7 @@ class MainsParser {
         genre_inconsistences.put("Docu", "Documentary");
         genre_inconsistences.put("Advt", "Adventure");
         genre_inconsistences.put("Actn", "Action");
+        genre_inconsistences.put("noir", "Noir");
 
         genre_inconsistences.put("West", "Western");
         genre_inconsistences.put("Fant", "Fantasy");
@@ -46,6 +48,7 @@ class MainsParser {
         genre_inconsistences.put("Biop", "Biopic");
         genre_inconsistences.put("DRam", "Drama");
         genre_inconsistences.put("Surr", "Surreal");
+        genre_inconsistences.put("surreal", "Surreal");
 
         genre_inconsistences.put("Crim", "Crime");
         genre_inconsistences.put("Romt Comd", "Romantic Comedy");
@@ -62,7 +65,7 @@ class MainsParser {
         genre_inconsistences.put("Comdx", "Comedy");
         genre_inconsistences.put("comd", "Comedy");
         genre_inconsistences.put("DRAM", "Drama");
-        genre_inconsistences.put("romt", "Romantic");
+        genre_inconsistences.put("romt", "Romance");
         genre_inconsistences.put("Muscl", "Musical");
         genre_inconsistences.put("dram", "Drama");
         genre_inconsistences.put("S.F.", "Sci-Fi");
@@ -97,8 +100,14 @@ class MainsParser {
         genre_inconsistences.put("Noir Comd", "Noir Comedy");
         genre_inconsistences.put("Romt Dram", "Romantic Drama");
         genre_inconsistences.put("Docu Dram", "Drama Documentary");
+        genre_inconsistences.put("Psych Dram", "Psychological Drama");
 
         genre_inconsistences.put("Porb", "Porn");
+        genre_inconsistences.put("Psyc", "Psychological");
+        genre_inconsistences.put("RomtAdvt", "Romantic Adventure");
+        genre_inconsistences.put("Comd Noir", "Noir Comedy");
+        genre_inconsistences.put("Romt Fant", "Romantic Fantasy");
+        genre_inconsistences.put("Surl", "Surreal");
     }
 
     public List<Movie> runParser() throws IOException, ParserConfigurationException, SAXException {
@@ -197,43 +206,62 @@ class MainsParser {
         for (int i = 0; i < nodeList.getLength(); i++) {
             if(nodeList.item(i).getFirstChild() == null) {continue;}
             String genre = nodeList.item(i).getFirstChild().getNodeValue();
+            if(genre == null){continue;}
+            genre = genre.trim();
             if(genre_inconsistences.containsKey(genre)) {
                 System.err.print("Genre " + genre);
                 genre = genre_inconsistences.get(genre);
                 System.err.println(" replaced with " + genre + " for consistency");
-                switch (genre) {
-                    case "Romantic Comedy" -> genres.add("Comedy");
-                    case "Comedy Western" -> {
-                        genres.add("Western");
-                        genres.add("Comedy");
-                    }
-                    case "Noir Romantic Comedy" -> {
-                        genres.add("Noir");
-                        genres.add("Romance");
-                        genres.add("Comedy");
-                    }
-                    case "Romantic Action" -> {
-                        genres.add("Romance");
-                        genres.add("Action");
-                    }
-                    case "Drama Action" -> {
-                        genres.add("Drama");
-                        genres.add("Action");
-                    }
-                    case "Noir Comedy" -> {
-                        genres.add("Noir");
-                        genres.add("Comedy");
-                    }
-                    case "Romantic Drama" -> {
-                        genres.add("Romance");
-                        genres.add("Drama");
-                    }
-                    case "Drama Documentary" -> {
-                        genres.add("Drama");
-                        genres.add("Documentary");
-                    }
-                    default -> genres.add(genre);
+            }
+
+
+            switch (genre) {
+                case "Romantic Fantasy" -> {
+                    genres.add("Fantasy");
+                    genres.add("Romance");
                 }
+                case "Romantic Adventure" -> {
+                    genres.add("Adventure");
+                    genres.add("Romance");
+                }
+                case "Psychological Drama" -> {
+                    genres.add("Drama");
+                    genres.add("Psychological");
+                }
+                case "Romantic Comedy" -> {
+                    genres.add("Comedy");
+                    genres.add("Romance");
+                }
+                case "Comedy Western" -> {
+                    genres.add("Western");
+                    genres.add("Comedy");
+                }
+                case "Noir Romantic Comedy" -> {
+                    genres.add("Noir");
+                    genres.add("Romance");
+                    genres.add("Comedy");
+                }
+                case "Romantic Action" -> {
+                    genres.add("Romance");
+                    genres.add("Action");
+                }
+                case "Drama Action" -> {
+                    genres.add("Drama");
+                    genres.add("Action");
+                }
+                case "Noir Comedy" -> {
+                    genres.add("Noir");
+                    genres.add("Comedy");
+                }
+                case "Romantic Drama" -> {
+                    genres.add("Romance");
+                    genres.add("Drama");
+                }
+                case "Drama Documentary" -> {
+                    genres.add("Drama");
+                    genres.add("Documentary");
+                }
+                default -> genres.add(genre);
             }
         }
         return genres;

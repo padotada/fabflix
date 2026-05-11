@@ -16,6 +16,7 @@ Genre Musc replaced with Musical for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Dram replaced with Drama for consistency
+Genre susp replaced with Suspense for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Romt replaced with Romance for consistency
@@ -96,6 +97,7 @@ Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
+Genre Fant replaced with Fantasy for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre Fant replaced with Fantasy for consistency
@@ -190,6 +192,7 @@ Genre BioP replaced with Biopic for consistency
 Genre Musc replaced with Musical for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Musc replaced with Musical for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Romt replaced with Romance for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
@@ -624,6 +627,7 @@ Genre Dram replaced with Drama for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
+Genre Advt replaced with Adventure for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
@@ -651,6 +655,7 @@ Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Romt replaced with Romance for consistency
 Genre West replaced with Western for consistency
+Genre BioP replaced with Biopic for consistency
 Genre Dram replaced with Drama for consistency
 Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
@@ -901,6 +906,7 @@ Genre BioP replaced with Biopic for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
+Genre Dram replaced with Drama for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
@@ -932,6 +938,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Surr replaced with Surreal for consistency
 Genre Surr replaced with Surreal for consistency
 Genre Surr replaced with Surreal for consistency
+Genre Susp replaced with Suspense for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Myst replaced with Mystery for consistency
@@ -944,6 +951,7 @@ Genre Myst replaced with Mystery for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Susp replaced with Suspense for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
 Genre Comd replaced with Comedy for consistency
@@ -1090,6 +1098,7 @@ Genre Dram replaced with Drama for consistency
 Genre Musc replaced with Musical for consistency
 Genre Romt replaced with Romance for consistency
 Genre Susp replaced with Suspense for consistency
+Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
@@ -1172,6 +1181,7 @@ Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Romt replaced with Romance for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Comd replaced with Comedy for consistency
@@ -1264,6 +1274,8 @@ Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
+Genre BioP replaced with Biopic for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
@@ -1321,6 +1333,7 @@ Genre Dram replaced with Drama for consistency
 Genre Romt replaced with Romance for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Musc replaced with Musical for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Musc replaced with Musical for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Comd replaced with Comedy for consistency
@@ -1334,6 +1347,7 @@ Genre Dram replaced with Drama for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Fant replaced with Fantasy for consistency
 Genre Myst replaced with Mystery for consistency
+Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Susp replaced with Suspense for consistency
 Genre BioP replaced with Biopic for consistency
@@ -1353,6 +1367,7 @@ Genre Susp replaced with Suspense for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Romt replaced with Romance for consistency
 Genre Fant replaced with Fantasy for consistency
+Genre BioP replaced with Biopic for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Advt replaced with Adventure for consistency
 Genre BioP replaced with Biopic for consistency
@@ -1480,6 +1495,7 @@ Genre Musc replaced with Musical for consistency
 Genre Dram replaced with Drama for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Musc replaced with Musical for consistency
+Genre Romt replaced with Romance for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre West replaced with Western for consistency
@@ -1572,6 +1588,7 @@ Genre Romt replaced with Romance for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
+Genre surreal replaced with Surreal for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
@@ -1626,6 +1643,7 @@ Genre Advt replaced with Adventure for consistency
 Genre Dram replaced with Drama for consistency
 Genre Musc replaced with Musical for consistency
 Genre Dram replaced with Drama for consistency
+Genre RomtAdvt replaced with Romantic Adventure for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Susp replaced with Suspense for consistency
@@ -1729,6 +1747,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Musc replaced with Musical for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Susp replaced with Suspense for consistency
+Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Horr replaced with Horror for consistency
@@ -1819,6 +1838,7 @@ Genre Myst replaced with Mystery for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Musc replaced with Musical for consistency
 Genre Romt replaced with Romance for consistency
 Genre Docu replaced with Documentary for consistency
@@ -1829,6 +1849,7 @@ Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Susp replaced with Suspense for consistency
+Genre Horr replaced with Horror for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Susp replaced with Suspense for consistency
@@ -1962,6 +1983,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Musc replaced with Musical for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Musc replaced with Musical for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
@@ -2008,6 +2030,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Musc replaced with Musical for consistency
 Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
 Genre Fant replaced with Fantasy for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Comd replaced with Comedy for consistency
@@ -2032,6 +2055,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Musc replaced with Musical for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
@@ -2055,6 +2079,7 @@ Genre Susp replaced with Suspense for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Advt replaced with Adventure for consistency
 Genre BioP replaced with Biopic for consistency
+Genre Susp replaced with Suspense for consistency
 Genre Fant replaced with Fantasy for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Actn replaced with Action for consistency
@@ -2167,11 +2192,13 @@ Genre Musc replaced with Musical for consistency
 Genre Romt replaced with Romance for consistency
 Genre Dram replaced with Drama for consistency
 Genre Romt replaced with Romance for consistency
+Genre Romt replaced with Romance for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
+Genre Psych Dram replaced with Psychological Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
@@ -2369,6 +2396,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
+Genre BioP replaced with Biopic for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Dram replaced with Drama for consistency
 Genre Comd replaced with Comedy for consistency
@@ -2516,6 +2544,7 @@ Genre Myst replaced with Mystery for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Myst replaced with Mystery for consistency
@@ -2531,6 +2560,15 @@ Genre West replaced with Western for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
+Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
+Genre Myst replaced with Mystery for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
@@ -2611,6 +2649,7 @@ Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Docu replaced with Documentary for consistency
 Genre Dram replaced with Drama for consistency
+Genre BioP replaced with Biopic for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Dram replaced with Drama for consistency
 Genre Hist replaced with History for consistency
@@ -2702,6 +2741,8 @@ Genre Dram replaced with Drama for consistency
 Genre Horr replaced with Horror for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre West replaced with Western for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
@@ -2825,6 +2866,10 @@ Genre Dram replaced with Drama for consistency
 Genre Actn replaced with Action for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
+Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Susp replaced with Suspense for consistency
@@ -2969,7 +3014,7 @@ Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Horr replaced with Horror for consistency
-Genre romt replaced with Romantic for consistency
+Genre romt replaced with Romance for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
@@ -2991,8 +3036,10 @@ Genre Musc replaced with Musical for consistency
 Genre Romt replaced with Romance for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Muscl replaced with Musical for consistency
+Genre Muscl replaced with Musical for consistency
 Genre Romt replaced with Romance for consistency
 Genre Musc replaced with Musical for consistency
+Genre Muscl replaced with Musical for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
@@ -3141,6 +3188,7 @@ Genre Hist replaced with History for consistency
 Genre Hist replaced with History for consistency
 Genre Myst replaced with Mystery for consistency
 Genre Romt replaced with Romance for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Advt replaced with Adventure for consistency
@@ -3207,6 +3255,7 @@ Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Musc replaced with Musical for consistency
 Genre Romt replaced with Romance for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Romt replaced with Romance for consistency
 Genre Dram replaced with Drama for consistency
@@ -3270,6 +3319,7 @@ Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Susp replaced with Suspense for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Romt replaced with Romance for consistency
 Genre Dram replaced with Drama for consistency
@@ -3314,6 +3364,7 @@ Genre Romt replaced with Romance for consistency
 Genre Musc replaced with Musical for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Susp replaced with Suspense for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Actn replaced with Action for consistency
 Genre Romt replaced with Romance for consistency
@@ -3514,7 +3565,9 @@ Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre BioP replaced with Biopic for consistency
+Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
+Genre Susp replaced with Suspense for consistency
 Genre West replaced with Western for consistency
 Genre Horr replaced with Horror for consistency
 Genre BioP replaced with Biopic for consistency
@@ -4084,6 +4137,7 @@ Genre Fant replaced with Fantasy for consistency
 Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
+Genre Horr replaced with Horror for consistency
 Genre Actn replaced with Action for consistency
 Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
@@ -4174,6 +4228,7 @@ Genre Horr replaced with Horror for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Fant replaced with Fantasy for consistency
 Genre Advt replaced with Adventure for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
@@ -4385,6 +4440,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
 Genre Susp replaced with Suspense for consistency
@@ -4429,6 +4485,8 @@ Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Advt replaced with Adventure for consistency
+Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Dram replaced with Drama for consistency
@@ -4781,6 +4839,7 @@ Genre Horr replaced with Horror for consistency
 Genre Romt replaced with Romance for consistency
 Genre Docu replaced with Documentary for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Dram replaced with Drama for consistency
@@ -4994,6 +5053,7 @@ Genre Horr replaced with Horror for consistency
 Genre Dram replaced with Drama for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Susp replaced with Suspense for consistency
+Genre Horr replaced with Horror for consistency
 Genre West replaced with Western for consistency
 Genre West replaced with Western for consistency
 Genre Dram replaced with Drama for consistency
@@ -5584,6 +5644,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Advt replaced with Adventure for consistency
 Genre Horr replaced with Horror for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd replaced with Comedy for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Dram replaced with Drama for consistency
 Genre Romt replaced with Romance for consistency
@@ -5633,6 +5694,8 @@ Genre Dram replaced with Drama for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Romt replaced with Romance for consistency
 Genre Romt replaced with Romance for consistency
+Genre Horr replaced with Horror for consistency
+Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
@@ -5725,6 +5788,7 @@ Genre Advt replaced with Adventure for consistency
 Genre Docu replaced with Documentary for consistency
 Genre Docu replaced with Documentary for consistency
 Genre BioP replaced with Biopic for consistency
+Genre BioP replaced with Biopic for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
 Genre AvGa replaced with Avant Garde for consistency
@@ -5799,6 +5863,7 @@ Genre BioP replaced with Biopic for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Comd replaced with Comedy for consistency
+Genre noir replaced with Noir for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
@@ -5896,6 +5961,7 @@ Genre Fant replaced with Fantasy for consistency
 Genre Docu replaced with Documentary for consistency
 Genre Docu replaced with Documentary for consistency
 Genre Docu replaced with Documentary for consistency
+Genre Docu replaced with Documentary for consistency
 Genre Actn replaced with Action for consistency
 Genre Romt replaced with Romance for consistency
 Genre Comd replaced with Comedy for consistency
@@ -5929,6 +5995,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Musc replaced with Musical for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
@@ -6085,6 +6152,7 @@ Genre ScFi replaced with Sci-Fi for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Romt replaced with Romance for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Romt replaced with Romance for consistency
@@ -6267,6 +6335,7 @@ Genre Musc replaced with Musical for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Dram replaced with Drama for consistency
 Genre Horr replaced with Horror for consistency
+Genre Docu replaced with Documentary for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Romt replaced with Romance for consistency
 Genre Dram replaced with Drama for consistency
@@ -6409,6 +6478,7 @@ Genre Dram replaced with Drama for consistency
 Genre Advt replaced with Adventure for consistency
 Genre West replaced with Western for consistency
 Genre BioP replaced with Biopic for consistency
+Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
 Genre Horr replaced with Horror for consistency
 Genre Fant replaced with Fantasy for consistency
@@ -6652,6 +6722,7 @@ Genre BioP replaced with Biopic for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Fant replaced with Fantasy for consistency
+Genre Psyc replaced with Psychological for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
@@ -6824,6 +6895,7 @@ Genre Fant replaced with Fantasy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Fant replaced with Fantasy for consistency
+Genre BioP replaced with Biopic for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre Dram replaced with Drama for consistency
 Genre Comd replaced with Comedy for consistency
@@ -7092,6 +7164,9 @@ Genre BioPx replaced with Biopic for consistency
 Genre Susp replaced with Suspense for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre Myst replaced with Mystery for consistency
+Genre Docu replaced with Documentary for consistency
+Genre Docu replaced with Documentary for consistency
+Genre Docu replaced with Documentary for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Advt replaced with Adventure for consistency
 Genre ScFi replaced with Sci-Fi for consistency
@@ -7514,6 +7589,7 @@ Genre BioP replaced with Biopic for consistency
 Genre Comd replaced with Comedy for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre Advt replaced with Adventure for consistency
+Genre Advt replaced with Adventure for consistency
 Genre Dram replaced with Drama for consistency
 Genre Romt replaced with Romance for consistency
 Genre Comd replaced with Comedy for consistency
@@ -7722,6 +7798,7 @@ Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
+Genre Advt replaced with Adventure for consistency
 Genre BioP replaced with Biopic for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Dram replaced with Drama for consistency
@@ -7788,6 +7865,7 @@ Genre Comd replaced with Comedy for consistency
 Genre BioP replaced with Biopic for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre Advt replaced with Adventure for consistency
+Genre Romt Fant replaced with Romantic Fantasy for consistency
 Genre Musc replaced with Musical for consistency
 Genre Romt Comd replaced with Romantic Comedy for consistency
 Genre Comd replaced with Comedy for consistency
@@ -7917,6 +7995,7 @@ Genre Actn replaced with Action for consistency
 Genre ScFi replaced with Sci-Fi for consistency
 Genre Horr replaced with Horror for consistency
 Genre Comd replaced with Comedy for consistency
+Genre Comd Noir replaced with Noir Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Actn replaced with Action for consistency
 Genre ScFi replaced with Sci-Fi for consistency
@@ -8152,6 +8231,7 @@ Genre Dram replaced with Drama for consistency
 Genre Dram replaced with Drama for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Dram replaced with Drama for consistency
+Genre susp replaced with Suspense for consistency
 Genre Romt replaced with Romance for consistency
 Genre Romt replaced with Romance for consistency
 Genre Comd replaced with Comedy for consistency
@@ -8258,7 +8338,7 @@ Genre Comd replaced with Comedy for consistency
 Genre Horr replaced with Horror for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Comd replaced with Comedy for consistency
-Genre romt replaced with Romantic for consistency
+Genre romt replaced with Romance for consistency
 Genre Horr replaced with Horror for consistency
 Genre Romt replaced with Romance for consistency
 Invalid integer for <year>: value=199x, context=movie fid=CsS15, title=Fairy Tale: A True Story
@@ -8663,6 +8743,7 @@ Genre Romt replaced with Romance for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Actn replaced with Action for consistency
+Genre Romt replaced with Romance for consistency
 Genre Dram replaced with Drama for consistency
 Movie missing/unknown <t>: fid=KDo1x, title=null
 Genre Comd replaced with Comedy for consistency
@@ -8762,6 +8843,7 @@ Genre Dram replaced with Drama for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Susp replaced with Suspense for consistency
 Genre Romt replaced with Romance for consistency
+Genre Comd replaced with Comedy for consistency
 Genre Docu replaced with Documentary for consistency
 Genre Comd replaced with Comedy for consistency
 Genre Comd replaced with Comedy for consistency
@@ -10210,35 +10292,82 @@ Skipping unknown actor 'sa' for movie_id=Z4102
 [Duplicate] Actor already exists: name=Jerry Zucker
 [Duplicate] Actor already exists: name=Daphne Zuniga
 Inserted new genre: Suspense
+Inserted new genre: Cart
 Inserted new genre: Biopic
-Inserted new genre: Surreal
-[Duplicate] Genre/movie pair already exists: genre=Comedy, movie_id=FNm10
+Inserted new genre: Epic
 Inserted new genre: CnRb
+Inserted new genre: Surreal
+Inserted new genre: Cond
+Inserted new genre: Noir
+Inserted new genre: Disa
+Inserted new genre: Adctx
+[Duplicate] Genre/movie pair already exists: genre=Comedy, movie_id=FNm10
+Inserted new genre: txx
+Inserted new genre: Camp
+Inserted new genre: Surl
+Inserted new genre: Porn
+Inserted new genre: Ctxxx
+Inserted new genre: Avant Garde
+Inserted new genre: Ctcxx
 [Duplicate] Genre/movie pair already exists: genre=Drama, movie_id=OP13
+Inserted new genre: Psychological
 [Duplicate] Genre/movie pair already exists: genre=Comedy, movie_id=GSt3
+Inserted new genre: Ctxx
+Inserted new genre: Homo
 [Duplicate] Genre/movie pair already exists: genre=Documentary, movie_id=PaJ2
 [Duplicate] Genre/movie pair already exists: genre=Drama, movie_id=PaJ2
 [Duplicate] Genre/movie pair already exists: genre=Drama, movie_id=FZ8
 [Duplicate] Genre/movie pair already exists: genre=Documentary, movie_id=FZ8
-Inserted new genre: Romantic
+Inserted new genre: CmR
+Inserted new genre: Duco
+Inserted new genre: H
 [Duplicate] Genre/movie pair already exists: genre=Drama, movie_id=NR1
 [Duplicate] Genre/movie pair already exists: genre=Drama, movie_id=HyC10
 [Duplicate] Genre/movie pair already exists: genre=Adventure, movie_id=JLT50
+Inserted new genre: FantH*
+Inserted new genre: RFP; H*
+Inserted new genre: Natu
 [Duplicate] Genre/movie pair already exists: genre=Drama, movie_id=JIv42
+Inserted new genre: TV
+Inserted new genre: Scat
+Inserted new genre: Mystp
 [Duplicate] Genre/movie pair already exists: genre=Mystery, movie_id=GeP15
+Inserted new genre: CnR
 [Duplicate] Genre/movie pair already exists: genre=History, movie_id=MBo12
-Inserted new genre: Avant Garde
+Inserted new genre: H**
 [Duplicate] Genre/movie pair already exists: genre=Suspense, movie_id=JaS13
+Inserted new genre: H0
 [Duplicate] Genre/movie pair already exists: genre=Drama, movie_id=KRu25
 [Duplicate] Genre/movie pair already exists: genre=Documentary, movie_id=MAp43
-Inserted new genre: Porn
+[Duplicate] Genre/movie pair already exists: genre=Porn, movie_id=JRl10
+Inserted new genre: Weird
+Inserted new genre: Cult
+Inserted new genre: Ront
+Inserted new genre: Sctn
+Inserted new genre: Dist
 [Duplicate] Genre/movie pair already exists: genre=Sci-Fi, movie_id=NiM30
+[Duplicate] Genre/movie pair already exists: genre=Porn, movie_id=FOR12
+Inserted new genre: Adct
+Inserted new genre: Viol
 [Duplicate] Genre/movie pair already exists: genre=Comedy, movie_id=PAl4
+Inserted new genre: CA
 [Duplicate] Genre/movie pair already exists: genre=Comedy, movie_id=BLe5
 [Duplicate] Genre/movie pair already exists: genre=Suspense, movie_id=KaK10
+Inserted new genre: BioB
+Inserted new genre: Kinky
 [Duplicate] Genre/movie pair already exists: genre=Romance, movie_id=ChS13
+Inserted new genre: TVmini
+Inserted new genre: Romtx
 Inserted new genre: Satire
-Inserted new genre: Noir
+Inserted new genre: Dicu
+Inserted new genre: UnDr
+Inserted new genre: Expm
+Inserted new genre: Art Video
+Inserted new genre: Allegory
+Inserted new genre: verite
+Inserted new genre: anti-Dram
+Inserted new genre: Act
+Inserted new genre: Road
 [Duplicate] Genre/movie pair already exists: genre=Documentary, movie_id=NtB10
 [Duplicate] Genre/movie pair already exists: genre=Romance, movie_id=SfG1
 Actor from casts.xml not found in stars table: actor=Scott Sunderland, movie_id=AA13
