@@ -332,6 +332,7 @@ public class XMLDataInserter {
                             if (generatedKeys.next()) {
                                 genreId = generatedKeys.getInt(1);
                                 genreNameToId.put(genre, genreId);
+                                System.err.println("Inserted new genre: " + genre);
                                 insertedGenres++;
                             } else {
                                 System.err.println("Failed to get generated genre id for genre=" + genre);
