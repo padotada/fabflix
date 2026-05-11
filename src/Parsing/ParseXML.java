@@ -12,6 +12,10 @@ import java.io.FileOutputStream;
 
 public class ParseXML {
 
+    private static String report = """
+            For genres, we made a hashmap of genre misspellings and abbreviations to make genres more organized and have less duplicates.
+            
+            """;
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         // Scanner input = new Scanner(System.in);
@@ -28,10 +32,6 @@ public class ParseXML {
         MainsParser mainsParser = new MainsParser(main_path);
         ActorsParser actorsParser = new ActorsParser(actor_path);
         CastsParser castParser = new CastsParser(cast_path);
-
-        File inconsistency_report = new File( "src/Parsing/inconsistency_report.txt");
-        PrintStream printStream = new PrintStream(new FileOutputStream(inconsistency_report, false));
-        System.setErr(printStream);
 
         System.err.println("-----Beginning parse of mains243.xml-----");
         long startTime = System.nanoTime();
@@ -68,6 +68,13 @@ public class ParseXML {
 
         endTime = System.nanoTime();
         System.out.println("Database insertion took: " + (endTime - startTime) / 1000000 + " ms");
+
+        File inconsistency_report = new File( "src/Parsing/inconsistency_report.txt");
+        PrintStream printStream = new PrintStream(new FileOutputStream(inconsistency_report, false));
+        System.setOut(printStream);
+
+        System.out.println(report);
+        System.out.println("Genres changed for consistency: " + mainsParser.getGenre_changes());
     }
 
 
