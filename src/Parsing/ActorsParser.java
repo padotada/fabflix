@@ -30,6 +30,38 @@ class ActorsParser {
         return actorList;
     }
 
+    private Element getDirectChild(Element parent, String tagName) {
+        NodeList children = parent.getChildNodes();
+
+        for (int i = 0; i < children.getLength(); i++) {
+            if (children.item(i) instanceof Element) {
+                Element child = (Element) children.item(i);
+
+                if (child.getTagName().equals(tagName)) {
+                    return child;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private String getDirectTextValue(Element parent, String tagName) {
+        Element child = getDirectChild(parent, tagName);
+        if (child == null) {
+            return null;
+        }
+        String text = child.getTextContent();
+        if (text == null) {
+            return null;
+        }
+        text = text.trim();
+        if (text.isEmpty()) {
+            return null;
+        }
+        return text;
+    }
+
     private Document parseXmlFile() throws IOException, SAXException, ParserConfigurationException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -50,17 +82,14 @@ class ActorsParser {
         }
         return actorList;
     }
-    private Integer getNullableIntValue(Element element, String tagName, String context){
-        String text = getTextValue(element, tagName);
-        if(text == null || text.trim().isEmpty()){
+    private Integer parseIntegerOrNull(String text) {
+        if (text == null || text.trim().isEmpty()) {
             return null;
         }
-        text = text.trim();
-        try{
-            return Integer.parseInt(text);
-        }catch(NumberFormatException e){
-            System.err.println("Invalid Integer for <" + tagName+">: value="+
-                    text+", context="+context);
+
+        try {
+            return Integer.parseInt(text.trim());
+        } catch (NumberFormatException e) {
             return null;
         }
     }
@@ -70,19 +99,21 @@ class ActorsParser {
             System.err.println("Actor missing <stagename>");
             return null;
         }
-        Integer dob = getNullableIntValue(element, "dob", "actor=" + name);
+        String dobText = getDirectTextValue(element, "dob");
+        Integer dob = parseIntegerOrNull(dobText);
 
         return new Actor(name.trim(), dob);
     }
 
     private String getTextValue(Element element, String tagName) {
-        NodeList nodeList = element.getElementsByTagName(tagName);
-        if (nodeList.getLength() == 1) {
-            // here we expect only one <Name> would present in the <Employee>
-            if(nodeList.item(0).getFirstChild() == null) {return null;}
-            return nodeList.item(0).getFirstChild().getNodeValue();
-        }
-        return null;
+//        NodeList nodeList = element.getElementsByTagName(tagName);
+//        if (nodeList.getLength() == 1) {
+//            // here we expect only one <Name> would present in the <Employee>
+//            if(nodeList.item(0).getFirstChild() == null) {return null;}
+//            return nodeList.item(0).getFirstChild().getNodeValue();
+//        }
+//        return null;
+        return getDirectTextValue(element, tagName);
     }
 
 //    private int getIntValue(Element ele, String tagName) {

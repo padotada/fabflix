@@ -44,6 +44,55 @@ class MainsParser {
         return documentBuilder.parse(file_path);
     }
 
+    private Element getDirectChild(Element parent, String tagName) {
+        NodeList children = parent.getChildNodes();
+
+        for (int i = 0; i < children.getLength(); i++) {
+            if (children.item(i) instanceof Element) {
+                Element child = (Element) children.item(i);
+
+                if (child.getTagName().equals(tagName)) {
+                    return child;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private List<Element> getDirectChildren(Element parent, String tagName) {
+        List<Element> result = new ArrayList<>();
+        NodeList children = parent.getChildNodes();
+
+        for (int i = 0; i < children.getLength(); i++) {
+            if (children.item(i) instanceof Element) {
+                Element child = (Element) children.item(i);
+
+                if (child.getTagName().equals(tagName)) {
+                    result.add(child);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private String getDirectTextValue(Element parent, String tagName) {
+        Element child = getDirectChild(parent, tagName);
+        if (child == null) {
+            return null;
+        }
+        String text = child.getTextContent();
+        if (text == null) {
+            return null;
+        }
+        text = text.trim();
+        if (text.isEmpty()) {
+            return null;
+        }
+        return text;
+    }
+
     private List<Movie> convertDocumentIntoMovies(Document document) {
         Element rootDocumentElement = document.getDocumentElement();
         List<Movie> movieList = new ArrayList<>();
@@ -58,46 +107,51 @@ class MainsParser {
 
     private List<Movie> convertDirectorFilmsIntoMovies(Element element)
     {
-        String director = getTextValue(element, "dirname");
+        Element directorElement = getDirectChild(element, "director");
+        String director = null;
+        if (directorElement != null) {
+            director = getDirectTextValue(directorElement, "dirname");
+        }
+        Element filmsElement = getDirectChild(element, "films");
         List<Movie> movieList = new ArrayList<>();
-        NodeList nodeList = element.getElementsByTagName("film");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element film = (Element) nodeList.item(i);
+        if (filmsElement == null) {
+            System.err.println("<directorfilms> missing <films> for director=" + director);
+            return movieList;
+        }
+        List<Element> filmElements = getDirectChildren(filmsElement, "film");
+        for (Element film : filmElements) {
             Movie movie = convertDomElementToMovie(film);
             if (movie == null) {
                 continue;
             }
-            if(director == null || director.trim().isEmpty()){
-                System.err.println("Movie missing director: fid=" + movie.getId()
-                        + ", title=" + movie.getTitle());
+            if (director == null || director.trim().isEmpty()) {
+                System.err.println("Movie missing director: fid="
+                        + movie.getId() + ", title=" + movie.getTitle());
                 continue;
             }
-            movie.setDirector(director);
+            movie.setDirector(director.trim());
             movieList.add(movie);
         }
+
         return movieList;
     }
 
-    private Integer getNullableIntValue(Element element, String tagName, String context) {
-        String text = getTextValue(element, tagName);
-
+    private Integer parseIntegerOrNull(String text) {
         if (text == null || text.trim().isEmpty()) {
             return null;
         }
-        text = text.trim();
+
         try {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.trim());
         } catch (NumberFormatException e) {
-            System.err.println("Invalid integer for <" + tagName + ">: value="
-                    + text + ", context=" + context);
             return null;
         }
     }
 
     private Movie convertDomElementToMovie(Element element) {
-        String id = getTextValue(element, "fid");
-        String title = getTextValue(element, "t");
-        String yearText = getTextValue(element, "year");
+        String id = getDirectTextValue(element, "fid");
+        String title = getDirectTextValue(element, "t");
+        String yearText = getDirectTextValue(element, "year");
         if (id == null || id.trim().isEmpty()) {
             System.err.println("Movie missing <fid>: title=" + title);
             return null;
@@ -107,7 +161,7 @@ class MainsParser {
             System.err.println("Movie missing/unknown <t>: fid=" + id + ", title=" + title);
             return null;
         }
-        Integer year = getNullableIntValue(element, "year", "movie fid=" + id + ", title=" + title);
+        Integer year = parseIntegerOrNull(yearText);
         if (year == null) {
             System.err.println("Skipping movie because year is missing/invalid: fid="
                     + id + ", title=" + title + ", year=" + yearText);
@@ -119,35 +173,44 @@ class MainsParser {
         return movie;
     }
 
-    private List<String> getGenresOfFilm(Element element) {
+    private List<String> getGenresOfFilm(Element filmElement) {
         List<String> genres = new ArrayList<>();
-        NodeList nodeList = element.getElementsByTagName("cat");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            if(nodeList.item(i).getFirstChild() == null) {continue;}
-            String genre = nodeList.item(i).getFirstChild().getNodeValue();
-            if(genre_inconsistences.containsKey(genre)) {
+        Element catsElement = getDirectChild(filmElement, "cats");
+        if (catsElement == null) {
+            return genres;
+        }
+        List<Element> catElements = getDirectChildren(catsElement, "cat");
+        for (Element catElement : catElements) {
+            String genre = catElement.getTextContent();
+
+            if (genre == null || genre.trim().isEmpty()) {
+                continue;
+            }
+            genre = genre.trim();
+            if (genre_inconsistences.containsKey(genre)) {
                 System.err.print("Genre " + genre);
                 genre = genre_inconsistences.get(genre);
                 System.err.println(" replaced with " + genre + " for consistency");
             }
             genres.add(genre);
         }
+
         return genres;
     }
 
-    private String getTextValue(Element element, String tagName) {
-        NodeList nodeList = element.getElementsByTagName(tagName);
-        if (nodeList.getLength() == 1) {
-            // here we expect only one <Name> would present in the <Employee>
-            if(nodeList.item(0).getFirstChild() == null) {return null;}
-            return nodeList.item(0).getFirstChild().getNodeValue();
-        }
-        return null;
-    }
+//    private String getTextValue(Element element, String tagName) {
+//        NodeList nodeList = element.getElementsByTagName(tagName);
+//        if (nodeList.getLength() == 1) {
+//            // here we expect only one <Name> would present in the <Employee>
+//            if(nodeList.item(0).getFirstChild() == null) {return null;}
+//            return nodeList.item(0).getFirstChild().getNodeValue();
+//        }
+//        return null;
+//    }
 
-    private int getIntValue(Element ele, String tagName) {
-        return Integer.parseInt(getTextValue(ele, tagName));
-    }
+//    private int getIntValue(Element ele, String tagName) {
+//        return Integer.parseInt(getTextValue(ele, tagName));
+//    }
 
     private void printEmployeeData(List<Movie> movieList) {
         System.out.println("Total parsed " + movieList.size() + " employees");

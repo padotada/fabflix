@@ -24,6 +24,55 @@ class CastsParser {
         this.file_path = file_path;
     }
 
+    private Element getDirectChild(Element parent, String tagName) {
+        NodeList children = parent.getChildNodes();
+
+        for (int i = 0; i < children.getLength(); i++) {
+            if (children.item(i) instanceof Element) {
+                Element child = (Element) children.item(i);
+
+                if (child.getTagName().equals(tagName)) {
+                    return child;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private List<Element> getDirectChildren(Element parent, String tagName) {
+        List<Element> result = new ArrayList<>();
+        NodeList children = parent.getChildNodes();
+
+        for (int i = 0; i < children.getLength(); i++) {
+            if (children.item(i) instanceof Element) {
+                Element child = (Element) children.item(i);
+
+                if (child.getTagName().equals(tagName)) {
+                    result.add(child);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private String getDirectTextValue(Element parent, String tagName) {
+        Element child = getDirectChild(parent, tagName);
+        if (child == null) {
+            return null;
+        }
+        String text = child.getTextContent();
+        if (text == null) {
+            return null;
+        }
+        text = text.trim();
+        if (text.isEmpty()) {
+            return null;
+        }
+        return text;
+    }
+
     public List<ActorMoviePair> runParser() throws IOException, ParserConfigurationException, SAXException {
         Document document = parseXmlFile();
         List<ActorMoviePair> pairList = convertDocumentIntoPairs(document);
@@ -52,17 +101,14 @@ class CastsParser {
     }
 
 
-    private List<ActorMoviePair> convertDirfilmsIntoPairs(Element element)
-    {
+    private List<ActorMoviePair> convertDirfilmsIntoPairs(Element dirFilmsElement) {
         List<ActorMoviePair> pairList = new ArrayList<>();
-        NodeList filmcList = element.getElementsByTagName("filmc");
-        for (int i = 0; i < filmcList.getLength(); i++) {
-            Element film = (Element) filmcList.item(i);
-            NodeList castList = film.getElementsByTagName("m");
-            for (int j = 0; j < castList.getLength(); j++) {
-                Element actor = (Element) castList.item(j);
-                ActorMoviePair pair = convertDomElementToPair(actor);
-                if(pair != null) {
+        List<Element> filmcElements = getDirectChildren(dirFilmsElement, "filmc");
+        for (Element filmcElement : filmcElements) {
+            List<Element> castElements = getDirectChildren(filmcElement, "m");
+            for (Element castElement : castElements) {
+                ActorMoviePair pair = convertDomElementToPair(castElement);
+                if (pair != null) {
                     pairList.add(pair);
                 }
             }
@@ -71,36 +117,30 @@ class CastsParser {
     }
 
     private ActorMoviePair convertDomElementToPair(Element element) {
-        String actor = getTextValue(element, "a");
-        String movie_id = getTextValue(element, "f");
+        String actor = getDirectTextValue(element, "a");
+        String movieId = getDirectTextValue(element, "f");
 
         if (actor != null) {
             actor = actor.trim();
         }
-
-        if (movie_id != null) {
-            movie_id = movie_id.trim();
+        if (movieId != null) {
+            movieId = movieId.trim();
         }
-
-        if((actor == null || actor.isEmpty()) && (movie_id == null || movie_id.isEmpty())) {
-            System.err.println("Cast with no data on movie and actor");
+        if ((actor == null || actor.isEmpty()) && (movieId == null || movieId.isEmpty())) {
+            System.err.println("Cast missing both <a> and <f>");
+            return null;
+        } else if (movieId == null || movieId.isEmpty()) {
+            System.err.println("Cast missing <f> movie id for actor=" + actor);
+            return null;
+        } else if (actor == null || actor.isEmpty()) {
+            System.err.println("Cast missing <a> actor name for movie_id=" + movieId);
             return null;
         }
-        else if(movie_id == null || movie_id.isEmpty()) {
-            System.err.println("Cast with no movie id for actor " + actor);
+        if (actor.equals("sa")) {
+            System.err.println("Skipping unknown actor 'sa' for movie_id=" + movieId);
             return null;
         }
-        else if(actor == null || actor.isEmpty()) {
-            System.err.println("Cast with no actor name for movie " + movie_id);
-            return null;
-        }
-
-        if(actor.equals("sa")){
-            System.err.println("Skipping unknown actor 'sa' for movie_id=" + movie_id);
-            return null;
-        }
-
-        return new ActorMoviePair(actor, movie_id);
+        return new ActorMoviePair(actor, movieId);
     }
 
     private String getTextValue(Element element, String tagName) {
