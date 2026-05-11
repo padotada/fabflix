@@ -1204,30 +1204,152 @@ Skipping unknown actor 'sa' for movie_id=Z4102
 [Duplicate] Actor already exists: name=David Zucker
 [Duplicate] Actor already exists: name=Jerry Zucker
 [Duplicate] Actor already exists: name=Daphne Zuniga
+Inserted new genre: Dram
+Inserted new genre: Susp
+Inserted new genre: Romt
+Inserted new genre: Musc
+Inserted new genre: Myst
+Inserted new genre: susp
+Inserted new genre: Comd
+Inserted new genre: Docu
+Inserted new genre: Advt
+Inserted new genre: Actn
+Inserted new genre: West
+Inserted new genre: Fant
+Inserted new genre: ScFi
+Inserted new genre: Cart
+Inserted new genre: Horr
+Inserted new genre: BioP
+Inserted new genre: Hist
+Inserted new genre: Epic
+Inserted new genre: Biop
+Inserted new genre: CnRb
+Inserted new genre: DRam
+Inserted new genre: Surr
+Inserted new genre: Crim
+Inserted new genre: Cond
+Inserted new genre: Romt Comd
+Inserted new genre: Noir
+Inserted new genre: BioG
+Inserted new genre: Disa
+Inserted new genre: West1
+Inserted new genre: Adctx
 [Duplicate] Genre/movie pair already exists: genre=Comd, movie_id=FNm10
+Inserted new genre: txx
+Inserted new genre: Camp
+Inserted new genre: SciF
+Inserted new genre: Surl
+Inserted new genre: Porn
+Inserted new genre: surreal
+Inserted new genre: RomtAdvt
+Inserted new genre: Ctxxx
+Inserted new genre: stage musical
+Inserted new genre: Muusc
+Inserted new genre: Avant Garde
+Inserted new genre: CnRbb
+Inserted new genre: Draam
+Inserted new genre: ram
+Inserted new genre: Ctcxx
 [Duplicate] Genre/movie pair already exists: genre=Dram, movie_id=OP13
+Inserted new genre: Dramn
+Inserted new genre: Psych Dram
 [Duplicate] Genre/movie pair already exists: genre=Comd, movie_id=GSt3
+Inserted new genre: Ctxx
+Inserted new genre: Comdx
+Inserted new genre: comd
+Inserted new genre: Homo
 [Duplicate] Genre/movie pair already exists: genre=Docu, movie_id=PaJ2
 [Duplicate] Genre/movie pair already exists: genre=Dram, movie_id=PaJ2
 [Duplicate] Genre/movie pair already exists: genre=Dram, movie_id=FZ8
 [Duplicate] Genre/movie pair already exists: genre=Docu, movie_id=FZ8
+Inserted new genre: DRAM
+Inserted new genre: romt
+Inserted new genre: Muscl
+Inserted new genre: CmR
+Inserted new genre: Duco
+Inserted new genre: dram
+Inserted new genre: H
+Inserted new genre: S.F.
 [Duplicate] Genre/movie pair already exists: genre=Dram, movie_id=NR1
+Inserted new genre: actn
 [Duplicate] Genre/movie pair already exists: genre=Dram, movie_id=HyC10
 [Duplicate] Genre/movie pair already exists: genre=Advt, movie_id=JLT50
+Inserted new genre: FantH*
+Inserted new genre: RFP; H*
+Inserted new genre: musc
+Inserted new genre: Natu
 [Duplicate] Genre/movie pair already exists: genre=Dram, movie_id=JIv42
+Inserted new genre: TV
+Inserted new genre: Scat
+Inserted new genre: BiopP
+Inserted new genre: Mystp
 [Duplicate] Genre/movie pair already exists: genre=Myst, movie_id=GeP15
+Inserted new genre: DraM
+Inserted new genre: CnR
 [Duplicate] Genre/movie pair already exists: genre=Hist, movie_id=MBo12
+Inserted new genre: H**
+Inserted new genre: Bio
+Inserted new genre: AvGa
+Inserted new genre: Comd West
 [Duplicate] Genre/movie pair already exists: genre=Susp, movie_id=JaS13
+Inserted new genre: H0
 [Duplicate] Genre/movie pair already exists: genre=Dram, movie_id=KRu25
 [Duplicate] Genre/movie pair already exists: genre=Docu, movie_id=MAp43
 [Duplicate] Genre/movie pair already exists: genre=Porn, movie_id=JRl10
+Inserted new genre: Weird
+Inserted new genre: noir
+Inserted new genre: Scfi
+Inserted new genre: Dramd
+Inserted new genre: fant
+Inserted new genre: Dram>
+Inserted new genre: Cult
+Inserted new genre: porn
+Inserted new genre: Ront
+Inserted new genre: Sctn
+Inserted new genre: Dist
+Inserted new genre: Hor
 Empty genre for movie_id=SRi19
+Inserted new genre: Psyc
 [Duplicate] Genre/movie pair already exists: genre=ScFi, movie_id=NiM30
 [Duplicate] Genre/movie pair already exists: genre=Porn, movie_id=FOR12
+Inserted new genre: Adct
+Inserted new genre: Viol
 [Duplicate] Genre/movie pair already exists: genre=Comd, movie_id=PAl4
+Inserted new genre: CA
+Inserted new genre: BioPx
+Inserted new genre: Axtn
 [Duplicate] Genre/movie pair already exists: genre=Comd, movie_id=BLe5
 [Duplicate] Genre/movie pair already exists: genre=Susp, movie_id=KaK10
+Inserted new genre: SxFi
+Inserted new genre: BioB
+Inserted new genre: Kinky
+Inserted new genre: BioPP
 [Duplicate] Genre/movie pair already exists: genre=Romt, movie_id=ChS13
+Inserted new genre: TVmini
+Inserted new genre: Ducu
+Inserted new genre: Romtx
+Inserted new genre: Sati
+Inserted new genre: Dicu
+Inserted new genre: Romt Fant
+Inserted new genre: Comd Noir
+Inserted new genre: Faml
+Inserted new genre: UnDr
+Inserted new genre: Expm
+Inserted new genre: Noir Comd Romt
+Inserted new genre: Art Video
+Inserted new genre: Romt Actn
+Inserted new genre: Dram Docu
+Inserted new genre: Allegory
+Inserted new genre: Romt. Comd
+Inserted new genre: Dram.Actn
+Inserted new genre: Noir Comd
+Inserted new genre: Porb
+Inserted new genre: verite
+Inserted new genre: Romt Dram
+Inserted new genre: anti-Dram
+Inserted new genre: Act
+Inserted new genre: Docu Dram
+Inserted new genre: Road
 [Duplicate] Genre/movie pair already exists: genre=Docu, movie_id=NtB10
 [Duplicate] Genre/movie pair already exists: genre=Romt, movie_id=SfG1
 Actor from casts.xml not found in stars table: actor=Scott Sunderland, movie_id=AA13
