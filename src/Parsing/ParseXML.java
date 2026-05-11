@@ -33,19 +33,19 @@ public class ParseXML {
         ActorsParser actorsParser = new ActorsParser(actor_path, reporter);
         CastsParser castParser = new CastsParser(cast_path, reporter);
 
-        System.err.println("-----Beginning parse of mains243.xml-----");
+        System.out.println("-----Beginning parse of mains243.xml-----");
         long startTime = System.nanoTime();
         List<Movie> movieList = mainsParser.runParser();
         long endTime = System.nanoTime();
         System.out.println("Parsing movies took: " + (endTime - startTime)/ 1000000 + " ms");
 
-        System.err.println("-----Beginning parse of actors63.xml-----");
+        System.out.println("-----Beginning parse of actors63.xml-----");
         startTime = System.nanoTime();
         List<Actor> actorList = actorsParser.runParser();
         endTime = System.nanoTime();
         System.out.println("Parsing actors took: " + (endTime - startTime)/ 1000000 + " ms");
 
-        System.err.println("-----Beginning parse of casts124.xml-----");
+        System.out.println("-----Beginning parse of casts124.xml-----");
         startTime = System.nanoTime();
         List<ActorMoviePair> castList = castParser.runParser();
         endTime = System.nanoTime();
@@ -56,7 +56,7 @@ public class ParseXML {
         System.out.println("Parsed cast pairs: " + castList.size());
 
 
-        System.err.println("-----Beginning database insertion-----");
+        System.out.println("-----Beginning database insertion-----");
         startTime = System.nanoTime();
 
         try {
@@ -69,12 +69,15 @@ public class ParseXML {
         endTime = System.nanoTime();
         System.out.println("Database insertion took: " + (endTime - startTime) / 1000000 + " ms");
 
-        File inconsistency_report = new File( "src/Parsing/inconsistency_report.txt");
-        PrintStream printStream = new PrintStream(new FileOutputStream(inconsistency_report, false));
-        System.setOut(printStream);
+        reporter.report("Genre names changed for consistency");
 
-        System.out.println(report);
-        System.out.println("Genres changed for consistency: " + mainsParser.getGenre_changes());
+        try {
+            reporter.writeReport("src/Parsing/inconsistency_report.txt");
+            System.out.println("Inconsistency report written to src/Parsing/inconsistency_report.txt");
+        } catch (Exception e) {
+            System.err.println("Failed to write inconsistency report.");
+            e.printStackTrace();
+        }
     }
 
 
