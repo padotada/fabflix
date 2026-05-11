@@ -37,7 +37,9 @@ BEGIN
         SELECT MAX(id)
         INTO max_movie_id
         FROM movies
-        WHERE id LIKE 'tt%';
+        WHERE id REGEXP '^tt[0-9]+$'
+        ORDER BY CAST(SUBSTRING(id, 3) AS UNSIGNED) DESC
+        LIMIT 1;
 
         IF max_movie_id IS NULL THEN
             SET next_movie_num = 1;
@@ -60,7 +62,9 @@ BEGIN
             SELECT MAX(id)
             INTO max_star_id
             FROM stars
-            WHERE id LIKE 'nm%';
+            WHERE id REGEXP '^nm[0-9]+$'
+            ORDER BY CAST(SUBSTRING(id, 3) AS UNSIGNED) DESC
+            LIMIT 1;
 
             IF max_star_id IS NULL THEN
                 SET next_star_num = 1;
