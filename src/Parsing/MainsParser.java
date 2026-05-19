@@ -327,26 +327,5 @@ class MainsParser {
         return genres;
     }
 
-//    private String getTextValue(Element element, String tagName) {
-//        NodeList nodeList = element.getElementsByTagName(tagName);
-//        if (nodeList.getLength() == 1) {
-//            // here we expect only one <Name> would present in the <Employee>
-//            if(nodeList.item(0).getFirstChild() == null) {return null;}
-//            return nodeList.item(0).getFirstChild().getNodeValue();
-//        }
-//        return null;
-//    }
-
-//    private int getIntValue(Element ele, String tagName) {
-//        return Integer.parseInt(getTextValue(ele, tagName));
-//    }
-
-    private void printEmployeeData(List<Movie> movieList) {
-        System.out.println("Total parsed " + movieList.size() + " employees");
-        for (Movie movie : movieList) {
-            System.out.println("\t" + movie.toString());
-        }
-    }
-
     public int getGenre_changes(){return genre_changes;}
 }

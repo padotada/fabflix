@@ -144,21 +144,4 @@ class CastsParser {
         }
         return new ActorMoviePair(actor, movieId);
     }
-
-    private String getTextValue(Element element, String tagName) {
-        NodeList nodeList = element.getElementsByTagName(tagName);
-        if (nodeList.getLength() == 1) {
-            // here we expect only one <Name> would present in the <Employee>
-            if(nodeList.item(0).getFirstChild() == null) {return null;}
-            return nodeList.item(0).getFirstChild().getNodeValue();
-        }
-        return null;
-    }
-
-    public void printPairData(List<ActorMoviePair> pairList) {
-        System.out.println("Total parsed " + pairList.size() + " employees");
-        for (ActorMoviePair pair : pairList) {
-            System.out.println("\t" + pair.toString());
-        }
-    }
 }

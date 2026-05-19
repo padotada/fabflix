@@ -70,7 +70,7 @@ class ActorsParser {
         Reader reader = new InputStreamReader(new FileInputStream(file_path), StandardCharsets.ISO_8859_1);
         InputSource inputSource = new InputSource(reader);
         inputSource.setEncoding("ISO-8859-1");
-        return documentBuilder.parse(file_path);
+        return documentBuilder.parse(inputSource);
     }
 
     private List<Actor> convertDocumentIntoActors(Document document) {
@@ -96,7 +96,7 @@ class ActorsParser {
         }
     }
     private Actor convertDomElementToActor(Element element) {
-        String name = getTextValue(element, "stagename");
+        String name = getDirectTextValue(element, "stagename");
         if(name == null || name.trim().isEmpty()){
             reporter.report("Actor missing stagename");
             return null;
@@ -105,24 +105,5 @@ class ActorsParser {
         Integer dob = parseIntegerOrNull(dobText);
 
         return new Actor(name.trim(), dob);
-    }
-
-    private String getTextValue(Element element, String tagName) {
-//        NodeList nodeList = element.getElementsByTagName(tagName);
-//        if (nodeList.getLength() == 1) {
-//            // here we expect only one <Name> would present in the <Employee>
-//            if(nodeList.item(0).getFirstChild() == null) {return null;}
-//            return nodeList.item(0).getFirstChild().getNodeValue();
-//        }
-//        return null;
-        return getDirectTextValue(element, tagName);
-    }
-
-//    private int getIntValue(Element ele, String tagName) {
-//        return Integer.parseInt(getTextValue(ele, tagName));
-//    }
-
-    private void printEmployeeData(List<Actor> employeeList) {
-
     }
 }
