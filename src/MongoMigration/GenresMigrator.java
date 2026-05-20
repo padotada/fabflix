@@ -32,10 +32,16 @@ public class GenresMigrator {
     private static final String genre_query = "SELECT * FROM genres";
 
     public void migrate() {
-        PreparedStatement genre_statement;
-        try(Connection connection = dataSource.getConnection()) {
+        try(Connection connection = dataSource.getConnection();
             PreparedStatement select_genre_statement = connection.prepareStatement(genre_query);
+            ResultSet resultSet = select_genre_statement.executeQuery()) {
 
+            while(resultSet.next()) {
+                int genre_id = resultSet.getInt("genre_id");
+                String genre_name = resultSet.getString("name");
+                Document genre = new Document("genre_id", genre_id).append("name", genre_name);
+                writeToMongo(genre);
+            }
 
         } catch (Exception e) {
 
@@ -43,7 +49,14 @@ public class GenresMigrator {
     }
 
     private void writeToMongo(Document genreDocument) {
-
+        String uri = "mongodb://testuser:MyPassword6@localhost:27017";
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            // This reuses the myNewDB database from the Mongo tutorial. You may want to create a better named database
+            MongoDatabase myNewDB = mongoClient.getDatabase("movieDB");
+            myNewDB.createCollection("genres");
+            MongoCollection<Document> moviesCollection = myNewDB.getCollection("genres");
+            moviesCollection.insertOne(genreDocument);
+        }
     }
 
 }
