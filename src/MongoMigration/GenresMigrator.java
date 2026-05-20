@@ -19,32 +19,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenresMigrator {
-    private DataSource dataSource;
 
-    public void init(ServletConfig config) {
-        try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-    }
 
     private static final String genre_query = "SELECT * FROM genres";
 
     public void migrate() {
-        try(Connection connection = dataSource.getConnection();
+        String loginUrl = System.getenv("DB_URL");
+        String loginUser = System.getenv("DB_USER");
+        String loginPassword = System.getenv("DB_PASSWORD");
+        try(Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPassword);
             PreparedStatement select_genre_statement = connection.prepareStatement(genre_query);
             ResultSet resultSet = select_genre_statement.executeQuery()) {
 
             while(resultSet.next()) {
-                int genre_id = resultSet.getInt("genre_id");
+                int genre_id = resultSet.getInt("id");
                 String genre_name = resultSet.getString("name");
-                Document genre = new Document("genre_id", genre_id).append("name", genre_name);
+                Document genre = new Document("id", genre_id).append("name", genre_name);
                 writeToMongo(genre);
             }
 
         } catch (Exception e) {
-
+            System.out.println("uh oh");
+            System.out.println(e);
         }
     }
 
