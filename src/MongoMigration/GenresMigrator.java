@@ -45,7 +45,7 @@ public class GenresMigrator {
     }
 
     private void writeToMongo(Document genreDocument) {
-        String uri = "mongodb://testuser:MyPassword6@localhost:27017";
+        String uri = System.getenv("MONGO_URI");
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             // This reuses the myNewDB database from the Mongo tutorial. You may want to create a better named database
             MongoDatabase myNewDB = mongoClient.getDatabase("movieDB");
