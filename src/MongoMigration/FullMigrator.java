@@ -9,5 +9,7 @@ public class FullMigrator {
 //        genresMigrator.migrate();
 //        customersMigrator.migrate();
 //        employeesMigrator.migrate();
+        MoviesMigrator moviesMigrator = new MoviesMigrator();
+        moviesMigrator.migrate();
     }
 }

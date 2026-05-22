@@ -34,7 +34,7 @@ public class GenresMigrator {
             while(resultSet.next()) {
                 int genre_id = resultSet.getInt("id");
                 String genre_name = resultSet.getString("name");
-                Document genre = new Document("id", genre_id).append("name", genre_name);
+                Document genre = new Document("_id", genre_id).append("name", genre_name);
                 writeToMongo(genre);
             }
 

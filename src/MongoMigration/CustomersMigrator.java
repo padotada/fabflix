@@ -31,7 +31,7 @@ public class CustomersMigrator {
                 String address = resultSet.getString("address");
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
-                Document customer = new Document("id", customerId)
+                Document customer = new Document("_id", customerId)
                         .append("first_name", firstName)
                         .append("last_name", lastName)
                         .append("credit_card_id", creditCardId)
