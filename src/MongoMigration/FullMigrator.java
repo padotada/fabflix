@@ -10,6 +10,8 @@ public class FullMigrator {
 //        customersMigrator.migrate();
 //        employeesMigrator.migrate();
         MoviesMigrator moviesMigrator = new MoviesMigrator();
+        StarsMigrator starsMigrator = new StarsMigrator();
         moviesMigrator.migrate();
+        starsMigrator.migrate();
     }
 }
