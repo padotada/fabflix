@@ -21,6 +21,7 @@ public class CustomersMigrator {
 
             MongoDatabase database = mongoClient.getDatabase("movieDB");
             MongoCollection<Document> customersCollection = database.getCollection("customers");
+            customersCollection.deleteMany(new Document());
 
             while(resultSet.next()) {
                 int customerId = resultSet.getInt("id");
@@ -39,7 +40,6 @@ public class CustomersMigrator {
                         .append("password", password);
 
                 customersCollection.insertOne(customer);
-//                writeToMongo(customer);
             }
             System.out.println("Customers migration complete");
         } catch (Exception e) {
