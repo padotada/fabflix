@@ -15,9 +15,10 @@ import java.sql.*;
 public class StarsMigrator {
     private static final String stars_query = """
         SELECT
-            s.id AS star_id, s.name, s.birth_year, sim.movie_id
+            s.id AS star_id, s.name, s.birth_year, m.id AS movie_id, m.title AS movie_title
         FROM stars s
         LEFT JOIN stars_in_movies sim on s.id = sim.star_id
+        LEFT JOIN movies m ON sim.movie_id = m.id
         ORDER BY s.id
     """;
     public void migrate(){
@@ -54,14 +55,16 @@ public class StarsMigrator {
                     star = new Document("_id", starId)
                             .append("name", name)
                             .append("birth_year", birthYear)
-                            .append("movies", new ArrayList<String>());
+                            .append("movies", new ArrayList<Document>());
 
                     starsMap.put(starId, star);
                 }
 
                 if (movieId != null) {
-                    List<String> movies = star.getList("movies", String.class);
-                    movies.add(movieId);
+                    String movieTitle = resultSet.getString("movie_title");
+                    Document movie = new Document("id", movieId).append("title", movieTitle);
+                    List<Document> movies = star.getList("movies", Document.class);
+                    movies.add(movie);
                 }
             }
 
