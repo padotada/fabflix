@@ -16,18 +16,32 @@ public class MoviesMigrator {
             FROM movies m
             LEFT JOIN ratings r on m.id = r.movie_id
             """;
+    private static final String stars_query = """
+            SELECT s.id, s.name
+            FROM stars s JOIN stars_in_movies sm ON s.id = sm.star_id JOIN movies m on m.id = sm.movie_id
+            WHERE m.id = ?
+            ORDER BY s.name
+            """;
+
+    private static final String genres_query = """
+            SELECT g.id, g.name
+            FROM genres g JOIN genres_in_movies gm on m.id = gm.genre_id JOIN movies m on m.id = gm.movie_id
+            WHERE m.id = ?
+            ORDER BY g.name
+            """;
+
+
     public void migrate(){
         String loginUrl = System.getenv("DB_URL");
         String loginUser = System.getenv("DB_USER");
         String loginPassword = System.getenv("DB_PASSWORD");
         String uri = System.getenv("MONGO_URI");
 
-        try(
-                Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPassword);
+        try(Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPassword);
                 PreparedStatement statement = connection.prepareStatement(movies_query);
                 ResultSet resultSet = statement.executeQuery();
-                MongoClient mongoClient = MongoClients.create(uri)
-            ){
+                MongoClient mongoClient = MongoClients.create(uri)) {
+
             MongoDatabase database = mongoClient.getDatabase("movieDB");
             MongoCollection<Document> moviesCollection = database.getCollection("movies");
 
