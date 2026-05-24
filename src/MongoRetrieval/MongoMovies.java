@@ -123,6 +123,25 @@ public class MongoMovies {
         }
     }
 
+    public MoviePojo getSingleMovieById(String movieId){
+        if(movieId == null || movieId.trim().isEmpty()){return null;}
+        if(uri == null || uri.isBlank()){
+            throw new IllegalStateException("MONGO_URI environment variable is not set for Tomcat.");
+        }
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase movieDB = mongoClient.getDatabase("movieDB");
+            MongoCollection<Document> movieCollection = movieDB.getCollection("movies");
+
+            Document movie = movieCollection.find(Filters.eq("_id", movieId)).first();
+
+            if (movie == null) {
+                return null;
+            }
+
+            return documentToSingleMoviePojo(movie);
+        }
+    }
+
     public List<MoviePojo> retrieveMovies() {
         List<MoviePojo> movies = new ArrayList<>();
         int skip = numRecords * (pageNumber - 1);
@@ -135,17 +154,6 @@ public class MongoMovies {
             MongoDatabase movieDB = mongoClient.getDatabase("movieDB");
             MongoCollection<Document> movieCollection = movieDB.getCollection("movies");
 
-//            for(Document movie : movieCollection.find(filter)) {
-//                RatingPojo ratingPojo = new RatingPojo();
-//                Document rating = (Document) movie.get("rating");
-//
-//
-//                MoviePojo m = MoviePojo.builder()
-//                        .setMovieId(movie.getString("_id"))
-//                        .setMovieTitle(movie.getString("title"))
-//                        .setMovieYear(movie.getInteger("year"))
-//                        .setMovieDirector(movie.getString("director"));
-//            }
             FindIterable<Document> results = movieCollection
                     .find(buildFilter())
                     .sort(sort)
@@ -158,6 +166,46 @@ public class MongoMovies {
         }
         return movies;
 
+    }
+    private MoviePojo documentToSingleMoviePojo(Document movie){
+        Document ratingDocument = movie.get("rating", Document.class);
+
+        Double rating = null;
+        Integer voteCount = null;
+
+        if (ratingDocument != null) {
+            rating = ratingDocument.getDouble("rating");
+            voteCount = ratingDocument.getInteger("vote_count");
+        }
+
+        MoviePojo moviePojo = MoviePojo.builder()
+                .setMovieId(movie.getString("_id"))
+                .setMovieTitle(movie.getString("title"))
+                .setMovieYear(movie.getInteger("year"))
+                .setMovieDirector(movie.getString("director"))
+                .setMoviePrice(movie.getDouble("price"))
+                .setMovieRating(rating)
+                .setVoteCount(voteCount);
+
+
+        List<Document> genres = movie.getList("genres", Document.class);
+        if (genres != null) {
+            for (Document genre : genres) {
+                moviePojo.addGenre(genre.getString("name"));
+            }
+        }
+
+        List<Document> stars = movie.getList("stars", Document.class);
+        if (stars != null) {
+            for (Document star : stars) {
+                moviePojo.addStar(
+                        star.getString("id"),
+                        star.getString("name")
+                );
+            }
+        }
+
+        return moviePojo;
     }
     private MoviePojo documentToMoviePojo(Document movie){
         Document ratingDocument = movie.get("rating", Document.class);
