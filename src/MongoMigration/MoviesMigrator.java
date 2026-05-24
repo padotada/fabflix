@@ -5,6 +5,9 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOptions;
+import org.bson.BsonArray;
+import org.bson.BsonInt32;
+import org.bson.BsonString;
 import org.bson.Document;
 import java.sql.*;
 // wrap ratings into movies, keep a list of genres and stars in movies separately
@@ -16,18 +19,34 @@ public class MoviesMigrator {
             FROM movies m
             LEFT JOIN ratings r on m.id = r.movie_id
             """;
+    private static final String stars_query = """
+            SELECT s.id, s.name
+            FROM stars s JOIN stars_in_movies sm ON s.id = sm.star_id JOIN movies m on m.id = sm.movie_id
+            WHERE m.id = ?
+            ORDER BY s.name
+            """;
+
+    private static final String genres_query = """
+            SELECT g.id, g.name
+            FROM genres g JOIN genres_in_movies gm on g.id = gm.genre_id JOIN movies m on m.id = gm.movie_id
+            WHERE m.id = ?
+            ORDER BY g.name
+            """;
+
+
     public void migrate(){
         String loginUrl = System.getenv("DB_URL");
         String loginUser = System.getenv("DB_USER");
         String loginPassword = System.getenv("DB_PASSWORD");
         String uri = System.getenv("MONGO_URI");
 
-        try(
-                Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPassword);
-                PreparedStatement statement = connection.prepareStatement(movies_query);
-                ResultSet resultSet = statement.executeQuery();
-                MongoClient mongoClient = MongoClients.create(uri)
-            ){
+        try(Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPassword);
+            PreparedStatement movieStatement = connection.prepareStatement(movies_query);
+            PreparedStatement starsStatement = connection.prepareStatement(stars_query);
+            PreparedStatement genresStatement = connection.prepareStatement(genres_query);
+            ResultSet resultSet = movieStatement.executeQuery();
+            MongoClient mongoClient = MongoClients.create(uri)) {
+
             MongoDatabase database = mongoClient.getDatabase("movieDB");
             MongoCollection<Document> moviesCollection = database.getCollection("movies");
 
@@ -37,6 +56,34 @@ public class MoviesMigrator {
                 int year = resultSet.getInt("year");
                 String director = resultSet.getString("director");
                 double price = resultSet.getDouble("price");
+
+                starsStatement.setString(1, movieId);
+                genresStatement.setString(1, movieId);
+
+                ResultSet starsResultSet = starsStatement.executeQuery();
+                BsonArray starsArray = new BsonArray();
+
+                while(starsResultSet.next()){
+                    BsonArray temp = new BsonArray();
+                    temp.add(new BsonString(starsResultSet.getString("id")));
+                    temp.add(new BsonString(starsResultSet.getString("name")));
+
+                    starsArray.add(temp);
+                }
+                starsResultSet.close();
+
+                ResultSet genresResultSet = genresStatement.executeQuery();
+                BsonArray genresArray = new BsonArray();
+
+                while(genresResultSet.next()){
+                    BsonArray temp = new BsonArray();
+                    temp.add(new BsonInt32(genresResultSet.getInt("id")));
+                    temp.add(new BsonString(genresResultSet.getString("name")));
+
+                    genresArray.add(temp);
+                }
+                genresResultSet.close();
+
 
                 Double rating = null;
                 double ratingValue = resultSet.getDouble("rating");
@@ -56,7 +103,9 @@ public class MoviesMigrator {
                         .append("year", year)
                         .append("director", director)
                         .append("price", price)
-                        .append("rating", ratingDocument);
+                        .append("rating", ratingDocument)
+                        .append("genres", genresArray)
+                        .append("stars", starsArray);
 
                 moviesCollection.replaceOne(
                         new Document("_id", movieId),
