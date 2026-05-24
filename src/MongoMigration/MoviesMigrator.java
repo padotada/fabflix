@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOptions;
 import org.bson.BsonArray;
+import org.bson.BsonInt32;
 import org.bson.BsonString;
 import org.bson.Document;
 import java.sql.*;
@@ -64,20 +65,24 @@ public class MoviesMigrator {
 
                 while(starsResultSet.next()){
                     BsonArray temp = new BsonArray();
-
+                    temp.add(new BsonString(starsResultSet.getString("id")));
+                    temp.add(new BsonString(starsResultSet.getString("name")));
 
                     starsArray.add(temp);
                 }
+                starsResultSet.close();
 
                 ResultSet genresResultSet = genresStatement.executeQuery();
                 BsonArray genresArray = new BsonArray();
 
                 while(genresResultSet.next()){
                     BsonArray temp = new BsonArray();
-
+                    temp.add(new BsonInt32(genresResultSet.getInt("id")));
+                    temp.add(new BsonString(genresResultSet.getString("name")));
 
                     genresArray.add(temp);
                 }
+                genresResultSet.close();
 
 
                 Double rating = null;
@@ -98,7 +103,9 @@ public class MoviesMigrator {
                         .append("year", year)
                         .append("director", director)
                         .append("price", price)
-                        .append("rating", ratingDocument);
+                        .append("rating", ratingDocument)
+                        .append("genres", genresArray)
+                        .append("stars", starsArray);
 
                 moviesCollection.replaceOne(
                         new Document("_id", movieId),
