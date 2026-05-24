@@ -5,6 +5,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOptions;
+import org.bson.BsonArray;
+import org.bson.BsonString;
 import org.bson.Document;
 import java.sql.*;
 // wrap ratings into movies, keep a list of genres and stars in movies separately
@@ -58,14 +60,23 @@ public class MoviesMigrator {
                 genresStatement.setString(0, movieId);
 
                 ResultSet starsResultSet = starsStatement.executeQuery();
-
+                BsonArray starsArray = new BsonArray();
 
                 while(starsResultSet.next()){
+                    BsonArray temp = new BsonArray();
 
+
+                    starsArray.add(temp);
                 }
-                ResultSet genresResultSet = genresStatement.executeQuery();
-                while(genresResultSet.next()){
 
+                ResultSet genresResultSet = genresStatement.executeQuery();
+                BsonArray genresArray = new BsonArray();
+
+                while(genresResultSet.next()){
+                    BsonArray temp = new BsonArray();
+
+
+                    genresArray.add(temp);
                 }
 
 
