@@ -4,15 +4,15 @@ public class FullMigrator {
 
     public static void main(String[] args) {
 //        GenresMigrator genresMigrator = new GenresMigrator();
-        CustomersMigrator customersMigrator = new CustomersMigrator();
+//        CustomersMigrator customersMigrator = new CustomersMigrator();
 //        EmployeesMigrator employeesMigrator = new EmployeesMigrator();
 //        genresMigrator.migrate();
-        customersMigrator.migrate();
+//        customersMigrator.migrate();
 //        employeesMigrator.migrate();
 //        MoviesMigrator moviesMigrator = new MoviesMigrator();
-//        StarsMigrator starsMigrator = new StarsMigrator();
 //        moviesMigrator.migrate();
-//        starsMigrator.migrate();
+        StarsMigrator starsMigrator = new StarsMigrator();
+        starsMigrator.migrate();
 //        SalesMigrator salesMigrator = new SalesMigrator();
 //        salesMigrator.migrate();
     }

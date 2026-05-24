@@ -52,11 +52,18 @@ public class MoviesMigrator {
                 String director = resultSet.getString("director");
                 double price = resultSet.getDouble("price");
 
-                double rating = resultSet.getDouble("rating");
-                int voteCount = resultSet.getInt("vote_count");
-
-                Document ratingDocument = new Document("rating", resultSet.wasNull() ? null : rating)
-                        .append("vote_count", resultSet.getObject("vote_count") == null ? null : voteCount);
+                Double rating = null;
+                double ratingValue = resultSet.getDouble("rating");
+                if(!resultSet.wasNull()){
+                    rating = ratingValue;
+                }
+                Integer voteCount = null;
+                int voteCountValue = resultSet.getInt("vote_count");
+                if(!resultSet.wasNull()){
+                    voteCount = voteCountValue;
+                }
+                Document ratingDocument = new Document("rating", rating)
+                        .append("vote_count", voteCount);
 
                 Document movie = new Document("_id", movieId)
                         .append("title", title)
