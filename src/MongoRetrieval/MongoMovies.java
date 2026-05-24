@@ -21,9 +21,33 @@ public class MongoMovies {
 
     public MongoMovies() {}
 
+    // searching
     public void addTitleFilter(String title){
         // this is a basic substring match, "i" is to ignore case
         filter = Filters.and(filter, Filters.regex("title", title, "i"));
+    }
+
+    public void addYearFilter(int year) {
+        filter = Filters.and(filter, Filters.eq("year", year));
+    }
+
+    public void addDirectorFilter(String director) {
+        filter = Filters.and(filter, Filters.regex("director", director, "i"));
+    }
+
+    public void addStarFilter(String star) {
+        // how to go into star layer?
+
+    }
+
+
+    // browsing
+    public void addFirstLetterFilter(String first) {
+        filter = Filters.and(filter, Filters.regex("title", "^" + first, "i"));
+    }
+
+    public void addGenreFilter(int genreId) {
+        // same as star filter
     }
 
 
