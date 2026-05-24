@@ -16,8 +16,6 @@ import org.bson.conversions.Bson;
 
 public class MongoMovies {
 
-
-    private String uri = System.getenv("MONGO_URI");
     List<Bson> filters = new ArrayList<>();
 
     private Bson sort = Sorts.orderBy(Sorts.descending("rating.rating"), Sorts.descending("title"));
@@ -107,6 +105,12 @@ public class MongoMovies {
     public List<MoviePojo> retrieveMovies() {
         List<MoviePojo> movies = new ArrayList<>();
         int skip = numRecords * (pageNumber - 1);
+
+        String uri = System.getenv("MONGO_URI");
+        if (uri == null || uri.isEmpty()) {
+            throw new IllegalStateException("MONGO_URI environment variable is not set for Tomcat.");
+        }
+
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase movieDB = mongoClient.getDatabase("movieDB");
             MongoCollection<Document> movieCollection = movieDB.getCollection("movies");
@@ -145,7 +149,7 @@ public class MongoMovies {
             rating = ratingDocument.getDouble("rating");
             voteCount = ratingDocument.getInteger("vote_count");
         }
-        RatingPojo ratingPojo = new RatingPojo().setRating(rating).setVoteCount(voteCount);
+//        RatingPojo ratingPojo = new RatingPojo().setRating(rating).setVoteCount(voteCount);
 
         MoviePojo moviePojo = MoviePojo.builder()
                 .setMovieId(movie.getString("_id"))
@@ -153,7 +157,7 @@ public class MongoMovies {
                 .setMovieYear(movie.getInteger("year"))
                 .setMovieDirector(movie.getString("director"))
                 .setMoviePrice(movie.getDouble("price"))
-                .setMovieRating(ratingPojo);
+                .setMovieRating(rating).setVoteCount(voteCount);
 
         List<Document> genres = movie.getList("genres", Document.class);
         if (genres != null) {

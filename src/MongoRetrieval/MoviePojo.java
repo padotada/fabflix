@@ -3,6 +3,7 @@ package MongoRetrieval;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoviePojo {
@@ -11,10 +12,14 @@ public class MoviePojo {
     int year;
     String director;
     double price;
-    RatingPojo rating;
+    double rating;
+    int voteCount;
     List<String> genres;
     List<StarPojo> stars;
-    private MoviePojo(){}
+    private MoviePojo(){
+        this.genres = new ArrayList<>();
+        this.stars = new ArrayList<>();
+    }
     static MoviePojo builder(){
         return new MoviePojo();
     }
@@ -34,12 +39,16 @@ public class MoviePojo {
         this.director = director;
         return this;
     }
-    public MoviePojo setMoviePrice(double price){
+    public MoviePojo setMoviePrice(Double price){
         this.price = price;
         return this;
     }
-    public MoviePojo setMovieRating(RatingPojo rating){
+    public MoviePojo setMovieRating(Double rating){
         this.rating = rating;
+        return this;
+    }
+    public MoviePojo setVoteCount(Integer voteCount){
+        this.voteCount = voteCount;
         return this;
     }
     public MoviePojo setGenres(List<String> genres){
@@ -68,10 +77,7 @@ public class MoviePojo {
         movieObject.addProperty("movie_year", year);
         movieObject.addProperty("movie_director", director);
         movieObject.addProperty("movie_price", price);
-
-        if (rating != null) {
-            movieObject.add("rating", rating.toJson());
-        }
+        movieObject.addProperty("rating", rating);
 
         JsonArray genresArray = new JsonArray();
         for (String genre : genres) {
