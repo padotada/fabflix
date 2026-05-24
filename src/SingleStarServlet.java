@@ -1,122 +1,67 @@
+import MongoRetrieval.MongoStars;
+import MongoRetrieval.StarPojo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.*;
+
 
 @WebServlet("/single_star")
 public class SingleStarServlet extends HttpServlet {
-    // Create a dataSource which registered in web.
-    private DataSource dataSource;
-
-    public void init(ServletConfig config) {
-        try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Set response mime type
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String webQuery = request.getParameter("id");
-
-        String starQuery = """
-                SELECT s.id, s.name, s.birth_year
-                FROM stars s
-                WHERE s.id = ?
-                """;
-
-        String moviesQuery = """
-                SELECT m.id, m.title, m.year
-                FROM stars_in_movies sim
-                JOIN movies m ON sim.movie_id = m.id
-                WHERE sim.star_id = ?
-                ORDER BY m.year DESC, m.title ASC
-                """;
-
-        // Get the PrintWriter for writing response
+        String starId = request.getParameter("id");
         PrintWriter jsonOutput = response.getWriter();
 
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        try{
+            if (starId == null || starId.trim().isEmpty()) {
+                response.setStatus(400);
 
-        try (Connection connection = dataSource.getConnection();
-            PreparedStatement starStatement = connection.prepareStatement(starQuery);
-            PreparedStatement starMoviesStatement = connection.prepareStatement(moviesQuery)){
+                JsonObject error = new JsonObject();
+                error.addProperty("errorMessage", "Missing required parameter: id");
 
-            starStatement.setString(1, webQuery);
+                jsonOutput.write(error.toString());
+                return;
+            }
+            MongoStars mongoStars = new MongoStars();
+            StarPojo star = mongoStars.getStarById(starId);
 
-            ResultSet resultSet = starStatement.executeQuery();
+            if (star == null) {
+                response.setStatus(404);
+
+                JsonObject error = new JsonObject();
+                error.addProperty("errorMessage", "Star not found.");
+
+                jsonOutput.write(error.toString());
+                return;
+            }
 
             JsonArray jsonArray = new JsonArray();
+            jsonArray.add(star.toJson());
 
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");
-                String birth_year = resultSet.getString("birth_year");
-                if(birth_year == null) birth_year = "N/A";
-
-                JsonObject starObject = new JsonObject();
-                starObject.addProperty("star_name", name);
-                starObject.addProperty("birth_year", birth_year);
-
-                starMoviesStatement.setString(1, webQuery);
-                JsonArray movieList = new JsonArray();
-                try(ResultSet movieResultSet = starMoviesStatement.executeQuery()){
-                    while(movieResultSet.next()){
-                        JsonObject movieObject = new JsonObject();
-                        String movieId = movieResultSet.getString("id");
-                        String movieTitle = movieResultSet.getString("title");
-                        String movieYear = movieResultSet.getString("year");
-
-                        movieObject.addProperty("movie_id", movieId);
-                        movieObject.addProperty("movie_title", movieTitle);
-                        movieObject.addProperty("movie_year", movieYear);
-                        movieList.add(movieObject);
-                    }
-                }
-                starObject.add("movies", movieList);
-                jsonArray.add(starObject);
-            }
-            request.getServletContext().log("getting " + jsonArray.size() + " results");
             jsonOutput.write(jsonArray.toString());
             response.setStatus(200);
-            resultSet.close();
 
         } catch (Exception e) {
-            /*
-             * After you deploy the WAR file through tomcat manager webpage,
-             *   there's no console to see the print messages.
-             * Tomcat append all the print messages to the file: tomcat_directory/logs/catalina.htmlOutput
-             *
-             * To view the last n lines (for example, 100 lines) of messages you can use:
-             *   tail -100 catalina.htmlOutput
-             * This can help you debug your program after deploying it on AWS.
-             */
-            request.getServletContext().log("Error: ", e);
+            request.getServletContext().log("MongoDB single star retrieval error: ", e);
             response.setStatus(500);
+
             JsonObject error = new JsonObject();
             error.addProperty("errorMessage", e.getMessage());
             jsonOutput.write(error.toString());
+
+        } finally {
+            jsonOutput.close();
         }
-        jsonOutput.close();
     }
 }

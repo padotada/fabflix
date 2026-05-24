@@ -1,13 +1,30 @@
 package MongoRetrieval;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StarPojo {
-    private String  starId;
+    private String starId;
     private String starName;
-    private String starBirthYear;
+    private Integer starBirthYear;
+    private List<MovieInfo> movies;
 
-    private StarPojo() {}
+    private static class MovieInfo{
+        private String movieId;
+        private String movieTitle;
+        private Integer movieYear;
+
+        public MovieInfo(String movieId, String movieTitle, Integer movieYear) {
+            this.movieId = movieId;
+            this.movieTitle = movieTitle;
+            this.movieYear = movieYear;
+        }
+    }
+    private StarPojo() {
+        this.movies = new ArrayList<>();
+    }
 
     public static StarPojo builder() {
         return new StarPojo();
@@ -23,16 +40,37 @@ public class StarPojo {
         return this;
     }
 
-    public StarPojo setStarBirthYear(String starBirthYear) {
+    public StarPojo setStarBirthYear(Integer starBirthYear) {
         this.starBirthYear = starBirthYear;
         return this;
     }
+    public void addMovie(String movieId, String movieTitle, Integer movieYear){
+        this.movies.add(new MovieInfo(movieId, movieTitle, movieYear));
+    }
 
-    JsonObject toJson() {
+    public JsonObject toJson() {
         JsonObject jsonObject = new JsonObject();
+
         jsonObject.addProperty("star_id", starId);
         jsonObject.addProperty("star_name", starName);
-        jsonObject.addProperty("birth_year", starBirthYear);
+
+        if (starBirthYear == null) {
+            jsonObject.addProperty("birth_year", "N/A");
+        } else {
+            jsonObject.addProperty("birth_year", starBirthYear);
+        }
+        if(movies != null){
+            JsonArray movieArray = new JsonArray();
+
+            for (MovieInfo movie : this.movies) {
+                JsonObject movieObject = new JsonObject();
+                movieObject.addProperty("movie_id", movie.movieId);
+                movieObject.addProperty("movie_title", movie.movieTitle);
+                movieObject.addProperty("movie_year", movie.movieYear);
+                movieArray.add(movieObject);
+            }
+            jsonObject.add("movies", movieArray);
+        }
         return jsonObject;
     }
 }
