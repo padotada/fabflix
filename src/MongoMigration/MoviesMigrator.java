@@ -25,7 +25,7 @@ public class MoviesMigrator {
 
     private static final String genres_query = """
             SELECT g.id, g.name
-            FROM genres g JOIN genres_in_movies gm on m.id = gm.genre_id JOIN movies m on m.id = gm.movie_id
+            FROM genres g JOIN genres_in_movies gm on g.id = gm.genre_id JOIN movies m on m.id = gm.movie_id
             WHERE m.id = ?
             ORDER BY g.name
             """;
@@ -38,9 +38,11 @@ public class MoviesMigrator {
         String uri = System.getenv("MONGO_URI");
 
         try(Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPassword);
-                PreparedStatement statement = connection.prepareStatement(movies_query);
-                ResultSet resultSet = statement.executeQuery();
-                MongoClient mongoClient = MongoClients.create(uri)) {
+            PreparedStatement movieStatement = connection.prepareStatement(movies_query);
+            PreparedStatement starsStatement = connection.prepareStatement(stars_query);
+            PreparedStatement genresStatement = connection.prepareStatement(genres_query);
+            ResultSet resultSet = movieStatement.executeQuery();
+            MongoClient mongoClient = MongoClients.create(uri)) {
 
             MongoDatabase database = mongoClient.getDatabase("movieDB");
             MongoCollection<Document> moviesCollection = database.getCollection("movies");
@@ -51,6 +53,21 @@ public class MoviesMigrator {
                 int year = resultSet.getInt("year");
                 String director = resultSet.getString("director");
                 double price = resultSet.getDouble("price");
+
+                starsStatement.setString(0, movieId);
+                genresStatement.setString(0, movieId);
+
+                ResultSet starsResultSet = starsStatement.executeQuery();
+
+
+                while(starsResultSet.next()){
+
+                }
+                ResultSet genresResultSet = genresStatement.executeQuery();
+                while(genresResultSet.next()){
+
+                }
+
 
                 Double rating = null;
                 double ratingValue = resultSet.getDouble("rating");
