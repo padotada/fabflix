@@ -22,11 +22,17 @@ public class MoviesMigrator {
             LEFT JOIN ratings r on m.id = r.movie_id
             """;
     private static final String stars_query = """
-            SELECT s.id, s.name
-            FROM stars s JOIN stars_in_movies sm ON s.id = sm.star_id JOIN movies m on m.id = sm.movie_id
-            WHERE m.id = ?
-            ORDER BY s.name
-            """;
+            SELECT
+               s.id,
+               s.name,
+               COUNT(sim_all.movie_id) AS movie_count
+           FROM stars s
+           JOIN stars_in_movies sim_current ON s.id = sim_current.star_id
+           JOIN stars_in_movies sim_all ON s.id = sim_all.star_id
+           WHERE sim_current.movie_id = ?
+           GROUP BY s.id, s.name
+           ORDER BY movie_count DESC
+           """;
 
     private static final String genres_query = """
             SELECT g.id, g.name
@@ -73,7 +79,8 @@ public class MoviesMigrator {
 //                    starsArray.add(temp);
 
                     Document star = new Document("id", starsResultSet.getString("id"))
-                            .append("name", starsResultSet.getString("name"));
+                            .append("name", starsResultSet.getString("name"))
+                            .append("movie_count", starsResultSet.getInt("movie_count"));
 
                     starsArray.add(star);
 
