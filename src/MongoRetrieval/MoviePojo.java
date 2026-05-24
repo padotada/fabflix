@@ -1,5 +1,8 @@
 package MongoRetrieval;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 public class MoviePojo {
@@ -9,8 +12,8 @@ public class MoviePojo {
     String director;
     double price;
     RatingPojo rating;
-    List<GenrePojo> genres;
-    List<SingleStarPojo> stars;
+    List<String> genres;
+    List<StarPojo> stars;
     private MoviePojo(){}
     static MoviePojo builder(){
         return new MoviePojo();
@@ -35,16 +38,53 @@ public class MoviePojo {
         this.price = price;
         return this;
     }
-    public MoviePojo setRating(RatingPojo rating){
+    public MoviePojo setMovieRating(RatingPojo rating){
         this.rating = rating;
         return this;
     }
-    public MoviePojo setGenres(List<GenrePojo> genres){
+    public MoviePojo setGenres(List<String> genres){
         this.genres = genres;
         return this;
     }
-    public MoviePojo setStars(List<SingleStarPojo> stars){
+    public MoviePojo setStars(List<StarPojo> stars){
         this.stars = stars;
         return this;
+    }
+    public void addGenre(String genreName) {
+        this.genres.add(genreName);
+    }
+    public void addStar(String starId, String starName) {
+        StarPojo star = StarPojo.builder()
+                .setStarId(starId)
+                .setStarName(starName);
+
+        this.stars.add(star);
+    }
+    public JsonObject toJson() {
+        JsonObject movieObject = new JsonObject();
+
+        movieObject.addProperty("movie_id", id);
+        movieObject.addProperty("movie_title", title);
+        movieObject.addProperty("movie_year", year);
+        movieObject.addProperty("movie_director", director);
+        movieObject.addProperty("movie_price", price);
+
+        if (rating != null) {
+            movieObject.add("rating", rating.toJson());
+        }
+
+        JsonArray genresArray = new JsonArray();
+        for (String genre : genres) {
+            genresArray.add(genre);
+        }
+        movieObject.add("genres", genresArray);
+
+        JsonArray starsArray = new JsonArray();
+        for (StarPojo star : stars) {
+            starsArray.add(star.toJson());
+        }
+        movieObject.add("stars", starsArray);
+
+        return movieObject;
     }
 }

@@ -10,6 +10,8 @@ import org.bson.BsonInt32;
 import org.bson.BsonString;
 import org.bson.Document;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 // wrap ratings into movies, keep a list of genres and stars in movies separately
 
 public class MoviesMigrator {
@@ -61,26 +63,36 @@ public class MoviesMigrator {
                 genresStatement.setString(1, movieId);
 
                 ResultSet starsResultSet = starsStatement.executeQuery();
-                BsonArray starsArray = new BsonArray();
+//                BsonArray starsArray = new BsonArray();
+                List<Document> starsArray = new ArrayList<>();
 
                 while(starsResultSet.next()){
-                    BsonArray temp = new BsonArray();
-                    temp.add(new BsonString(starsResultSet.getString("id")));
-                    temp.add(new BsonString(starsResultSet.getString("name")));
+//                    BsonArray temp = new BsonArray();
+//                    temp.add(new BsonString(starsResultSet.getString("id")));
+//                    temp.add(new BsonString(starsResultSet.getString("name")));
+//                    starsArray.add(temp);
 
-                    starsArray.add(temp);
+                    Document star = new Document("id", starsResultSet.getString("id"))
+                            .append("name", starsResultSet.getString("name"));
+
+                    starsArray.add(star);
+
                 }
                 starsResultSet.close();
 
                 ResultSet genresResultSet = genresStatement.executeQuery();
-                BsonArray genresArray = new BsonArray();
+//                BsonArray genresArray = new BsonArray();
+                List<Document> genresArray = new ArrayList<>();
 
                 while(genresResultSet.next()){
-                    BsonArray temp = new BsonArray();
-                    temp.add(new BsonInt32(genresResultSet.getInt("id")));
-                    temp.add(new BsonString(genresResultSet.getString("name")));
+//                    BsonArray temp = new BsonArray();
+//                    temp.add(new BsonInt32(genresResultSet.getInt("id")));
+//                    temp.add(new BsonString(genresResultSet.getString("name")));
+//                    genresArray.add(temp);
+                    Document genre = new Document("id", genresResultSet.getInt("id"))
+                            .append("name", genresResultSet.getString("name"));
 
-                    genresArray.add(temp);
+                    genresArray.add(genre);
                 }
                 genresResultSet.close();
 
