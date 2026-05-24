@@ -1,3 +1,5 @@
+import MongoRetrieval.MongoMovies;
+import MongoRetrieval.MoviePojo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -10,44 +12,17 @@ import jakarta.servlet.http.HttpSession;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.*;
-import java.sql.*;
 //import java.util.Date;
 
 @WebServlet(name = "CartServlet", urlPatterns = "/api/cart")
 public class CartServlet extends HttpServlet {
-    private DataSource dataSource;
-
-    public void init(ServletConfig config) {
-        try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-    }
     private CartItem getMovieFromDatabase(String movieId){
-        String moviePriceQuery = """
-            SELECT id, title, price
-            FROM movies
-            WHERE id = ?
-        """;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement moviePriceStatement = connection.prepareStatement(moviePriceQuery);) {
-            moviePriceStatement.setString(1, movieId);
-            ResultSet resultSet = moviePriceStatement.executeQuery();
-            if (resultSet.next()) {
-                String id = resultSet.getString("id");
-                String title = resultSet.getString("title");
-                double price = resultSet.getDouble("price");
-
-                return new CartItem(id, title, 1, price);
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return null;
+        MongoMovies mongoMovies = new MongoMovies();
+        MoviePojo movie = mongoMovies.getMovieById(movieId);
+        if(movie == null) return null;
+        return new CartItem(movie.getMovieId(), movie.getMovieTitle(), 1, movie.getMoviePrice());
     }
 
     @SuppressWarnings("unchecked")

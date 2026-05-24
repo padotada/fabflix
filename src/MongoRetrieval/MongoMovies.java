@@ -15,7 +15,7 @@ import org.bson.conversions.Bson;
 
 
 public class MongoMovies {
-
+    String uri = System.getenv("MONGO_URI");
     List<Bson> filters = new ArrayList<>();
 
     private Bson sort = Sorts.orderBy(Sorts.descending("rating.rating"), Sorts.descending("title"));
@@ -101,12 +101,32 @@ public class MongoMovies {
         return Filters.and(filters);
     }
 
+    public MoviePojo getMovieById(String movieId){
+        if(movieId == null || movieId.trim().isEmpty()){
+            return null;
+        }
+        if (uri == null || uri.isBlank()) {
+            throw new IllegalStateException("MONGO_URI environment variable is not set for Tomcat.");
+        }
+
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase movieDB = mongoClient.getDatabase("movieDB");
+            MongoCollection<Document> movieCollection = movieDB.getCollection("movies");
+
+            Document movie = movieCollection.find(Filters.eq("_id", movieId)).first();
+
+            if (movie == null) {
+                return null;
+            }
+
+            return documentToMoviePojo(movie);
+        }
+    }
 
     public List<MoviePojo> retrieveMovies() {
         List<MoviePojo> movies = new ArrayList<>();
         int skip = numRecords * (pageNumber - 1);
 
-        String uri = System.getenv("MONGO_URI");
         if (uri == null || uri.isEmpty()) {
             throw new IllegalStateException("MONGO_URI environment variable is not set for Tomcat.");
         }

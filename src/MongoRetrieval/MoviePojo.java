@@ -2,7 +2,6 @@ package MongoRetrieval;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +57,15 @@ public class MoviePojo {
     public MoviePojo setStars(List<StarPojo> stars){
         this.stars = stars;
         return this;
+    }
+    public String getMovieId(){
+        return this.id;
+    }
+    public String getMovieTitle(){
+        return this.title;
+    }
+    public Double getMoviePrice(){
+        return this.price;
     }
     public void addGenre(String genreName) {
         this.genres.add(genreName);
