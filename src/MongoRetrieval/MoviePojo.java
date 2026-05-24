@@ -9,11 +9,11 @@ import java.util.List;
 public class MoviePojo {
     String id;
     String title;
-    int year;
+    Integer year;
     String director;
-    double price;
-    double rating;
-    int voteCount;
+    Double price;
+    Double rating;
+    Integer voteCount;
     List<String> genres;
     List<StarPojo> stars;
     private MoviePojo(){
@@ -31,7 +31,7 @@ public class MoviePojo {
         this.title = title;
         return this;
     }
-    public MoviePojo setMovieYear(int year){
+    public MoviePojo setMovieYear(Integer year){
         this.year = year;
         return this;
     }
@@ -77,7 +77,11 @@ public class MoviePojo {
         movieObject.addProperty("movie_year", year);
         movieObject.addProperty("movie_director", director);
         movieObject.addProperty("movie_price", price);
-        movieObject.addProperty("rating", rating);
+        if (rating != null) {
+            movieObject.addProperty("movie_rating", rating);
+        }else{
+            movieObject.add("movie_rating", null);
+        }
 
         JsonArray genresArray = new JsonArray();
         for (String genre : genres) {
