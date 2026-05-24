@@ -22,6 +22,7 @@ public class MongoMovies {
     public MongoMovies() {}
 
     public void addTitleFilter(String title){
+        // this is a basic substring match, "i" is to ignore case
         filter = Filters.and(filter, Filters.regex("title", title, "i"));
     }
 
