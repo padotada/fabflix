@@ -39,7 +39,7 @@ public class GenresMigrator {
             }
 
         } catch (Exception e) {
-            System.out.println("uh oh");
+            System.out.println("Error with genre migration");
             System.out.println(e);
         }
     }
@@ -47,7 +47,6 @@ public class GenresMigrator {
     private void writeToMongo(Document genreDocument) {
         String uri = System.getenv("MONGO_URI");
         try (MongoClient mongoClient = MongoClients.create(uri)) {
-            // This reuses the myNewDB database from the Mongo tutorial. You may want to create a better named database
             MongoDatabase myNewDB = mongoClient.getDatabase("movieDB");
             myNewDB.createCollection("genres");
             MongoCollection<Document> moviesCollection = myNewDB.getCollection("genres");
