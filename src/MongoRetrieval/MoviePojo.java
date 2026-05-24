@@ -1,7 +1,5 @@
 package MongoRetrieval;
 
-import Parsing.Movie;
-
 import java.util.List;
 
 public class MoviePojo {
@@ -9,10 +7,10 @@ public class MoviePojo {
     String title;
     int year;
     String director;
-    float price;
-
+    double price;
+    RatingPojo rating;
     List<GenrePojo> genres;
-
+    List<SingleStarPojo> stars;
     private MoviePojo(){
 
     }
@@ -35,9 +33,20 @@ public class MoviePojo {
         this.director = director;
         return this;
     }
-    public MoviePojo setMoviePrice(float price){
+    public MoviePojo setMoviePrice(double price){
         this.price = price;
         return this;
     }
-    
+    public MoviePojo setRating(RatingPojo rating){
+        this.rating = rating;
+        return this;
+    }
+    public MoviePojo setGenres(List<GenrePojo> genres){
+        this.genres = genres;
+        return this;
+    }
+    public MoviePojo setStars(List<SingleStarPojo> stars){
+        this.stars = stars;
+        return this;
+    }
 }
