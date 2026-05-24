@@ -37,7 +37,7 @@ public class GenresMigrator {
                 Document genre = new Document("_id", genre_id).append("name", genre_name);
                 writeToMongo(genre);
             }
-
+            System.out.println("Genres migration completed");
         } catch (Exception e) {
             System.out.println("Error with genre migration");
             System.out.println(e);

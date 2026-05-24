@@ -3,8 +3,8 @@ package MongoMigration;
 public class FullMigrator {
 
     public static void main(String[] args) {
-//        GenresMigrator genresMigrator = new GenresMigrator();
-//        genresMigrator.migrate();
+        GenresMigrator genresMigrator = new GenresMigrator();
+        genresMigrator.migrate();
 //
 //        CustomersMigrator customersMigrator = new CustomersMigrator();
 //        customersMigrator.migrate();
@@ -12,8 +12,8 @@ public class FullMigrator {
 //        EmployeesMigrator employeesMigrator = new EmployeesMigrator();
 //        employeesMigrator.migrate();
 
-        MoviesMigrator moviesMigrator = new MoviesMigrator();
-        moviesMigrator.migrate();
+//        MoviesMigrator moviesMigrator = new MoviesMigrator();
+//        moviesMigrator.migrate();
 
 //        StarsMigrator starsMigrator = new StarsMigrator();
 //        starsMigrator.migrate();
