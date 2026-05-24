@@ -57,8 +57,8 @@ public class MoviesMigrator {
                 String director = resultSet.getString("director");
                 double price = resultSet.getDouble("price");
 
-                starsStatement.setString(0, movieId);
-                genresStatement.setString(0, movieId);
+                starsStatement.setString(1, movieId);
+                genresStatement.setString(1, movieId);
 
                 ResultSet starsResultSet = starsStatement.executeQuery();
                 BsonArray starsArray = new BsonArray();
