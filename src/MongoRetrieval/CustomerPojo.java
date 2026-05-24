@@ -9,8 +9,7 @@ public class CustomerPojo {
     String email;
     String password;
     CreditCardPojo creditCard;
-    public CustomerPojo() {
-    }
+    public CustomerPojo() {}
 
     public static CustomerPojo builder() {
         return new CustomerPojo();

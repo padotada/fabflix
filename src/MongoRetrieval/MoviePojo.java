@@ -11,9 +11,7 @@ public class MoviePojo {
     RatingPojo rating;
     List<GenrePojo> genres;
     List<SingleStarPojo> stars;
-    private MoviePojo(){
-
-    }
+    private MoviePojo(){}
     static MoviePojo builder(){
         return new MoviePojo();
     }

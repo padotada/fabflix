@@ -9,13 +9,21 @@ import jakarta.servlet.annotation.*;
 import org.bson.Document;
 
 public class MongoMovies {
+
+
     private String uri = System.getenv("MONGO_URI");
+
+
+
+
 
     public MongoMovies() {}
 
     public List<MoviePojo> retrieveMovies() {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase movieDB = mongoClient.getDatabase("movieDB");
+
+            MongoCollection<Document> movieCollection = movieDB.getCollection("movies");
 
 
         }
