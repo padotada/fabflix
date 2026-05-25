@@ -165,3 +165,5 @@ WebContent/META-INF/context.xml
 
 stanford-movies/
 config/db.properties
+.env
+*.sql
