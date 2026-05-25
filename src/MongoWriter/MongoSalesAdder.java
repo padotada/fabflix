@@ -6,6 +6,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOptions;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.InsertOneResult;
 import org.bson.BsonValue;
 import org.bson.Document;
@@ -16,29 +17,26 @@ import java.sql.*;
 public class MongoSalesAdder {
     String uri = System.getenv("MONGO_URI");
 
-    Integer customerId;
-    String movieId;
-    Date sale_date;
-    Integer quantity;
+    public MongoSalesAdder() {}
 
-    public MongoSalesAdder(Integer customerId, String movieId, Date sale_date, Integer quantity) {
-        this.customerId = customerId;
-        this.movieId = movieId;
-        this.sale_date = sale_date;
-        this.quantity = quantity;
-    }
-
-    public ObjectId addSales()
+    public Integer addSales(Integer customerId, String movieId, Date sale_date, Integer quantity)
     {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase database = mongoClient.getDatabase("movieDB");
             MongoCollection<Document> salesCollection = database.getCollection("sales");
+            Document largestDoc = salesCollection.find()
+                    .sort(Sorts.descending("_id"))
+                    .limit(1)
+                    .first();
 
+            Integer id = largestDoc.getInteger("_id") + 1;
 
+            Document sale = new Document("_id", id).append("customer_id", customerId)
+                    .append("movie_id", movieId).append("sale_date", sale_date)
+                    .append("quantity", quantity);
 
-
-            InsertOneResult result = salesCollection.insertOne(new Document());
-            return result.getInsertedId().asObjectId().getValue();
+            salesCollection.insertOne(sale);
+            return id;
         }
     }
 }

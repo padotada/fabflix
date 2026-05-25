@@ -1,3 +1,5 @@
+import MongoRetrieval.CustomerPojo;
+import MongoRetrieval.MongoCustomers;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -36,6 +38,8 @@ public class PaymentServlet extends HttpServlet{
         String lastName = request.getParameter("lastName");
         String creditCardId = request.getParameter("creditCardId");
         String expiration = request.getParameter("expiration");
+
+
         System.out.println("firstName = " + firstName);
         System.out.println("lastName = " + lastName);
         System.out.println("creditCardId = " + creditCardId);
@@ -49,6 +53,9 @@ public class PaymentServlet extends HttpServlet{
             response.getWriter().write(responseJsonObject.toString());
             return;
         }
+
+        MongoCustomers mongoCustomers = new MongoCustomers();
+        CustomerPojo customer = mongoCustomers.getCustomer(creditCardId, firstName, lastName, expiration);
 
         try (Connection connection = dataSource.getConnection()) {
             boolean validPayment = isValidPayment(
