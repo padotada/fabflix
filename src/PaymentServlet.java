@@ -1,5 +1,6 @@
 import MongoRetrieval.CustomerPojo;
 import MongoRetrieval.MongoCustomers;
+import MongoWriter.MongoSalesAdder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -14,8 +15,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.sql.*;
+import java.util.Date;
 
 @WebServlet(name = "PaymentServlet", urlPatterns = "/api/place-order")
 public class PaymentServlet extends HttpServlet{
@@ -54,34 +58,28 @@ public class PaymentServlet extends HttpServlet{
             return;
         }
 
-        MongoCustomers mongoCustomers = new MongoCustomers();
-        CustomerPojo customer = mongoCustomers.getCustomer(creditCardId, firstName, lastName, expiration);
+        try{
+            MongoCustomers mongoCustomers = new MongoCustomers();
+            LocalDate date = LocalDate.parse(expiration);
+            Date mongoDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        try (Connection connection = dataSource.getConnection()) {
-            boolean validPayment = isValidPayment(
-                    connection,
-                    creditCardId,
-                    firstName,
-                    lastName,
-                    expiration
-            );
-
+            CustomerPojo customer = mongoCustomers.getCustomer(creditCardId, firstName, lastName, mongoDate);
+            boolean validPayment = customer != null;
             if (!validPayment) {
                 responseJsonObject.addProperty("status", "fail");
                 responseJsonObject.addProperty("message", "Invalid payment information.");
                 response.getWriter().write(responseJsonObject.toString());
                 return;
             }
-            Integer customerId = getCustomerId(session, creditCardId, connection);
+            Integer customerId = customer.getCustomerId();
+//            if (customerId == null) {
+//                responseJsonObject.addProperty("status", "fail");
+//                responseJsonObject.addProperty("message", "Could not identify customer.");
+//                response.getWriter().write(responseJsonObject.toString());
+//                return;
+//            }
 
-            if (customerId == null) {
-                responseJsonObject.addProperty("status", "fail");
-                responseJsonObject.addProperty("message", "Could not identify customer.");
-                response.getWriter().write(responseJsonObject.toString());
-                return;
-            }
-
-            JsonObject confirmationData = insertSalesAndBuildConfirmation(connection, customerId, cart);
+            JsonObject confirmationData = insertSalesAndBuildConfirmation(customerId, cart);
 
             session.setAttribute("confirmationData", confirmationData);
             session.setAttribute("lastOrder", confirmationData);
@@ -99,101 +97,39 @@ public class PaymentServlet extends HttpServlet{
             response.getWriter().write(responseJsonObject.toString());
         }
     }
-    private boolean isValidPayment(
-            Connection connection,
-            String creditCardId,
-            String firstName,
-            String lastName,
-            String expiration
-    ) throws Exception {
-        String query = """
-            SELECT id
-            FROM credit_cards
-            WHERE id = ?
-              AND first_name = ?
-              AND last_name = ?
-              AND expiration = ?
-        """;
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, creditCardId);
-            statement.setString(2, firstName);
-            statement.setString(3, lastName);
-            statement.setString(4, expiration);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                return resultSet.next();
-            }
-        }
-    }
-
-    private Integer getCustomerId(
-            HttpSession session,
-            String creditCardId,
-            Connection connection
-    ) throws Exception {
-        String query = """
-            SELECT id
-            FROM customers
-            WHERE credit_card_id = ?
-            LIMIT 1
-        """;
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, creditCardId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt("id");
-                }
-            }
-        }
-
-        return null;
-    }
 
     private JsonObject insertSalesAndBuildConfirmation(
-            Connection connection, Integer customerId, HashMap<String, CartItem> cart)
+            Integer customerId, HashMap<String, CartItem> cart)
             throws Exception {
-        String query = """
-            INSERT INTO sales (customer_id, movie_id, sale_date, quantity)
-            VALUES (?, ?, CURDATE(), ?)
-        """;
+
+        MongoSalesAdder mongoSalesAdder = new MongoSalesAdder();
+
         JsonObject confirmationData = new JsonObject();
         JsonArray saleIds = new JsonArray();
         JsonArray items = new JsonArray();
         double totalPrice = 0.0;
-        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            for (CartItem item : cart.values()) {
-                statement.setInt(1, customerId);
-                statement.setString(2, item.getMovieId());
-                statement.setInt(3, item.getQuantity());
-                statement.executeUpdate();
-                int saleId = -1;
-                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        saleId = generatedKeys.getInt(1);
-                        saleIds.add(saleId);
-                    }
-                }
 
-                double price = item.getPrice();
-                int quantity = item.getQuantity();
-                double subtotal = price * quantity;
+        for (CartItem item : cart.values()) {
+            int saleId = mongoSalesAdder.addSales(customerId, item.getMovieId(), new java.sql.Date(new Date().getTime()), item.getQuantity());
+            saleIds.add(saleId);
 
-                JsonObject itemObject = new JsonObject();
-                itemObject.addProperty("sale_id", saleId);
-                itemObject.addProperty("movie_id", item.getMovieId());
-                itemObject.addProperty("movie_title", item.getTitle());
-                itemObject.addProperty("quantity", quantity);
-                itemObject.addProperty("price", price);
-                itemObject.addProperty("subtotal", subtotal);
+            double price = item.getPrice();
+            int quantity = item.getQuantity();
+            double subtotal = price * quantity;
 
-                items.add(itemObject);
+            JsonObject itemObject = new JsonObject();
+            itemObject.addProperty("sale_id", saleId);
+            itemObject.addProperty("movie_id", item.getMovieId());
+            itemObject.addProperty("movie_title", item.getTitle());
+            itemObject.addProperty("quantity", quantity);
+            itemObject.addProperty("price", price);
+            itemObject.addProperty("subtotal", subtotal);
 
-                totalPrice += subtotal;
-            }
+            items.add(itemObject);
+
+            totalPrice += subtotal;
         }
+
 
         confirmationData.add("sale_ids", saleIds);
         confirmationData.add("items", items);

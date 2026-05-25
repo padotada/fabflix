@@ -44,4 +44,6 @@ public class CustomerPojo {
 
     public String getPassword(){return this.password;}
 
+    public int getCustomerId(){return this.id;}
+
 }
