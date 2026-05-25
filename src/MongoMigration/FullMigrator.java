@@ -12,6 +12,9 @@ public class FullMigrator {
         EmployeesMigrator employeesMigrator = new EmployeesMigrator();
         employeesMigrator.migrate();
 
+        MoviesMigrator moviesMigrator = new MoviesMigrator();
+        moviesMigrator.migrate();
+
         StarsMigrator starsMigrator = new StarsMigrator();
         starsMigrator.migrate();
 

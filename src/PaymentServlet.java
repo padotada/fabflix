@@ -125,17 +125,6 @@ public class PaymentServlet extends HttpServlet{
             String creditCardId,
             Connection connection
     ) throws Exception {
-        Object customerIdObject = session.getAttribute("customerId");
-
-        if (customerIdObject instanceof Integer) {
-            return (Integer) customerIdObject;
-        }
-
-        if (customerIdObject instanceof String) {
-            return Integer.parseInt((String) customerIdObject);
-        }
-
-
         String query = """
             SELECT id
             FROM customers

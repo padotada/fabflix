@@ -1,6 +1,7 @@
 package MongoRetrieval;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.io.*;
 import java.util.regex.Pattern;
@@ -15,11 +16,10 @@ import org.bson.conversions.Bson;
 
 public class MongoCustomers {
     String uri = System.getenv("MONGO_URI");
-    String email;
 
-    public MongoCustomers(String email) {this.email = email;}
+    public MongoCustomers() {}
 
-    public CustomerPojo getCustomer() {
+    public CustomerPojo getCustomer(String email) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase movieDB = mongoClient.getDatabase("movieDB");
             MongoCollection<Document> customerCollection = movieDB.getCollection("customers");
@@ -30,6 +30,20 @@ public class MongoCustomers {
                 return null;
             }
 
+            return documentToCustomerPojo(customer);
+        }
+    }
+
+    public CustomerPojo getCustomer(String cardId, String first, String last, Date expiration) {
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase movieDB = mongoClient.getDatabase("movieDB");
+            MongoCollection<Document> customerCollection = movieDB.getCollection("customers");
+
+            Document customer = customerCollection.find(Filters.and(
+                    Filters.eq("credit_card.id", cardId), Filters.eq("credit_card.expiration", expiration),
+                    Filters.eq("first_name", first), Filters.eq("last_name", last))).first();
+
+            if (customer == null) {return null;}
             return documentToCustomerPojo(customer);
         }
     }

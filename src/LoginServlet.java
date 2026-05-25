@@ -42,8 +42,8 @@ public class LoginServlet extends HttpServlet {
         System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
         boolean captcha_success = RecaptchaVerifyUtils.verify(gRecaptchaResponse);
 
-        MongoCustomers mongoCustomers = new MongoCustomers(username);
-        CustomerPojo customer = mongoCustomers.getCustomer();
+        MongoCustomers mongoCustomers = new MongoCustomers();
+        CustomerPojo customer = mongoCustomers.getCustomer(username);
 
         try {
             JsonObject responseJsonObject = new JsonObject();
