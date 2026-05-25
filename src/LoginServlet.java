@@ -1,4 +1,6 @@
 import Classes.User;
+import MongoRetrieval.CustomerPojo;
+import MongoRetrieval.MongoCustomers;
 import com.google.gson.JsonObject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,37 +42,27 @@ public class LoginServlet extends HttpServlet {
         System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
         boolean captcha_success = RecaptchaVerifyUtils.verify(gRecaptchaResponse);
 
-        String usernameQuery = """
-                SELECT * FROM customers
-                WHERE email = ?
-                """;
+        MongoCustomers mongoCustomers = new MongoCustomers(username);
+        CustomerPojo customer = mongoCustomers.getCustomer();
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement loginStatement = connection.prepareStatement(usernameQuery);
-             PreparedStatement usernameStatement = connection.prepareStatement(usernameQuery)) {
-            loginStatement.setString(1, username);
-
-            usernameStatement.setString(1, username);
+        try {
             JsonObject responseJsonObject = new JsonObject();
 
-            ResultSet resultSet = loginStatement.executeQuery();
-
-            if (!captcha_success && resultSet.isBeforeFirst()) { // this checks if username exists
+            if (!captcha_success) {
                 responseJsonObject.addProperty("status", "fail");
                 // Log to localhost log
                 request.getServletContext().log("Login failed");
-
                 responseJsonObject.addProperty("message", "reCaptcha failed");
-            } else if (!resultSet.isBeforeFirst()) { // Username doesn't exist
+            }
+            else if (customer == null) {
                 responseJsonObject.addProperty("status", "fail");
                 // Log to localhost log
                 request.getServletContext().log("Login failed");
 
-                responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
+                responseJsonObject.addProperty("message", "User " + username + " doesn't exist");
             }
             else {
-                resultSet.next();
-                String encryptedPassword = resultSet.getString("password");
+                String encryptedPassword = customer.getPassword();
                 if(new StrongPasswordEncryptor().checkPassword(password, encryptedPassword))
                 {
                     responseJsonObject.addProperty("status", "success");
@@ -83,11 +75,10 @@ public class LoginServlet extends HttpServlet {
                     responseJsonObject.addProperty("status", "fail");
                     // Log to localhost log
                     request.getServletContext().log("Login failed");
-                    responseJsonObject.addProperty("message", "incorrect password");
+                    responseJsonObject.addProperty("message", "Incorrect password");
                 }
 
             }
-            resultSet.close();
 
             response.getWriter().write(responseJsonObject.toString());
         }

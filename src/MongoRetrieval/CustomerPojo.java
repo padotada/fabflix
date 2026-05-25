@@ -4,7 +4,6 @@ public class CustomerPojo {
     int id;
     String firstName;
     String lastName;
-    String creditCardId;
     String address;
     String email;
     String password;
@@ -42,4 +41,7 @@ public class CustomerPojo {
         this.creditCard = creditCard;
         return this;
     }
+
+    public String getPassword(){return this.password;}
+
 }
