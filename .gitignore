@@ -167,3 +167,6 @@ stanford-movies/
 config/db.properties
 .env
 *.sql
+Parsing/
+sql_procedure_folder/
+DashboardLoginServlet.java
